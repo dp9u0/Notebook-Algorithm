@@ -1,6 +1,6 @@
 # 算法与数据结构技术栈介绍
 
-# 数据结构
+# [数据结构](/algorithm/README.md)
 
 ## 数组和串
 
@@ -56,7 +56,7 @@
 * 关键路径  
 * 最短路径: Floyd,Dijkstra,bellman-ford,SPFA,A*  
 
-# 算法 
+# [算法](/data-structure/README.md) 
 
 ## 算法设计思想
  
@@ -105,7 +105,7 @@
 
 ## 最短路径算法
 
-# 经典数据结构和算法问题
+# [经典数据结构和算法问题](/classic-question/README.md)
 
 * 数值
 * 数组
