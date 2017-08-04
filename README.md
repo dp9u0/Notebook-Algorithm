@@ -1,123 +1,14 @@
 # 算法与数据结构技术栈介绍
 
-# [数据结构](/algorithm/README.md)
+# 主要内容
 
-## 数组和串
+* [数据结构](./data-structure/README.md)
 
-* 数组
-* 字符串
+* [算法](./algorithm/README.md)
 
-## 线性表
+* [经典数据结构和算法问题](./classic-question/README.md)
 
-* 单向链表
-* 双向链表
-* 循环链表
-
-## 栈和队列
-
-* 栈
-* 队列
-
-## 哈希表
-
-* 散列函数
-* 碰撞解决
-
-## 树
-
-* 二叉树    
-* 二叉查找树
-* 平衡树
-* 伸展树(Splay Tree)
-* 平衡二叉树AVL    
-* 红黑树  
-* B,B+,B*
-* R
-* Trie树(前缀树)  
-* 后缀树  
-* 最优二叉树(赫夫曼树) 
-* 二叉堆(大根堆 小根堆)   
-* 二项树    
-* 二项堆 
-* 左倾堆 
-* 斐波那契堆(Fibonacci Heap)  
-* 跳表(Skip List)
-
-## 图
-
-* 图的存储结构和基本操作  
-    * 对象和指针
-    * 矩阵
-    * 邻接表
-    * 广度优先
-    * 深度优先
-* 最小生成树  
-* 拓扑排序  
-* 关键路径  
-* 最短路径: Floyd,Dijkstra,bellman-ford,SPFA,A*  
-
-# [算法](/data-structure/README.md) 
-
-## 算法设计思想
- 
-* 迭代法  
-* 穷举搜索法  
-* 递推法  
-* 动态规划  
-* 贪心算法  
-* 回溯  
-* 分治算法  
-
-## 排序算法
-
-### 交换排序
-
-* 冒泡排序
-* 计数排序
-* 插入排序    
-* 选择排序    
-* 希尔排序
-* 快排   
-* 归并排序  
-* 堆排序
-
-### 线性排序
-    
-* 桶排序 
-
-## 字符串算法  
-
-* 排序
-* 查找
-    * BF算法  
-    * KMP算法  
-    * BM(Boyer-Moore)算法  
-* 正则表达式
-* 数据压缩
-  
-## 查找算法  
-
-* 顺序表查找：顺序查找  
-* 有序表查找：二分查找  
-* 分块查找： 块内无序，块之间有序；可以先二分查找定位到块，然后再到`块`中顺序查找  
-* 动态查找:  二叉排序树，AVL树，B- ，B+    （这里之所以叫 `动态查找表`，是因为表结构是查找的过程中动态生成的）
-* 哈希表：  O(1)  
-
-## 最短路径算法
-
-# [经典数据结构和算法问题](/classic-question/README.md)
-
-* 数值
-* 数组
-* 字符串
-* 链表
-* 堆和栈
-* 树
-* 图
-* 排序
-* 查找
-
-# 相关资料
+# 参考资料
 
 ## 基础 
 
@@ -132,10 +23,12 @@
 ## 延伸阅读 
    
 * 《深入理解计算机系统》
+* 《计算机程序的构造和解释》
 
 ## 博客与网站
 
 * The-Art-Of-Programming-By-July : [\[GitHub\]](https://github.com/julycoding/The-Art-Of-Programming-By-July)
-* [leetcode] : [\[leetcode\]](http://leetcode.com/)
+* leetcode : [\[leetcode\]](http://leetcode.com/)
+* 算法和数据结构词典:[\[Dictionary of Algorithms and Data Structures\]](https://xlinux.nist.gov/dads/)
 
 ## 其它
