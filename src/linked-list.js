@@ -1,58 +1,18 @@
-class LinkedListNode {
-    value
-}
+var LinkedList = function() {
+    this.head = null;
+};
 
-class LinkedList {
+LinkedList.prototype.add = function() {
 
-    head;
+};
 
-    length;
+LinkedList.prototype.get = function() {
 
-    constructor() {
-        this.first = null;
-        this.tail = null;
-        this.length = 0;
-    }
+};
 
-    [Symbol.iterator] = function() {
+LinkedList.prototype.delete = function() {
 
-    }
+};
 
-    list() {
-        node = head;
-        while (node) {
-            yield node.value;
-            node = node.next;
-        }
-    }
-
-    get length() {
-        return this.length;
-    }
-
-    add(value) {
-
-    }
-
-    get(index) {
-
-    }
-
-    contains(value) {
-
-    }
-
-    get(index) {
-
-    }
-
-    delete(value) {
-
-    }
-
-    delete(index) {
-
-    }
-}
 
 // TEST:
