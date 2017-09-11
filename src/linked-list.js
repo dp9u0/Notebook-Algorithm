@@ -2,17 +2,10 @@ var LinkedList = function() {
     this.head = null;
 };
 
-LinkedList.prototype.add = function() {
+LinkedList.prototype.add = function(value) {
 
 };
 
-LinkedList.prototype.get = function() {
+LinkedList.prototype.remove = function(value) {
 
 };
-
-LinkedList.prototype.delete = function() {
-
-};
-
-
-// TEST:
