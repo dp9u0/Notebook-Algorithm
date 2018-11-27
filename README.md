@@ -2,11 +2,11 @@
 
 ## 介绍
 
-## 算法分析
+## [算法分析](./算法分析/README.md)
 
 * 渐进记号
 
-## 算法设计
+## [算法设计](./算法设计/README.md)
 
 * 迭代法
 * 穷举搜索法
@@ -18,7 +18,7 @@
 * 随机算法
 * 平摊分析
 
-## 线性数据结构
+## [线性数据结构](./线性数据结构/README.md)
 
 ### 基本
 
@@ -37,7 +37,7 @@
 * [队列](./线性数据结构/7.Queue.md)
 * [循环队列](./线性数据结构/8.CircleQueue.md)
 
-## 树形数据结构
+## [树形数据结构](./树形数据结构/README.md)
 
 ### 树
 
@@ -66,7 +66,7 @@
 * 跳表(Skip List)
 * 森林
 
-## 集合(Set)数据结构
+## [集合(Set)数据结构](./集合数据结构/README.md)
 
 ### Hash
 
@@ -79,7 +79,7 @@
 
 ### HashSet
 
-## 排序算法
+## [排序算法](./排序算法/README.md)
 
 ### 交换排序
 
@@ -98,7 +98,7 @@
 * 基数排序
 * 桶排序
   
-## 查找算法  
+## [查找算法](./查找算法/README.md)
 
 * 顺序表查找: 顺序查找  
 * 有序表查找: 二分查找  
@@ -106,7 +106,7 @@
 * 动态查找: 二叉排序树，AVL树，B- ，B+(这里之所以叫 `动态查找表`，是因为表结构是查找的过程中动态生成的)
 * 哈希表查找: O(1)
 
-## 图数据结构
+## [图数据结构](./图数据结构/README.md)
 
 * 图基本算法
   * 对象和指针
@@ -125,7 +125,7 @@
 * 最大流
 * 拓扑排序
 
-## 字符串算法
+## [字符串算法](./字符串算法/README.md)
 
 * 排序
 * 字符串匹配
@@ -137,7 +137,7 @@
 * 游程编码
 * Trie树
 
-## 算法研究
+## [算法研究](./算法研究/README.md)
 
 ### 线性规划
 
@@ -163,7 +163,7 @@
 ### 博客与网站
 
 * The-Art-Of-Programming-By-July : [\[GitHub\]](https://github.com/julycoding/The-Art-Of-Programming-By-July)
-* leetcode : [\[leetcode\]](http://leetcode.com/)
-* 算法和数据结构词典:[\[Dictionary of Algorithms and Data Structures\]](https://xlinux.nist.gov/dads/)
+* leetcode : [[leetcode]](http://leetcode.com/)
+* 算法和数据结构词典:[[Dictionary of Algorithms and Data Structures]](https://xlinux.nist.gov/dads/)
 
 ### 其它
