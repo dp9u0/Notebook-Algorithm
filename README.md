@@ -11,12 +11,12 @@
 
 * [迭代法](./算法设计/iterative.md)
 * [递推法与递归式](./算法设计/recursion.md)
+* [随机算法](./算法设计/random.md)
 * [穷举搜索法](./算法设计/brute-force-search.md)
 * [分治算法](./算法设计/divide-and-conquer.md)
 * [动态规划](./算法设计/dynamic-programing.md)
 * [贪心算法](./算法设计/greedy.md)
 * [回溯法](./算法设计/backtracking.md)
-* [随机算法](./算法设计/random.md)
 * [平摊分析](./算法设计/amortized-analysis.md)
 
 ## [线性数据结构](./线性数据结构/README.md)
