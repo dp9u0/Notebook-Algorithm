@@ -4,10 +4,10 @@
 
 * [迭代法](./iterative.md)
 * [递推法与递归式](./recursion.md)
+* [随机算法](./random.md)
 * [穷举搜索法](./brute-force-search.md)
 * [分治算法](./divide-and-conquer.md)
 * [动态规划](./dynamic-programing.md)
 * [贪心算法](./greedy.md)
 * [回溯法](./backtracking.md)
-* [随机算法](./random.md)
 * [平摊分析](./amortized-analysis.md)
