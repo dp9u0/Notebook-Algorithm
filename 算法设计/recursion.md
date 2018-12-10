@@ -40,7 +40,7 @@ function Fibonacci(n) {
 ```javascript
 /**
  * 递归式计算斐波那契数列
- * @param {number} n 
+ * @param {number} n
  */
 function Fibonacci_Recursion(n) {
   if (n === 0 || n === 1) {
