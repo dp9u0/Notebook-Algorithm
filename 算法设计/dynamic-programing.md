@@ -22,8 +22,8 @@
 
 下面会介绍动态规划的一些经典问题,篇幅所限,会分成多个页面介绍:
 
-* [线性动规](./dynamic-programing/line.md) : 最长上升子序列
-* [区间动归](./dynamic-programing/region.md) : 矩阵乘法,建学校
+* [线性动规](./dynamic-programing/line.md) : 最长上升子序列,建学校,拦截导弹
+* [区间动归](./dynamic-programing/region.md) : 矩阵乘法,合并石子
 * [树形动归](./dynamic-programing/tree.md) : 最优二叉查找树
 * [背包问题](./dynamic-programing/knapsack.md) : 0-1背包
 * [装配线调度](./dynamic-programing/dispatch.md)
