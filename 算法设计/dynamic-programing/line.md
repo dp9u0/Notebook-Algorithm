@@ -46,7 +46,41 @@ console.log(LIS(input))
 
 ### 优化
 
-TODO:
+上面代码的时间复杂度是 O(n^2),考虑仅仅需要返回长度,因此考虑从内层循环进行优化,使用贪心+二分+栈,每次遍历到一个数字,如果大于栈顶,则入栈,否则替换栈中大于(上升)这个数字的数,
+
+```javascript
+/**
+ * 最长上升子序列
+ * @param {number[]} input
+ */
+function LIS2(input) {
+  let length = input.length;
+  let stack = [];
+  stack[0] = 0;
+  for (let i = 0; i < length; i++) {
+    if (input[i] > stack[stack.length - 1]) {
+      stack.push(input[i]);
+    } else {
+      binary_replace(stack, input[i], 1, stack.length - 1);
+    }
+  }
+  return stack.length - 1;
+}
+
+function binary_replace(array, element, start, end) {
+  let middle = Math.floor((start + end) / 2);
+  if ((array[middle] >= element && array[middle - 1] < element)) {
+    array[middle] = element;
+  } else if (array[middle] > element) {
+    binary_replace(array, element, start, middle);
+  } else {
+    binary_replace(array, element, middle + 1, end);
+  }
+}
+//TEST:
+input = [1, 1, 2, 6, 3, 4];
+console.log(LIS2(input))
+```
 
 ## 建学校
 
