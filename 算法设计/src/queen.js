@@ -54,4 +54,8 @@ function solveNQueensRecursion(solution, currentIndex = 0) {
   }
 }
 
+// TEST:
+console.log(solveNQueens(4));
+
+// TEST:
 console.log(solveNQueens(8));
