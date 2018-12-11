@@ -3,7 +3,7 @@
 动态规划一般可分为四类:
 
 * 线性动规: 拦截导弹,合唱队形,挖地雷,建学校,剑客决斗等
-* 区域动规: 石子合并,加分二叉树,统计单词个数,炮兵布阵等
+* 区间动规: 石子合并,加分二叉树,统计单词个数,炮兵布阵等
 * 树形动规: 贪吃的九头龙,二分查找树,聚会的欢乐,数字三角形等
 * 背包问题: 01背包问题,完全背包问题,分组背包问题,二维背包,装箱问题,挤牛奶
 
@@ -20,11 +20,9 @@
 
 下面会介绍动态规划的一些经典问题,篇幅所限,会分成多个页面介绍:
 
-* [最长上升子序列](./dynamic-programing/lis.md) : 线性
-* [矩阵乘法](./dynamic-programing/matrix.md) : 区域
-* [最优二叉查找树](./dynamic-programing/bst.md) : 树形
-* [背包](./dynamic-programing/knapsack.md) : 背包
-* [装配线调度](./dynamic-programing/dispatch.md) : 背包
+* [线性动规](./dynamic-programing/line.md) : 建学校
+* [区间动归](./dynamic-programing/region.md) : 矩阵乘法
+* [树形动归](./dynamic-programing/tree.md) : 最优二叉查找树
+* [背包问题](./dynamic-programing/knapsack.md) : 0-1背包
+* [装配线调度](./dynamic-programing/dispatch.md)
 * [最长公共子序列](./dynamic-programing/lcs.md)
-* 山区建小学 : 线性
-* 石子合并 : 区域
