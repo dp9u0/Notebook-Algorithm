@@ -6,25 +6,25 @@
  */
 function zero_one_knapsack(values, volumes, capacity) {
   let length = values.length; // 物品个数
-  let matrix = []; // 状态转移矩阵
+  let f = []; // 转移矩阵
   // 遍历每个物品
   for (let index = 0; index < length; index++) {
     const value = values[index];
     const volume = volumes[index];
     let preIndex = index - 1;
-    matrix[index] = [];
+    f[index] = [];
     for (let selectedVolumn = 0; selectedVolumn <= capacity; selectedVolumn++) {
-      let pre = preIndex >= 0 ? matrix[preIndex][selectedVolumn] : 0; // 前面选择中不包含当前物品的总价值
+      let pre = preIndex >= 0 ? f[preIndex][selectedVolumn] : 0; // 前面选择中不包含当前物品的总价值
       if (selectedVolumn < volume) { // 无法容纳当前物品
-        matrix[index][selectedVolumn] = pre;
+        f[index][selectedVolumn] = pre;
       } else {
         // 可以容纳当前物品
         // 选择价值大选择 
         // 1. 选择当前物品 其他 n-1 个物品 使用容积 (capacity - volume)
         // 2. 不选择当前物品 其他 n-1 个物品 使用容积 (capacity)
-        let withCurrent = (preIndex >= 0 ? matrix[preIndex][selectedVolumn - volume] : 0) + value;  // 选择当前物品重量所能包含的最大的总价值
+        let withCurrent = (preIndex >= 0 ? f[preIndex][selectedVolumn - volume] : 0) + value; // 选择当前物品重量所能包含的最大的总价值
         // let withoutCurrent = preJ;
-        matrix[index][selectedVolumn] = Math.max(withCurrent, pre);
+        f[index][selectedVolumn] = Math.max(withCurrent, pre);
       }
     }
   }
@@ -34,8 +34,8 @@ function zero_one_knapsack(values, volumes, capacity) {
   let x = length - 1,
     y = capacity;
   for (; x > 0; x--) {
-    const value = matrix[x][y];
-    if (value === matrix[x - 1][y]) {
+    const value = f[x][y];
+    if (value === f[x - 1][y]) {
       // 说明最优选择没有选择当前物品(也有可能是 选择当前物品价值刚好等于 不选择当前物品价值,统一认为没有选择)
       select.unshift(0);
     } else {
@@ -46,9 +46,9 @@ function zero_one_knapsack(values, volumes, capacity) {
   }
   select.unshift(~~(y !== 0));
   return {
-    matrix,
+    f,
     select,
-    maxValue: matrix[length - 1][capacity]
+    maxValue: f[length - 1][capacity]
   }
 }
 
