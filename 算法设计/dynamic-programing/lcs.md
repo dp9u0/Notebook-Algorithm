@@ -19,8 +19,8 @@
 ```javascript
 /**
  * LCS
- * @param {string} strA 
- * @param {string} strB 
+ * @param {string} strA
+ * @param {string} strB
  */
 function LCS(strA, strB) {
   let lengthA = strA.length;
