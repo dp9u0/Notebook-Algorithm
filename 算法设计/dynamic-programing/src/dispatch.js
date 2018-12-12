@@ -24,4 +24,5 @@ function dispatch(e1, e2, t1_2, t2_1, a1, a2, x1, x2) {
   return Math.min(f1[length - 1] + x1, f2[length - 1] + x2);
 }
 
+// TEST:
 dispatch(1, 3, [4, 2, 5, 5, 6], [4, 1, 4, 5, 6], [4, 1, 4, 5, 6, 7], [4, 2, 5, 5, 6, 7], 2, 3)

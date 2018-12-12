@@ -54,6 +54,7 @@ function build_school(d, n) {
   return f[n - 1][m];
 }
 
+// TEST:
 let d, n;
 d = [2, 4, 6, 5, 2, 4, 3, 1, 3], n = 10;
 console.log(build_school(d, n))

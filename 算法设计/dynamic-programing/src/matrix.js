@@ -24,4 +24,5 @@ function matrix_chain(p) {
   console.log(f[0][count]);
 }
 
+// TEST:
 matrix_chain([1, 4, 5, 5])

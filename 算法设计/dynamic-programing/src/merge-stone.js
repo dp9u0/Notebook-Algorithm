@@ -27,4 +27,5 @@ function merge_stones(stones) {
   console.log(f[0][length - 1]);
 }
 
+// TEST:
 merge_stones([1, 1, 1, 1, 1, 1, 1, 1])

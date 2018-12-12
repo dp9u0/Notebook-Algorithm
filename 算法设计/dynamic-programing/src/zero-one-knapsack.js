@@ -52,6 +52,7 @@ function zero_one_knapsack(values, volumes, capacity) {
   }
 }
 
+// TEST:
 let values, volumes, capacity;
 values = [2, 3, 4, 5], volumes = [2, 3, 4, 5], capacity = 5;
 console.log(zero_one_knapsack(values, volumes, capacity))
