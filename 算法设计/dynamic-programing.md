@@ -22,11 +22,12 @@
 
 下面会介绍动态规划的一些经典问题,篇幅所限,会分成多个页面介绍:
 
-* [线性动规](./dynamic-programing/line.md) : 最长上升子序列,建学校,拦截导弹
+* [线性动规](./dynamic-programing/line.md) : 最长上升子序列,拦截导弹
 * [区间动归](./dynamic-programing/region.md) : 矩阵乘法,合并石子
 * [树形动归](./dynamic-programing/tree.md) : 最优二叉查找树
 * [背包问题](./dynamic-programing/knapsack.md) : 0-1背包
 * [装配线调度](./dynamic-programing/dispatch.md)
 * [最长公共子序列](./dynamic-programing/lcs.md)
+* [建学校](./dynamic-programing/build-school.md)
 
 与分治法类似,动态规划也是将问题分解成结构一样的子问题,然后通过解决子问题,得到问题的最解,但是不同的是,分治法子问题之间互相独立,每个问题计算后合并得到最终问题,但是动态规划子问题之间是有关系的,因此设计自底向上的方法,记录子问题解,上层问题计算时,可能会使用到这些子问题的解.
