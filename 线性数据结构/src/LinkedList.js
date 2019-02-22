@@ -33,9 +33,7 @@ class LinkedList {
     let newNode = new LinkedListNode(value);
     newNode.next = this.dummyHead.next;
     this.dummyHead.next = newNode;
-    if (this.tail === this.dummyHead) {
-      this.tail = newNode;
-    }
+    console.log(this.toArray());
   }
 
   /**
@@ -48,6 +46,7 @@ class LinkedList {
       node = node.next;
     }
     node.next = new LinkedListNode(value);
+    console.log(this.toArray());
   }
 
   /**
@@ -61,6 +60,7 @@ class LinkedList {
       remove.value = null;
       remove.next = null;
     }
+    console.log(this.toArray());
   }
 
   /**
@@ -79,6 +79,27 @@ class LinkedList {
       node.value = null;
       node.next = null;
     }
+    console.log(this.toArray());
+  }
+
+  /**
+   * remove all node which value equels some value
+   * @param {*} value 
+   */
+  remove(value) {
+    let pre = this.dummyHead;
+    let node = pre.next;
+    while (node) {
+      if (node.value === value) {
+        pre.next = node.next;
+        node.next = null;
+        node.value = null;
+      } else {
+        pre = pre.next;
+      }
+      node = (pre ? pre.next : null);
+    }
+    console.log(this.toArray());
   }
 
   /**
