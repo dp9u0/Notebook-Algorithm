@@ -28,7 +28,7 @@
 
 ### 链表
 
-* [单向链表](./线性数据结构/3.LinkedList.md)
+* [链表](./线性数据结构/3.LinkedList.md)
 * [双向链表](./线性数据结构/4.DoubleLinkedList.md)
 * [循环链表](./线性数据结构/5.CircleLinkedList.md)
 

@@ -1,12 +1,3 @@
-# 链表
-
-一个有序数据集合,链表中的每个项都有一个指针指向下一个元素.
-
-![链表](./img/linked-list.png)
-
-## 实现
-
-```javascript
 /**
  * LinkedListNode
  */
@@ -14,7 +5,7 @@ class LinkedListNode {
 
   /**
    * LinkedListNode 构造函数
-   * @param {*} value
+   * @param {*} value 
    */
   constructor(value) {
     this.value = value;
@@ -28,7 +19,7 @@ class LinkedListNode {
 class LinkedList {
 
   /**
-   * 构造LinkedList
+   * 
    */
   constructor() {
     this.dummyHead = new LinkedListNode();
@@ -36,7 +27,7 @@ class LinkedList {
 
   /**
    * add value brefore head
-   * @param {*} value
+   * @param {*} value 
    */
   prepend(value) {
     let newNode = new LinkedListNode(value);
@@ -49,7 +40,7 @@ class LinkedList {
 
   /**
    * add value at tail
-   * @param {*} value
+   * @param {*} value 
    */
   append(value) {
     let node = this.dummyHead;
@@ -60,7 +51,7 @@ class LinkedList {
   }
 
   /**
-   * remove first node
+   * remove first node 
    */
   removeHead() {
     if (this.dummyHead.next) {
@@ -105,4 +96,3 @@ class LinkedList {
 }
 
 exports.LinkedList = LinkedList;
-```
