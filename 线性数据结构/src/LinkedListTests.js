@@ -16,6 +16,7 @@ for (let i = 0; i < 3; i++) {
   ll.append("t" + (i + 100));
   ll.append("t" + (i + 10000));
   ll.remove(i);
+  console.log(ll.contains(i));
   ll.removeHead();
   ll.removeTail();
 }

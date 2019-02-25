@@ -19,10 +19,36 @@ class LinkedListNode {
 class LinkedList {
 
   /**
-   * 
+   * LinkedList 构造
    */
   constructor() {
     this.dummyHead = new LinkedListNode();
+  }
+
+  /**
+   * 链表中是否存在某个值
+   * @param {*} value 
+   */
+  contains(value) {
+    let node = this.dummyHead.next;
+    while (node) {
+      if (node.value === value) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * 计算链表长度
+   */
+  length() {
+    let length = 0;
+    let node = this.dummyHead.next;
+    while (node) {
+      length++;
+    }
+    return length;
   }
 
   /**
@@ -33,7 +59,6 @@ class LinkedList {
     let newNode = new LinkedListNode(value);
     newNode.next = this.dummyHead.next;
     this.dummyHead.next = newNode;
-    console.log(this.toArray());
   }
 
   /**
@@ -46,7 +71,21 @@ class LinkedList {
       node = node.next;
     }
     node.next = new LinkedListNode(value);
-    console.log(this.toArray());
+  }
+
+  /**
+   * 在 某个值(after)后面插入数据,如果不存在插入到最后
+   * @param {*} value 
+   * @param {*} after 
+   */
+  insert(value, after) {
+    let node = this.dummyHead;
+    while (node.value !== after && node.next) {
+      node = node.next;
+    }
+    let newNode = new LinkedListNode(value);
+    newNode.next = node.next;
+    node.next = newNode;
   }
 
   /**
@@ -60,7 +99,6 @@ class LinkedList {
       remove.value = null;
       remove.next = null;
     }
-    console.log(this.toArray());
   }
 
   /**
@@ -79,7 +117,6 @@ class LinkedList {
       node.value = null;
       node.next = null;
     }
-    console.log(this.toArray());
   }
 
   /**
@@ -99,7 +136,6 @@ class LinkedList {
       }
       node = (pre ? pre.next : null);
     }
-    console.log(this.toArray());
   }
 
   /**
