@@ -19,4 +19,3 @@
 
 * [栈](./6.Stack.md)
 * [队列](./7.Queue.md)
-* [循环队列](./8.CircleQueue.md)
