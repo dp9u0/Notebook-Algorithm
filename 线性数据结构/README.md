@@ -17,5 +17,4 @@
 
 ## 其他线性结构
 
-* [栈](./6.Stack.md)
-* [队列](./7.Queue.md)
+* [栈与队列](./6.StackAndQueue.md)
