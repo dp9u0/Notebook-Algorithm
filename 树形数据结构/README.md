@@ -28,15 +28,21 @@
 * 查找树(有序树,排序树) : 节点按照某种特定的顺序分布,例如二叉查找树中,所有小于父节点值得值分布在左子树,否则分布在右子树.
 * N叉树 : N叉树是每个结点最多有`N`个子树的树结构,例如二叉树.
 * 平衡树 : 任意节点的左右两个子树的高度差的绝对值不超过1
+* 满二叉树 : 一颗深度为k且有2^k-1个结点的二叉树称为满二叉树
+* 完全二叉树 : 除最后一层外,每一层上的节点数均达到最大值,在最后一层上只缺少右边的若干结点.
 
 * [二叉查找树(BST)](./BinaryTree.md): 每个结点最多有2个子树的树结构
 * [AVL树](./AVLTree.md): 一种自调整的平衡二叉查找树
 * [伸展树(Splay Tree)](./SplayTree.md): 又叫分裂树,是一种自调整的二叉查找树
 * [红黑树(Red Black Tree)](./RedBlackTree.md): 一种自调整的平衡二叉查找树
+* [Treap](./Treap.md)
+* [SBT(Size Balanced Tree)](./SizeBalancedTree.md)
 * [B-Tree](./BTree.md)
 * [R-Tree](./RTree.md)
 * [前缀树(Trie Tree)/后缀树(Suffix Tree)](./TrieTreeAndSuffixTree.md)
 * [最优二叉树((Huffman Tree)](./HuffmanTree.md) : 给定n个权值作为n个叶子结点,构造一棵二叉树,若该树的带权路径长度达到最小,称这样的二叉树为最优二叉树
+* [Segment Tree](./SegmentTree.md)
+* [Fenwick Tree / Binary Indexed Tree](./FenwickTree.md)
 
 ## [堆](./Heap.md)
 
