@@ -40,32 +40,28 @@
 
 ### 树
 
-* 树
-* 二叉树
-* 二叉查找树
-* 平衡树
-* 伸展树(Splay Tree)
-* 平衡二叉树AVL
-* 红黑树
-* B,B+,B*
-* R
-* Trie树(前缀树)
-* 后缀树
-* 最优二叉树(赫夫曼树)
+* [二叉树/二叉查找树(BST)](./树形数据结构/BinaryTree.md)
+* [平衡树/平衡二叉树(AVL)](./树形数据结构/AVLTree.md)
+* [伸展树(Splay Tree)](./树形数据结构/SplayTree.md)
+* [红黑树(Red Black Tree)](./树形数据结构/RedBlackTree.md)
+* [B-Tree](./树形数据结构/BTree.md)
+* [R-Tree](./树形数据结构/RTree.md)
+* [前缀树(Trie Tree)/后缀树(Suffix Tree)](./树形数据结构/TrieTreeAndSuffixTree.md)
+* [最优二叉树((Huffman Tree)](./树形数据结构/HuffmanTree.md) : 给定n个权值作为n个叶子结点,构造一棵二叉树,若该树的带权路径长度达到最小,称这样的二叉树为最优二叉树
 
-### 堆
+### [堆](./树形数据结构/Heap.md)
 
-* 二叉堆(大根堆 小根堆)
-* 二项树
-* 二项堆
-* 左倾堆
-* 斐波那契堆(Fibonacci Heap)
-* 优先队列(Priority Queue)
+* [二叉堆(大根堆 小根堆)](./树形数据结构/Heap.md#二叉堆)
+* [二项树](./树形数据结构/Heap.md#二项树)
+* [二项堆](./树形数据结构/Heap.md#二项堆)
+* [左倾堆](./树形数据结构/Heap.md#左倾堆)
+* [斐波那契堆(Fibonacci Heap)](./树形数据结构/Heap.md#斐波那契堆)
+* [优先队列(Priority Queue)](./树形数据结构/Heap.md#优先队列)
 
 ### 其他(类)树形结构
 
-* 跳表(Skip List)
-* 森林
+* [跳表(Skip List)](./树形数据结构/SkipList.md)
+* [森林](./树形数据结构/Forest.md)
 
 ## [散列数据结构](./散列数据结构/README.md)
 
