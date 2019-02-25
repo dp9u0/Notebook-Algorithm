@@ -40,9 +40,9 @@
 
 ## [树形数据结构](./树形数据结构/README.md)
 
-### 树
+### [树](./树形数据结构/README.md#树)
 
-* [二叉树/二叉查找树(BST)](./树形数据结构/BinaryTree.md)
+* [二叉查找树(BST)](./树形数据结构/BinaryTree.md)
 * [平衡树/平衡二叉树(AVL)](./树形数据结构/AVLTree.md)
 * [伸展树(Splay Tree)](./树形数据结构/SplayTree.md)
 * [红黑树(Red Black Tree)](./树形数据结构/RedBlackTree.md)
