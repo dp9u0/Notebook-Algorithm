@@ -2,6 +2,7 @@
  * AVLTree
  */
 class AVLTree {
+
   /**
    * 构造
    */
@@ -38,7 +39,6 @@ class AVLTree {
     }
   }
 
-
   /**
    * 删除
    * @param {*} value : value
@@ -52,12 +52,23 @@ class AVLTree {
     }
     if (!node) {
       return;
-      // throw new Error('value not found');
     }
     let {
       left,
       right
     } = node;
+    if (left && right) {
+      let d = right;
+      let p = node;
+      while (d.left) {
+        p = d;
+        d = p.left;
+      }
+      node.value = d.value;
+      node = d;
+      parent = p;
+      [left, right] = [node.left, node.right];
+    }
     if (parent) {
       if (parent.left === node) {
         parent.left = left || right;
@@ -67,17 +78,15 @@ class AVLTree {
     } else {
       this.root = left || right;
     }
-    if (left) {
-      let append = left;
-      while (append.right) {
-        append = append.right;
-      }
-      append.right = right;
-    }
+    node.value = null;
     node.left = null;
     node.right = null;
-    node.value = null;
   }
+
+  /**
+   * 平衡AVL Tree
+   */
+  balance(){}
 
   /**
    * 查找
@@ -97,14 +106,6 @@ class AVLTree {
       }
       return false;
     }
-  }
-
-  /**
-   * 根据平衡因子平衡AVL树
-   * @param {*} node 
-   */
-  balance(node) {
-
   }
 
   /**
@@ -174,6 +175,18 @@ class AVLTree {
       return node ? (calcCount(node.left) + calcCount(node.right) + 1) : 0;
     }
     return calcCount(this.root);
+  }
+
+  /**
+   * 验证是否是个BST
+   */
+  validate() {
+    const valid = (node) => {
+      if (!node) return true;
+      return (!node.left || (node.value > node.left.value && valid(node.left))) &&
+        (!node.right || (node.value < node.right.value && valid(node.right)));
+    }
+    return valid(this.root)
   }
 }
 

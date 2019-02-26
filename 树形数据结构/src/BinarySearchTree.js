@@ -1,3 +1,5 @@
+const BinarySearchTreeNode = require("./BinarySearchTreeNode")
+
 /**
  * 二叉查找树
  */
@@ -7,6 +9,7 @@ class BinarySearchTree {
    * 构造
    */
   constructor() {
+    console.log('BinarySearchTree')
     this.root = null;
   }
 
@@ -18,24 +21,7 @@ class BinarySearchTree {
     if (!this.root) {
       this.root = new BinarySearchTreeNode(value);
     } else {
-      let node = this.root,
-        parent = null;
-      while (node) {
-        parent = node;
-        if (node.value === value) {
-          return;
-          // throw new Error("value has been exist")
-        }
-        node = node.value > value ? node.left : node.right;
-      }
-      if (parent.value === value) {
-        return;
-        // throw new Error("value has been exist")
-      } else if (parent.value > value) {
-        parent.left = new BinarySearchTreeNode(value);
-      } else {
-        parent.right = new BinarySearchTreeNode(value);
-      }
+      this.root.insert(value)
     }
   }
 
@@ -44,43 +30,7 @@ class BinarySearchTree {
    * @param {*} value : value
    */
   delete(value) {
-    let node = this.root,
-      parent = null;
-    while (node && node.value !== value) {
-      parent = node;
-      node = parent.value > value ? parent.left : parent.right;
-    }
-    if (!node) {
-      return;
-    }
-    let {
-      left,
-      right
-    } = node;
-    if (left && right) {
-      let d = right;
-      let p = node;
-      while (d.left) {
-        p = d;
-        d = p.left;
-      }
-      node.value = d.value;
-      node = d;
-      parent = p;
-      [left, right] = [node.left, node.right];
-    }
-    if (parent) {
-      if (parent.left === node) {
-        parent.left = left || right;
-      } else {
-        parent.right = left || right;
-      }
-    } else {
-      this.root = left || right;
-    }
-    // node.value = null;
-    // node.left = null;
-    // node.right = null;
+    this.root && (this.root = this.root.delete(value));
   }
 
   /**
@@ -89,111 +39,51 @@ class BinarySearchTree {
    * @returns {bool} 是否存在
    */
   search(value) {
-    if (!this.root) {
-      return false;
-    } else {
-      let node = this.root;
-      while (node) {
-        if (node.value === value) {
-          return true;
-        }
-        node = node.value > value ? node.left : node.right;
-      }
-      return false;
-    }
-  }
-
-  /**
-   * 格式化打印
-   */
-  print() {
-    const fill = (rows, node, r, s, e) => {
-      if (!node) return;
-      let i = ~~((s + e) / 2);
-      rows[r][i] = '' + node.value;
-      fill(rows, node.left, r + 1, s, i - 1);
-      fill(rows, node.right, r + 1, i + 1, e);
-    }
-    let h = this.height();
-    let l = Math.pow(2, h - 1) * 2 - 1;
-    let rows = Array.from({
-      length: h
-    }, () => new Array(l).fill(''));
-    fill(rows, this.root, 0, 0, l - 1);
-    // console.log(rows);
-    return rows;
+    return this.root && this.root.search(value);
   }
 
   /**
    * toString
    */
   toString() {
-    return JSON.stringify(this.root);
+    return this.root ? this.root.toString() : "";
   }
 
   /**
    * toArray
    */
   toArray() {
-    let array = [];
-    let q = [this.root];
-    while (q.length) {
-      let newQ = [];
-      while (q.length) {
-        let node = q.shift();
-        if (node) {
-          array.push(node.value);
-          newQ.push(node.left);
-          newQ.push(node.right);
-        }
-      }
-      q = newQ;
-    }
-    return array;
+    return this.root ? this.root.toArray() : "";
   }
 
   /**
    * 树的高度
    */
   height() {
-    const calcHeight = (node) => {
-      return node ? (Math.max(calcHeight(node.left), calcHeight(node.right))) + 1 : 0;
-    }
-    return calcHeight(this.root);
+    return this.root ? this.root.height : 0;
   }
 
   /**
    * 树中节点数量
    */
   count() {
-    const calcCount = (node) => {
-      return node ? (calcCount(node.left) + calcCount(node.right) + 1) : 0;
-    }
-    return calcCount(this.root);
+    return this.root ? this.root.count : 0;
   }
 
   /**
    * 验证是否是个BST
    */
   validate() {
-    const valid = (node) => {
-      if (!node) return true;
-      return (!node.left || (node.value > node.left.value && valid(node.left))) &&
-        (!node.right || (node.value < node.right.value && valid(node.right)));
-    }
-    return valid(this.root)
+    return this.root ? this.root.validate() : true;
+  }
+
+  inOrderTraverse() {
+    return this.root ? this.root.inOrderTraverse() : [];
+  }
+
+  print() {
+    return this.root ? this.root.print() : [];
   }
 }
 
-/**
- * 二叉查找树节点
- */
-class BinarySearchTreeNode {
-  constructor(value) {
-    this.value = value;
-    this.left = null;
-    this.right = null;
-  }
-}
-
-exports.BinarySearchTree = BinarySearchTree;
+module.exports = BinarySearchTree;
