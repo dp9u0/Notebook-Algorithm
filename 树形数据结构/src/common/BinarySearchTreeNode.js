@@ -1,5 +1,4 @@
 const BinaryTreeNode = require("./BinaryTreeNode")
-const Comparator = require("./Comparator");
 
 /**
  * BinarySearchTreeNode
@@ -9,35 +8,35 @@ class BinarySearchTreeNode extends BinaryTreeNode {
   /**
    * BinarySearchTreeNode
    * @param {*} value 
-   * @param {Function} fn comparator function
+   * @param {Comparator} fn comparator
    */
-  constructor(value = null, fn = null) {
+  constructor(value = null, comparator) {
     super(value);
-    this.comparator = new Comparator(fn);
+    this.comparator = comparator;
   }
 
   /**
    * insert value
    * @param {*} value value to insert
-   * @return {BinarySearchTreeNode} node inserted if cannot insert return undefined
+   * @return {BinarySearchTreeNode} node inserted if cannot insert return [null]
    */
   insert(value) {
     if (this.comparator.lessThan(value, this.value)) {
       if (this.left) {
         return this.left.insert(value);
       } else {
-        this.left = new BinarySearchTreeNode(value);
+        this.left = this.newNode(value);
         return this.left;
       }
     } else if (this.comparator.greaterThan(value, this.value)) {
       if (this.right) {
         return this.right.insert(value);
       } else {
-        this.right = new BinarySearchTreeNode(value);
+        this.right = this.newNode(value);
         return this.right;
       }
     }
-    // cannot insert
+    // no need to insert
     return null;
   }
 
@@ -48,10 +47,10 @@ class BinarySearchTreeNode extends BinaryTreeNode {
    */
   delete(value) {
     if (this.comparator.lessThan(value, this.value)) {
-      this.left = this.left ? this.left.delete(value) : null;
+      this.left = this.left ? this.left.delete(value) : this.left;
       return this;
     } else if (this.comparator.greaterThan(value, this.value)) {
-      this.right = this.right ? this.right.delete(value) : null;
+      this.right = this.right ? this.right.delete(value) : this.right;
       return this;
     }
     // delete this node
@@ -71,12 +70,21 @@ class BinarySearchTreeNode extends BinaryTreeNode {
    * @return {boolean} find or not
    */
   search(value) {
+    return !!this.find(value);
+  }
+
+  /**
+   * find node for value
+   * @param {*} value value to find
+   * @return {BinarySearchTreeNode} node found,if node found return null
+   */
+  find(value) {
     if (this.comparator.lessThan(value, this.value)) {
-      return this.left && this.left.search(value);
+      return this.left ? this.left.find(value) : null;
     } else if (this.comparator.greaterThan(value, this.value)) {
-      return this.right && this.right.search(value);
+      return this.right ? this.right.find(value) : null;
     }
-    return true;
+    return this;
   }
 
   /**
@@ -98,6 +106,14 @@ class BinarySearchTreeNode extends BinaryTreeNode {
   validate() {
     return (!this.left || (this.comparator.lessThan(this.left.value, this.value) && this.left.validate())) &&
       (!this.right || (this.comparator.greaterThan(this.right.value, this.value) && this.right.validate()));
+  }
+
+  /**
+   * template method to create new node
+   * 用于 override
+   */
+  newNode(value) {
+    return new BinarySearchTreeNode(value, this.comparator);
   }
 }
 

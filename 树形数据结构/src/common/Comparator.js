@@ -6,7 +6,7 @@ class Comparator {
    * @param {function(a: *, b: *)} compareFunction
    */
   constructor(compareFunction) {
-    this.compare = compareFunction || /*defaultCompareFunction*/((a, b) => a === b ? 0 : a < b ? -1 : 1);
+    this.compareFunction = compareFunction || /*defaultCompareFunction*/((a, b) => a === b ? 0 : a < b ? -1 : 1);
   }
 
   /**
@@ -16,7 +16,7 @@ class Comparator {
    * @return {boolean}
    */
   equal(a, b) {
-    return this.compare(a, b) === 0;
+    return this.compareFunction(a, b) === 0;
   }
 
   /**
@@ -26,7 +26,7 @@ class Comparator {
    * @return {boolean}
    */
   lessThan(a, b) {
-    return this.compare(a, b) < 0;
+    return this.compareFunction(a, b) < 0;
   }
 
   /**
@@ -36,7 +36,7 @@ class Comparator {
    * @return {boolean}
    */
   greaterThan(a, b) {
-    return this.compare(a, b) > 0;
+    return this.compareFunction(a, b) > 0;
   }
 
   /**
@@ -63,8 +63,8 @@ class Comparator {
    * Reverses the comparison order.
    */
   reverse() {
-    const compareOriginal = this.compare;
-    this.compare = (a, b) => compareOriginal(b, a);
+    const compareOriginal = this.compareFunction;
+    this.compareFunction = (a, b) => compareOriginal(b, a);
   }
 }
 

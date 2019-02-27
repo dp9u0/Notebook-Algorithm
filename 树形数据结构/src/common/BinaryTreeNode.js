@@ -7,10 +7,10 @@ class BinaryTreeNode {
    * @param {*} value node value.
    */
   constructor(value = null) {
+    this._value = value;
     this._parent = null;
     this._left = null;
     this._right = null;
-    this._value = value;
   }
 
   /**
@@ -48,7 +48,7 @@ class BinaryTreeNode {
     if (this._left === node) {
       return;
     }
-    this._left && (this._left._parent = null);
+    this._left && (this._left._parent = null); // memory leak
     this._left = node;
     this._left && (this._left._parent = this);
   }
@@ -69,7 +69,7 @@ class BinaryTreeNode {
     if (this._right === node) {
       return;
     }
-    this._right && (this._right._parent = null);
+    this._right && (this._right._parent = null); // memory leak
     this._right = node;
     this._right && (this._right._parent = this);
   }
@@ -95,7 +95,7 @@ class BinaryTreeNode {
    * @return {number}
    */
   get leftHeight() {
-    return this.left ? this.left.height : 0;
+    return this._left ? this._left.height : 0;
   }
 
   /**
@@ -103,32 +103,45 @@ class BinaryTreeNode {
    * @return {number}
    */
   get rightHeight() {
-    return this.right ? this.right.height : 0;
+    return this._right ? this._right.height : 0;
+  }
+
+  /**
+   * subtree height of left
+   * @return {number}
+   */
+  get leftCount() {
+    return this._left ? this._left.count : 0;
+  }
+
+  /**
+   * subtree height of right
+   * @return {number}
+   */
+  get rightCount() {
+    return this._right ? this._right.count : 0;
   }
 
   /**
    * tree height
+   * 采用效率不高的递归方式获取 [height] .
+   * 这是考虑到 [height] 使用频率不高,如果调用频率高导致对 [height] 有性能要求,可以使用主动更新的方式
    * @return {number}
    */
   get height() {
-    return Math.max(this.left ? this.left.height : 0, this.right ? this.right.height : 0) + 1;
+    return Math.max(this.leftHeight, this.rightHeight) + 1;
   }
 
   /**
    * count of nodes
+   * 采用效率不高的递归方式获取 [count] .
+   * 这是考虑到 [count] 使用频率不高,如果调用频率高导致对 [count] 有性能要求,可以使用主动更新的方式
    */
   get count() {
     let count = 1;
     this.left && (count += this.left.count);
     this.right && (count += this.right.count);
     return count;
-  }
-
-  /**
-   * @return {number}
-   */
-  get balanceFactor() {
-    return this.leftHeight - this.rightHeight;
   }
 
   /**
@@ -251,7 +264,6 @@ class BinaryTreeNode {
     fill(rows, this, 0, 0, l - 1);
     return rows;
   }
-
 }
 
 module.exports = BinaryTreeNode;
