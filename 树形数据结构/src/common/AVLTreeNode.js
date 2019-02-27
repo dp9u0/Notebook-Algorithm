@@ -21,7 +21,8 @@ class AVLTreeNode extends BinarySearchTreeNode {
    * @return {BinaryTreeNode}
    */
   get left() {
-    return this._left;
+    // override set 必须同时 override get
+    return super.left;
   }
 
   /**
@@ -41,7 +42,8 @@ class AVLTreeNode extends BinarySearchTreeNode {
    * @return {BinaryTreeNode}
    */
   get right() {
-    return this._right;
+    // override set 必须同时 override get
+    return super.right;
   }
 
   /**
@@ -99,15 +101,15 @@ class AVLTreeNode extends BinarySearchTreeNode {
     return new AVLTreeNode(value, this.comparator);
   }
 
-  /**
-   * 验证是否是个 AVL Tree
-   * @return {boolean} is a AVL Tree or not
-   */
-  validate() {
-    return Math.abs(this.balanceFactor) <= 1 &&
-      (!this.left || (this.comparator.lessThan(this.left.value, this.value) && this.left.validate())) &&
-      (!this.right || (this.comparator.greaterThan(this.right.value, this.value) && this.right.validate()));
-  }
+  // /**
+  //  * 验证是否是个 AVL Tree
+  //  * @return {boolean} is a AVL Tree or not
+  //  */
+  // validate() {
+  //   return Math.abs(this.balanceFactor) <= 1 &&
+  //     (!this.left || (this.comparator.lessThan(this.left.value, this.value) && this.left.validate())) &&
+  //     (!this.right || (this.comparator.greaterThan(this.right.value, this.value) && this.right.validate()));
+  // }
 }
 
 module.exports = AVLTreeNode;

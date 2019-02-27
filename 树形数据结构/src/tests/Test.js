@@ -1,7 +1,7 @@
 require('../common/utils');
 const assert = require('assert');
 const TEST_COUNT = Math.pow(10, 4);
-const MAX_NUM = Math.pow(10, 3);
+const MAX_NUM = Math.pow(10, 2);
 const set = new Set()
 const Random = () => {
   return ~~(Math.random() * MAX_NUM);
