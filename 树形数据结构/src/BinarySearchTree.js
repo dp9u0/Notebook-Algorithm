@@ -1,4 +1,4 @@
-const BinarySearchTreeNode = require("./common/BinarySearchTreeNode");
+const Node = require("./common/BinarySearchTreeNode");
 const Comparator = require("./common/Comparator");
 
 /**
@@ -22,7 +22,7 @@ class BinarySearchTree {
    */
   insert(value) {
     if (!this.root) {
-      this.root = new BinarySearchTreeNode(value, this.comparator);
+      this.root = new Node(value, this.comparator);
       return this.root;
     } else {
       return this.root.insert(value);
@@ -44,6 +44,13 @@ class BinarySearchTree {
    */
   search(value) {
     return this.root && this.root.search(value);
+  }
+
+  /**
+   * 清空
+   */
+  empty() {
+    this.root = null;
   }
 
   /**
@@ -87,7 +94,7 @@ class BinarySearchTree {
    * 前序遍历
    * @return {*[]}
    */
-  postOrderTraverse() {
+  preOrderTraverse() {
     return this.root ? this.root.preOrderTraverse() : [];
   }
 
