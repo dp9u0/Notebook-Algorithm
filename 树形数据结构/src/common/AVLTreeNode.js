@@ -14,14 +14,14 @@ class AVLTreeNode {
     this._left = null;
     this._right = null;
     this._height = 1;
-    this._count = 1;
+    this._size = 1;
     this.comparator = comparator;
   }
 
   /**
-   * insert value
+   * insert value after this [node]
    * @param {*} value value to insert
-   * @return {AVLTreeNode} node inserted if cannot insert return [null]
+   * @return {AVLTreeNode} [node] after inserted
    */
   insert(value) {
     if (this.comparator.lessThan(value, this.value)) {
@@ -29,24 +29,23 @@ class AVLTreeNode {
         return this.left.insert(value);
       } else {
         this.left = this.newNode(value);
-        return this.left;
+        return true;
       }
     } else if (this.comparator.greaterThan(value, this.value)) {
       if (this.right) {
         return this.right.insert(value);
       } else {
         this.right = this.newNode(value);
-        return this.right;
+        return true;
       }
     }
-    // no need to insert
-    return null;
+    return false;
   }
 
   /**
-   * delete value
+   * delete value from this [node]
    * @param {*} value value to delete
-   * @return {AVLTreeNode} this node after delete,may be return null
+   * @return {AVLTreeNode} [node] after delete,may be null
    */
   delete(value) {
     if (this.comparator.lessThan(value, this.value)) {
@@ -55,16 +54,19 @@ class AVLTreeNode {
     } else if (this.comparator.greaterThan(value, this.value)) {
       this.right = this.right ? this.right.delete(value) : this.right;
       return this;
+    } else {
+      // delete this node
+      let actual = this.getMin();
+      if (actual) {
+        // swao this and actual
+        [this.value, actual.value] = [actual.value, this.value];
+        //delete actual
+        actual.parent.replaceChild(actual, actual.right);
+        return this;
+      }
+      // 说明没有右子树,直接用左子树取代 [this] 的位置
+      return this.left;
     }
-    // delete this node
-    let min = this.getMin();
-    if (min) {
-      this.value = min.value;
-      min.parent.replaceChild(min, min.right);
-      return this;
-    }
-    // 说明没有右子树,直接用左子树取代 this的位置
-    return this.left;
   }
 
   /**
@@ -122,13 +124,9 @@ class AVLTreeNode {
    * @param {AVLTreeNode} node
    */
   set left(node) {
-    if (this._left === node) {
-      return;
+    if (AVLTreeNode._setLeft(this, node)) {
+      AVLTreeNode._maintain(this);
     }
-    this._left && (this._left._parent = null); // memory leak
-    this._left = node;
-    this._left && (this._left._parent = this);
-    this.maintain();
   }
 
   /**
@@ -144,13 +142,9 @@ class AVLTreeNode {
    * @param {AVLTreeNode} node
    */
   set right(node) {
-    if (this._right === node) {
-      return;
+    if (AVLTreeNode._setRight(this, node)) {
+      AVLTreeNode._maintain(this);
     }
-    this._right && (this._right._parent = null); // memory leak
-    this._right = node;
-    this._right && (this._right._parent = this);
-    this.maintain();
   }
 
   /**
@@ -174,7 +168,7 @@ class AVLTreeNode {
    * @return {number}
    */
   get leftHeight() {
-    return this._left ? this._left.height : 0;
+    return this._left ? this._left._height : 0;
   }
 
   /**
@@ -182,23 +176,27 @@ class AVLTreeNode {
    * @return {number}
    */
   get rightHeight() {
-    return this._right ? this._right.height : 0;
+    return this._right ? this._right._height : 0;
+  }
+
+  get balanceFactor() {
+    return this.leftHeight - this.rightHeight;
   }
 
   /**
    * subtree height of left
    * @return {number}
    */
-  get leftCount() {
-    return this._left ? this._left.count : 0;
+  get leftSize() {
+    return this._left ? this._left._size : 0;
   }
 
   /**
    * subtree height of right
    * @return {number}
    */
-  get rightCount() {
-    return this._right ? this._right.count : 0;
+  get rightSize() {
+    return this._right ? this._right._size : 0;
   }
 
   /**
@@ -207,20 +205,16 @@ class AVLTreeNode {
    * @return {number}
    */
   get height() {
-    return Math.max(this.leftHeight, this.rightHeight) + 1;
-    //return this._height;
+    return this._height;
   }
 
   /**
    * count of nodes
-   * 采用效率不高的递归方式获取 [count] .
-   * 这是考虑到 [count] 使用频率不高,如果调用频率高导致对 [count] 有性能要求,可以使用主动更新的方式
+   * 采用效率不高的递归方式获取 [size] .
+   * 这是考虑到 [size] 使用频率不高,如果调用频率高导致对 [size] 有性能要求,可以使用主动更新的方式
    */
-  get count() {
-    let count = 1;
-    this.left && (count += this.left.count);
-    this.right && (count += this.right.count);
-    return count;
+  get size() {
+    return this._size;
   }
 
   /**
@@ -239,14 +233,11 @@ class AVLTreeNode {
    * @return {boolean} replaced or not
    */
   replaceChild(child, node) {
-    if (this.left === child) {
-      this.left = node;
-      return true;
-    } else if (this.right === child) {
-      this.right = node;
-      return true;
+    let result = AVLTreeNode._replaceChild(this, child, node);
+    if (result) {
+     AVLTreeNode._maintain(this);
     }
-    return false;
+    return result;
   }
 
   /**
@@ -338,7 +329,7 @@ class AVLTreeNode {
     let h = this.height;
     let l = Math.pow(2, h - 1) * 2 - 1;
     let rows = Array.from({
-      length: h
+      length: h * 2
     }, () => new Array(l).fill(''));
     fill(rows, this, 0, 0, l - 1);
     return rows;
@@ -373,16 +364,124 @@ class AVLTreeNode {
     return new AVLTreeNode(value, this.comparator);
   }
 
+  static _setRight(node, right) {
+    if (node._right === right) {
+      return false;
+    }
+    node._right && (node._right._parent = null);
+    node._right = right;
+    node._right && (node._right._parent = node);
+    return true;
+  }
+
+  static _setLeft(node, left) {
+    if (node._left === left) {
+      return false;
+    }
+    node._left && (node._left._parent = null);
+    node._left = left;
+    node._left && (node._left._parent = node);
+    return true;
+  }
+
   /**
-   * 更新 [this] 到 [root] 路径上的所有节点的高度,在更新 [left] 和 [right] 之后调用
+   * replace chile by another node
+   * @param {BinaryTreeNode} parent
+   * @param {BinaryTreeNode} child
+   * @param {BinaryTreeNode} newChild
+   * @return {boolean} replaced or not
    */
-  maintain() {
-    // let node = this;
-    // while (node) {
-    //   node._height = Math.max(node.leftHeight, node.rightHeight) + 1;
-    //   node._count = node.leftCount + node.rightCount + 1;
-    //   node = node.parent;
-    // }
+  static _replaceChild(parent, child, newChild) {
+    if (parent._left === child) {
+      AVLTreeNode._setLeft(parent, newChild);
+      return true;
+    } else if (parent._right === child) {
+      AVLTreeNode._setRight(parent, newChild);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * 更新 [node] 到 [root] 路径上的所有节点的高度,在更新 [left] 和 [right] 之后调用
+   */
+  static _maintain(node) {
+    while (node) {
+      if (Math.abs(node.balanceFactor) > 1) {
+        AVLTreeNode._balance(node);
+      } else {
+        node._height = Math.max(node.leftHeight, node.rightHeight) + 1;
+        node._size = node.leftSize + node.rightSize + 1;
+      }
+      node = node.parent;
+    }
+  }
+
+  static _balance(node) {
+    if (node.leftHeight < node.rightHeight) {
+      if (node.right.leftHeight <= node.right.rightHeight) {
+        AVLTreeNode._rotateLeft(node);
+      } else {
+        AVLTreeNode._rotateRightLeft(node);
+      }
+    } else {
+      // right
+      if (node.left.leftHeight >= node.left.rightHeight) {
+        AVLTreeNode._rotateRight(node);
+      } else {
+        AVLTreeNode._rotateLeftRight(node);
+      }
+    }
+  }
+
+  /**
+   * @param {AVLTreeNode} node
+   */
+  static _rotateLeft(node) {
+    let nodeParent = node._parent;
+    let nodeRight = node._right;
+    let nodeRightLeft = node._right._left;
+    AVLTreeNode._setRight(node, null);
+    if (nodeParent) {
+      AVLTreeNode._replaceChild(nodeParent, node, nodeRight);
+    }
+    AVLTreeNode._setRight(node, nodeRightLeft);
+    AVLTreeNode._setLeft(nodeRight, node);
+    node._height = Math.max(node.leftHeight, node.rightHeight) + 1;
+    node._size = node.leftSize + node.rightSize + 1;
+  }
+
+  /**
+   * @param {AVLTreeNode} node
+   */
+  static _rotateRightLeft(node) {
+    AVLTreeNode._rotateRight(node.right);
+    AVLTreeNode._rotateLeft(node);
+  }
+
+  /**
+   * @param {AVLTreeNode} node
+   */
+  static _rotateRight(node) {
+    let nodeParent = node._parent;
+    let nodeLeft = node._left;
+    let nodeLeftRight = node._left._right;
+    AVLTreeNode._setLeft(node, null);
+    if (nodeParent) {
+      AVLTreeNode._replaceChild(nodeParent, node, nodeLeft);
+    }
+    AVLTreeNode._setLeft(node, nodeLeftRight);
+    AVLTreeNode._setRight(nodeLeft, node);
+    node._height = Math.max(node.leftHeight, node.rightHeight) + 1;
+    node._size = node.leftSize + node.rightSize + 1;
+  }
+
+  /**
+   * @param {AVLTreeNode} node
+   */
+  static _rotateLeftRight(node) {
+    AVLTreeNode._rotateLeft(node.left);
+    AVLTreeNode._rotateRight(node);
   }
 }
 

@@ -17,34 +17,23 @@ class BinarySearchTreeNode {
   }
 
   /**
-   * insert value
-   * @param {*} value value to insert
-   * @return {BinarySearchTreeNode} node inserted if cannot insert return [null]
+   * insert [value] as this node's child(or grandchild)
+   * @param {*} value [value] to insert
+   * @return {BinarySearchTreeNode} node after inserted
    */
   insert(value) {
     if (this.comparator.lessThan(value, this.value)) {
-      if (this.left) {
-        return this.left.insert(value);
-      } else {
-        this.left = this.newNode(value);
-        return this.left;
-      }
+      this.left = this.left ? this.left.insert(value) : this.newNode(value);
     } else if (this.comparator.greaterThan(value, this.value)) {
-      if (this.right) {
-        return this.right.insert(value);
-      } else {
-        this.right = this.newNode(value);
-        return this.right;
-      }
+      this.right = this.right ? this.right.insert(value) : this.newNode(value);
     }
-    // no need to insert
-    return null;
+    return this;
   }
 
   /**
-   * delete value
-   * @param {*} value value to delete
-   * @return {BinarySearchTreeNode} this node after delete,may be return null
+   * delete this node's child(or grandchild) equals [value]
+   * @param {*} value [value] to delete
+   * @return {BinarySearchTreeNode} node after delete,may be return [null]
    */
   delete(value) {
     if (this.comparator.lessThan(value, this.value)) {
@@ -53,16 +42,18 @@ class BinarySearchTreeNode {
     } else if (this.comparator.greaterThan(value, this.value)) {
       this.right = this.right ? this.right.delete(value) : this.right;
       return this;
+    } else {
+      // delete this node
+      let actual = this.getMin();
+      if (actual) {
+        [this.value, actual.value] = [actual.value, this.value];
+        //delete actual
+        actual.parent.replaceChild(actual, actual.right);
+        return this;
+      }
+      // 说明没有右子树,直接用左子树取代 this的位置
+      return this.left;
     }
-    // delete this node
-    let min = this.getMin();
-    if (min) {
-      this.value = min.value;
-      min.parent.replaceChild(min, min.right);
-      return this;
-    }
-    // 说明没有右子树,直接用左子树取代 this的位置
-    return this.left;
   }
 
   /**
@@ -182,19 +173,19 @@ class BinarySearchTreeNode {
   }
 
   /**
-   * subtree height of left
+   * subtree size of left
    * @return {number}
    */
-  get leftCount() {
-    return this._left ? this._left.count : 0;
+  get leftSize() {
+    return this._left ? this._left.size : 0;
   }
 
   /**
-   * subtree height of right
+   * subtree size of right
    * @return {number}
    */
-  get rightCount() {
-    return this._right ? this._right.count : 0;
+  get rightSize() {
+    return this._right ? this._right.size : 0;
   }
 
   /**
@@ -208,15 +199,15 @@ class BinarySearchTreeNode {
   }
 
   /**
-   * count of nodes
-   * 采用效率不高的递归方式获取 [count] .
-   * 这是考虑到 [count] 使用频率不高,如果调用频率高导致对 [count] 有性能要求,可以使用主动更新的方式
+   * size of nodes
+   * 采用效率不高的递归方式获取 [size] .
+   * 这是考虑到 [size] 使用频率不高,如果调用频率高导致对 [size] 有性能要求,可以使用主动更新的方式
    */
-  get count() {
-    let count = 1;
-    this.left && (count += this.left.count);
-    this.right && (count += this.right.count);
-    return count;
+  get size() {
+    let size = 1;
+    size += this.leftSize;
+    size += this.rightSize;
+    return size;
   }
 
   /**

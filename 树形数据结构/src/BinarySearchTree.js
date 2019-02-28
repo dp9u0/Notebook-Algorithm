@@ -18,14 +18,12 @@ class BinarySearchTree {
   /**
    * 插入
    * @param {*} value : value
-   * @return {BinarySearchTreeNode} node inserted if cannot insert return [null]
    */
   insert(value) {
     if (!this.root) {
       this.root = new Node(value, this.comparator);
-      return this.root;
     } else {
-      return this.root.insert(value);
+      this.root = this.root.insert(value);
     }
   }
 
@@ -47,24 +45,17 @@ class BinarySearchTree {
   }
 
   /**
-   * 清空
-   */
-  empty() {
-    this.root = null;
-  }
-
-  /**
    * 树的高度
    */
-  height() {
+  get height() {
     return this.root ? this.root.height : 0;
   }
 
   /**
    * 树中节点数量
    */
-  count() {
-    return this.root ? this.root.count : 0;
+  get size() {
+    return this.root ? this.root.size : 0;
   }
 
   /**

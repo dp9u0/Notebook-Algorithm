@@ -18,6 +18,10 @@ AVL树通过定义平衡因子来表示一个节点是否平衡,平衡因子定�
 
 ![AVL Tree](./img/avl-ll-rotation.png)
 
+### Right-Left Rotation
+
+![AVL Tree](./img/avl-rl-rotation.png)
+
 ### Right-Right Rotation
 
 ![AVL Tree](./img/avl-rr-rotation.png)
@@ -25,7 +29,3 @@ AVL树通过定义平衡因子来表示一个节点是否平衡,平衡因子定�
 ### Left-Right Rotation
 
 ![AVL Tree](./img/avl-lr-rotation.png)
-
-### Right-Left Rotation
-
-![AVL Tree](./img/avl-rl-rotation.png)

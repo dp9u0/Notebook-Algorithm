@@ -1,4 +1,4 @@
-const INPUT_COUNT = 1e6;
+const INPUT_COUNT = 1e7;
 const INPUT_MAX = 1e3;
 const TEST_COUNT = 10;
 const OPS_COUNT = 1e5;
@@ -32,12 +32,12 @@ function randomOp(count) {
   let ops = [];
   while (count) {
     let op = Random10();
-    if (op < 2) {
+    if (op < 1) { // DELETE
       ops.push(1);
-    } else if (op < 6) {
+    } else if (op < 7) { // SEARCH
       ops.push(2);
     } else {
-      ops.push(3);
+      ops.push(3); // INSERT
     }
     count--;
   }
@@ -50,12 +50,6 @@ function BenchmarkTest(trees, count) {
     tree.desc = tree.desc || index;
     results[tree.desc] = {
       desc: tree.desc,
-      // INSERT: [],
-      // INSERT_SUM: 0,
-      // DELETE: [],
-      // DELETE_SUM: 0,
-      // SEARCH: [],
-      // SEARCH_SUM: 0,
       MIX: [],
       MIX_SUM: 0,
     }
@@ -69,48 +63,8 @@ function BenchmarkTest(trees, count) {
         desc
       } = trees[n];
       let result = results[desc];
-
-      // let tree = new Tree()
-      // let cost;
-      // // BEGIN:INSERT
-      // start = time();
-      // for (let j = 0; j < INPUT_COUNT; j++) {
-      //   let value = input[j];
-      //   tree.insert(value);
-      // }
-      // end = time();
-      // cost = performance(start, end)
-      // result.INSERT.push(cost);
-      // result.INSERT_SUM += cost
-      // // END:INSERT
-
-      // // BEGIN:SEARCH
-      // start = time();
-      // for (let j = 0; j < INPUT_COUNT; j++) {
-      //   let value = input[j];
-      //   tree.search(value);
-      // }
-      // end = time();
-      // cost = performance(start, end)
-      // result.SEARCH.push(cost);
-      // result.SEARCH_SUM += cost
-      // // END:SEARCH
-
-      // // BEGIN:DELETE 
-      // start = time();
-      // for (let j = 0; j < INPUT_COUNT; j++) {
-      //   let value = input[j];
-      //   tree.delete(value);
-      // }
-      // end = time();
-      // cost = performance(start, end)
-      // result.DELETE.push(cost);
-      // result.DELETE_SUM += cost
-      // // END:DELETE 
-
       tree = new Tree()
-
-      // BEGIN:MIX
+      // BEGIN: MIX
       start = time();
       let i = s = d = 0;
       for (let j = 0; j < INPUT_COUNT; j++) {
@@ -131,7 +85,7 @@ function BenchmarkTest(trees, count) {
       cost = performance(start, end)
       result.MIX.push(cost);
       result.MIX_SUM += cost
-      // END:MIX
+      // END: MIX
     }
     count--;
   }
@@ -160,9 +114,8 @@ class SetFakeTree {
 }
 
 // TEST: 
-
-let BinarySearchTree = require("../BinarySearchTree")
-let AVLTree = require("../AVLTree")
+let BinarySearchTree = require("../BinarySearchTree");
+let AVLTree = require("../AVLTree");
 
 console.log(BenchmarkTest([{
   Tree: SetFakeTree,

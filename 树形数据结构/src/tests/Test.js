@@ -17,10 +17,13 @@ const array = [6, 19, 4, 18, 12, 8, 2, 5, 16, 11, 7, 9, 14, 15, 1, 3, 10, 0, 13,
 // INSERT
 for (let i = 0; i < array.length; i++) {
   tree.insert(array[i]);
-  tree.height();
+  console.log(tree.height);
+  // console.log(tree.print());
+  assert(tree.size === i + 1, `${tree.size}===${i+1}(${array[i]})`);
   assert(tree.validate(), `bst.validate()`);
 }
-assert(tree.count() === array.length, `${tree.count()}===array.length`);
+console.log(tree.print());
+assert(tree.size === array.length, `${tree.size}==={array.length}`);
 assert(tree.inOrderTraverse().sort((a, b) => a - b).equals([...array].sort((a, b) => a - b)), `${tree.inOrderTraverse()}.equals(${array})`);
 
 // SEARCH
@@ -32,20 +35,20 @@ for (let i = 0; i < array.length; i++) {
 while (array.length) {
   let num = array.shift();
   tree.delete(num);
-  tree.height();
+  tree.height;
   assert(tree.inOrderTraverse().sort((a, b) => a - b).equals([...array].sort((a, b) => a - b)), `${tree.inOrderTraverse()}.equals(${array})`);
   assert(!tree.search(num), `bst.search(${num})`);
   assert(tree.validate(), `bst.validate()`);
 
   num = array.pop();
   tree.delete(num);
-  tree.height();
+  tree.height;
   assert(tree.validate(), `bst.validate()`);
   assert(tree.inOrderTraverse().sort((a, b) => a - b).equals([...array].sort((a, b) => a - b)), `${tree.inOrderTraverse()}.equals(${array})`);
   assert(!tree.search(num), `bst.search(${num})`);
 }
 
-assert(tree.count() === 0, `bst.count()===0`);
+assert(tree.size === 0, `bst.size===0`);
 
 // END: Normal Test
 
@@ -54,18 +57,18 @@ for (let i = 0; i < TEST_COUNT; i++) {
   let value = Random();
   tree.insert(value);
   set.add(value);
-  tree.height();
+  tree.height;
   assert(tree.validate(), `bst.validate()`);
   assert(tree.search(value), `bst.search(${value})`);
-  assert(tree.count() === set.size, `${tree.count()} = ${set.size}`);
+  assert(tree.size === set.size, `${tree.size} = ${set.size}`);
 }
 
 for (let i = 0; i < TEST_COUNT; i++) {
   let value = Random();
   tree.delete(value);
   set.delete(value);
-  tree.height();
+  tree.height;
   assert(tree.validate(), `bst.validate()`);
   assert(!tree.search(value), `bst.search(${value})`);
-  assert(tree.count() === set.size, `${tree.count()} = ${set.size}`);
+  assert(tree.size === set.size, `${tree.size} = ${set.size}`);
 }
