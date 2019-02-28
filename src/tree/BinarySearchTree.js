@@ -1,5 +1,5 @@
-const Node = require("./common/BinarySearchTreeNode");
-const Comparator = require("./common/Comparator");
+const Node = require("./BinarySearchTreeNode");
+const Comparator = require("../common/Comparator");
 
 /**
  * 二叉查找树

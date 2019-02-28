@@ -1,0 +1,29 @@
+{
+  "name": "notebook-algorithm",
+  "version": "1.0.0",
+  "description": "algorithm",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dp9u0/Notebook-Algorithm.git"
+  },
+  "keywords": [
+    "algorithm"
+  ],
+  "author": "guodp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dp9u0/Notebook-Algorithm/issues"
+  },
+  "homepage": "https://github.com/dp9u0/Notebook-Algorithm#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2"
+  }
+}

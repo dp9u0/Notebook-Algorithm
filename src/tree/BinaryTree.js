@@ -24,22 +24,29 @@ function _arrayToTree(array) {
   if (!array.length || !array[0]) {
     return null;
   }
+  const isNull = (value) => {
+    return value === null || value === undefined;
+  }
   let root = new BinaryTreeNode(array.shift());
   let q = [root];
   while (array.length) {
     let node = q.shift();
-    if (!node) {
-      throw new Error('unvalid array')
+    let left = array.shift();
+    let right = array.shift();
+    if (!node && !(isNull(left) && isNull(right))) {
+      throw new Error("invalid array");
     }
-    if (array[0] !== null && array[0] !== undefined) {
-      let left = new BinaryTreeNode(array.shift());
-      _setLeft(node, left);
-      q.push(left);
+    if (!isNull(left)) {
+      node._left = new BinaryTreeNode(left);
+      q.push(node._left);
+    } else {
+      q.push(null);
     }
-    if (array[0] !== null && array[0] !== undefined) {
-      let right = new BinaryTreeNode(array.shift());
-      _setRight(node, right);
-      q.push(right);
+    if (!isNull(right)) {
+      node._right = new BinaryTreeNode(right);
+      q.push(node._right);
+    } else {
+      q.push(null);
     }
   }
   return root;

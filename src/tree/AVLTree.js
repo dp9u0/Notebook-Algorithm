@@ -1,5 +1,5 @@
-let Node = require('./common/AVLTreeNode')
-const Comparator = require("./common/Comparator");
+let Node = require('./AVLTreeNode')
+const Comparator = require("../common/Comparator");
 
 /**
  * AVLTree
