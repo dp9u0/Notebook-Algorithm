@@ -1,29 +1,63 @@
 const BinarySearchTree = require("../src/tree/BinarySearchTree");
 const expect = require('chai').expect;
 
+const INPUT_COUNT = 1e5;
+const INPUT_MAX = 1e3;
+
+// const INPUT_COUNT = 1;
+// const INPUT_MAX = 1;
 
 describe('BinarySearchTree', function () {
   describe('#insert()', function () {
-    it(`insert should work ok`, function () {
-      const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
-      let tree = new BinarySearchTree();
-      for (let i = 0; i < input.length; i++) {
-        const element = input[i];
-        tree.insert(element);
-        expect(tree.validate()).to.be.true;
-        expect(tree.size, `tree size should be ${i+1}`).to.equal(i + 1);
-      }
+    // [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
+    it(`insert to an empty tree , inserted element should be root`, function () {
+      const input = [];
+      let set = new Set(input);
+      let tree = BinarySearchTree.fromArray(input);
+      let element = 8;
+      tree.insert(element);
+      set.add(element)
+      let insertedNode = tree.root;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(insertedNode.value, `inserted element should be ${element}`).to.equal(element);
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
     });
 
-    it(`insert should work ok`, function () {
-      const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15].sort((a, b) => a - b);
-      let tree = new BinarySearchTree();
-      for (let i = 0; i < input.length; i++) {
-        const element = input[i];
-        tree.insert(element);
-        expect(tree.validate()).to.be.true;
-        expect(tree.size, `tree size should be ${i+1}`).to.equal(i + 1);
-      }
+    it(`insert left`, function () {
+      const input = [8];
+      let set = new Set(input);
+      let tree = BinarySearchTree.fromArray(input);
+      let element = 4;
+      tree.insert(element);
+      set.add(element)
+      let insertedNode = tree.root.left;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(insertedNode.value, `inserted element should be ${element}`).to.equal(element);
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+    });
+
+    it(`insert right`, function () {
+      const input = [8, null];
+      let set = new Set(input);
+      let tree = BinarySearchTree.fromArray(input);
+      let element = 12;
+      tree.insert(element);
+      set.add(element)
+      let insertedNode = tree.root.right;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(insertedNode.value, `inserted element should be ${element}`).to.equal(element);
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+    });
+
+    it(`insert exist element`, function () {
+      const input = [8, 4, 12, 2, 6];
+      let set = new Set(input);
+      let tree = BinarySearchTree.fromArray(input);
+      let element = 4;
+      tree.insert(element);
+      set.add(element)
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
     });
   });
 
@@ -41,45 +75,128 @@ describe('BinarySearchTree', function () {
   });
 
   describe('#delete()', function () {
-    it(`delete should work ok(sorted)`, function () {
+    it(`delete root should work ok`, function () {
       const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
+      let set = new Set(input);
       let tree = BinarySearchTree.fromArray(input);
-      let array = [...input].sort((a, b) => a - b)
-      for (let i = 0; i < array.length; i++) {
-        tree.delete(array[i]);
-        expect(tree.validate(), `after delete ${array[i]} ,bst should be validate`).to.be.true;
-        expect(tree.size, `tree size should be ${array.length - (i + 1)}`).to.equal(array.length - (i + 1));
-      }
+      let element = 8;
+      tree.delete(element);
+      set.delete(element);
+      let node = tree.root;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 9`).to.equal(9);
     });
 
-    it(`delete should work ok(sorted desc)`, function () {
-      const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
+    it(`delete single root should work ok`, function () {
+      const input = [8];
+      let set = new Set(input);
       let tree = BinarySearchTree.fromArray(input);
-      let array = [...input].sort((a, b) => b - a);
-      for (let i = 0; i < array.length; i++) {
-        tree.delete(array[i]);
-        expect(tree.validate(), `after delete ${array[i]} ,bst should be validate`).to.be.true;
-        expect(tree.size, `tree size should be ${array.length - (i + 1)}`).to.equal(array.length - (i + 1));
-      }
+      let element = 8;
+      tree.delete(element);
+      set.delete(element);
+      let node = tree.root;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node, `new root should be null`).to.be.null;
     });
 
-    it(`delete should work ok(random)`, function () {
-      let tree = BinarySearchTree.fromArray([8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]);
-      let array = [9, 12, 8, 4, 14, 1, 3, 5, 7, 11, 13, 15, 2, 6, 10]
-      for (let i = 0; i < array.length; i++) {
-        tree.delete(array[i]);
-        expect(tree.validate(), `after delete ${array[i]} ,bst should be validate`).to.be.true;
-        expect(tree.size, `tree size should be ${array.length - (i + 1)}`).to.equal(array.length - (i + 1));
-      }
+    it(`delete left(left has full child) should work ok`, function () {
+      const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
+      let set = new Set(input);
+      let tree = BinarySearchTree.fromArray(input);
+      let element = 4;
+      tree.delete(element);
+      set.delete(element);
+      let node = tree.root.left;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 5`).to.equal(5);
+    });
+
+    it(`delete left(left has no child) should work ok`, function () {
+      const input = [8, 4, 12];
+      let set = new Set(input);
+      let tree = BinarySearchTree.fromArray(input);
+      let element = 4;
+      tree.delete(element);
+      set.delete(element);
+      let node = tree.root.left;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node, `new root should be null`).to.be.null;
+    });
+
+    it(`delete left(left only has left) should work ok`, function () {
+      const input = [8, 4, 12, 2, null, 10, 14, 1, 3, null, null, 9, 11, 13, 15];
+      let set = new Set(input);
+      let tree = BinarySearchTree.fromArray(input);
+      let element = 4;
+      tree.delete(element);
+      set.delete(element);
+      let node = tree.root.left;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 2`).to.equal(2);
+    });
+
+    it(`delete left(left only has right) should work ok`, function () {
+      const input = [8, 4, 12, null, 6, 10, 14, null, null, 5, 7, 9, 11, 13, 15];
+      let set = new Set(input);
+      let tree = BinarySearchTree.fromArray(input);
+      let element = 4;
+      tree.delete(element);
+      set.delete(element);
+      let node = tree.root.left;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 5`).to.equal(5);
+    });
+
+
+    it(`delete left(left only has right,and right min is left child) should work ok`, function () {
+      const input = [8, 4, 12, null, 6, 10, 14, null, null, null, 7, 9, 11, 13, 15];
+      let set = new Set(input);
+      let tree = BinarySearchTree.fromArray(input);
+      let element = 4;
+      tree.delete(element);
+      set.delete(element);
+      let node = tree.root.left;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 6`).to.equal(6);
+    });
+
+    it(`delete right(right has full child) should work ok`, function () {
+      const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
+      let set = new Set(input);
+      let tree = BinarySearchTree.fromArray(input);
+      let element = 12;
+      tree.delete(element);
+      set.delete(element);
+      let node = tree.root.right;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 13`).to.equal(13);
+    });
+
+    it(`delete right(right has no child) should work ok`, function () {
+      const input = [8, 4, 12];
+      let set = new Set(input);
+      let tree = BinarySearchTree.fromArray(input);
+      let element = 12;
+      tree.delete(element);
+      set.delete(element);
+      let node = tree.root.right;
+      expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node, `new root should be null`).to.be.null;
     });
   });
 
   describe('#randomTest()', function () {
     this.timeout(30000);
     it(`randomTest should work ok()`, function (done) {
-      const INPUT_COUNT = 1e5;
-      const INPUT_MAX = 1e3;
-
       function Random() {
         return ~~(Math.random() * INPUT_MAX);
       }
