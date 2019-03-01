@@ -53,16 +53,6 @@ function _arrayToTree(array) {
 }
 
 /**
- * check
- * @param {*} value 
- */
-function _assetNotNull(value) {
-  if (!value) {
-    throw new ReferenceError("argument cannot be null");
-  }
-}
-
-/**
  * 替换节点
  * @param {BinaryTreeNode} node 
  * @param {BinaryTreeNode} newNode 
@@ -75,7 +65,7 @@ function _replace(node, newNode) {
     } else {
       _setRight(parent, newNode);
     }
-  } else {
+  } else if (newNode) {
     newNode._parent = null;
   }
   return newNode;

@@ -114,9 +114,8 @@ class SetFakeTree {
 }
 
 // TEST: 
-let BinarySearchTree = require("../../src/tree/BinarySearchTree");
 let AVLTree = require("../../src/tree/AVLTree");
-
+let BinarySearchTree = require("../../src/tree/BinarySearchTree")
 console.log(BenchmarkTest([{
   Tree: SetFakeTree,
   desc: "Set"
@@ -124,6 +123,6 @@ console.log(BenchmarkTest([{
   Tree: BinarySearchTree,
   desc: 'BinarySearchTree'
 }, {
-  Tree: BinarySearchTree,
+  Tree: AVLTree,
   desc: 'AVLTree'
 }], TEST_COUNT))
