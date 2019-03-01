@@ -5,9 +5,11 @@
   "main": "index.js",
   "directories": {
     "test": "test"
+    
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "testdebug":"mocha --debug-brk"
   },
   "repository": {
     "type": "git",

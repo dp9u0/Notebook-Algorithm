@@ -1,5 +1,5 @@
 /**
- * 
+ * BinaryTreeNode
  */
 class BinaryTreeNode {
 
@@ -16,8 +16,8 @@ class BinaryTreeNode {
 }
 
 /** 
- * 
- * @param {number[]} voyage 
+ * 完全二叉树数组形式转换成 BinaryTree 并返回 root 节点
+ * @param {number[]} array 
  * @return {BinaryTreeNode}
  */
 function _arrayToTree(array) {
@@ -37,13 +37,13 @@ function _arrayToTree(array) {
       throw new Error("invalid array");
     }
     if (!isNull(left)) {
-      node._left = new BinaryTreeNode(left);
+      _setLeft(node, new BinaryTreeNode(left));
       q.push(node._left);
     } else {
       q.push(null);
     }
     if (!isNull(right)) {
-      node._right = new BinaryTreeNode(right);
+      _setRight(node, new BinaryTreeNode(right));
       q.push(node._right);
     } else {
       q.push(null);
@@ -53,7 +53,7 @@ function _arrayToTree(array) {
 }
 
 /**
- * 
+ * check
  * @param {*} value 
  */
 function _assetNotNull(value) {
@@ -63,7 +63,7 @@ function _assetNotNull(value) {
 }
 
 /**
- * 
+ * 替换节点
  * @param {BinaryTreeNode} node 
  * @param {BinaryTreeNode} newNode 
  */
@@ -75,11 +75,14 @@ function _replace(node, newNode) {
     } else {
       _setRight(parent, newNode);
     }
+  } else {
+    newNode._parent = null;
   }
+  return newNode;
 }
 
 /**
- * 
+ * 移除节点
  * @param {BinaryTreeNode} node 
  */
 function _remove(node) {
@@ -87,7 +90,7 @@ function _remove(node) {
 }
 
 /**
- * 
+ * 设置左子树
  * @param {BinaryTreeNode} node 
  * @param {BinaryTreeNode} left 
  */
@@ -101,7 +104,7 @@ function _setLeft(node, left) {
 }
 
 /**
- * 
+ * 设置右子树
  * @param {BinaryTreeNode} node 
  * @param {BinaryTreeNode} right 
  */
@@ -115,7 +118,7 @@ function _setRight(node, right) {
 }
 
 /**
- * 
+ * 获取叔父节点
  * @param {BinaryTreeNode} node 
  * @return {BinaryTreeNode}
  */
@@ -129,7 +132,7 @@ function _getUncle(node) {
 }
 
 /**
- * 
+ * 左子树大小
  * @param {BinaryTreeNode} node 
  */
 function _leftSize(node) {
@@ -137,7 +140,7 @@ function _leftSize(node) {
 }
 
 /**
- * 
+ * 右子树大小
  * @param {BinaryTreeNode} node 
  */
 function _rightSize(node) {
@@ -145,7 +148,7 @@ function _rightSize(node) {
 }
 
 /**
- * 
+ * 左子树高度
  * @param {BinaryTreeNode} node 
  */
 function _leftHeight(node) {
@@ -153,7 +156,7 @@ function _leftHeight(node) {
 }
 
 /**
- * 
+ * 右子树高度
  * @param {BinaryTreeNode} node 
  */
 function _rightHeight(node) {
@@ -161,7 +164,7 @@ function _rightHeight(node) {
 }
 
 /**
- * 
+ * 树大小
  * @param {BinaryTreeNode} node 
  */
 function _size(node) {
@@ -170,7 +173,7 @@ function _size(node) {
 }
 
 /**
- * 
+ * 树高度
  * @param {BinaryTreeNode} node 
  */
 function _height(node) {
@@ -181,7 +184,7 @@ function _height(node) {
 }
 
 /**
- * 
+ * 中序遍历
  * @param {BinaryTreeNode} node 
  */
 function _inOrderTraverse(node) {
@@ -196,7 +199,7 @@ function _inOrderTraverse(node) {
 }
 
 /**
- * 
+ * 将二叉树输出为可打印格式的数组
  * @param {BinaryTreeNode} node 
  */
 function _print(node) {
@@ -217,7 +220,7 @@ function _print(node) {
 }
 
 /**
- * 
+ * 节点右旋
  * @param {BinaryTreeNode} node 
  */
 function _rotateRight(node) {
@@ -225,12 +228,13 @@ function _rotateRight(node) {
   let nodeLeftRight = node._left._right;
   _setLeft(node, null);
   _replace(node, nodeLeft);
-  _setLeft(node, nodeLeftRight);
   _setRight(nodeLeft, node);
+  _setLeft(node, nodeLeftRight);
+  return nodeLeft;
 }
 
 /**
- * 
+ * 节点左旋
  * @param {BinaryTreeNode} node 
  */
 function _rotateLeft(node) {
@@ -238,8 +242,38 @@ function _rotateLeft(node) {
   let nodeRightLeft = node._right._left;
   _setRight(node, null);
   _replace(node, nodeRight);
-  _setRight(node, nodeRightLeft);
   _setLeft(nodeRight, node);
+  _setRight(node, nodeRightLeft);
+  return nodeRight;
+}
+
+/**
+ * validate if a node has BinaryTree structure
+ * @param {BinaryTreeNode} root 
+ */
+function _validate(root) {
+  let q = [root];
+  let set = new Set();
+  while (q.length) {
+    let node = q.shift();
+    if (set.has(node)) {
+      return false;
+    }
+    set.add(node);
+    if (node._left) {
+      if (node._left._parent !== node) {
+        return false;
+      }
+      q.push(node._left);
+    }
+    if (node._right) {
+      if (node._right._parent !== node) {
+        return false;
+      }
+      q.push(node._right);
+    }
+  }
+  return true;
 }
 
 // Export
@@ -260,4 +294,5 @@ module.exports = {
   _rotateRight,
   _inOrderTraverse,
   _print,
+  _validate
 }
