@@ -117,7 +117,7 @@ class BinarySearchTreeNode {
 
   /**
    * Get left child
-   * @return {BinaryTreeNode}
+   * @return {BinarySearchTree}
    */
   get left() {
     return this._left;
@@ -125,7 +125,7 @@ class BinarySearchTreeNode {
 
   /**
    * Set left child
-   * @param {BinaryTreeNode} node
+   * @param {BinarySearchTree} node
    */
   set left(node) {
     _setLeft(this, node);
@@ -133,7 +133,7 @@ class BinarySearchTreeNode {
 
   /**
    * Get right child
-   * @return {BinaryTreeNode}
+   * @return {BinarySearchTree}
    */
   get right() {
     return this._right;
@@ -141,7 +141,7 @@ class BinarySearchTreeNode {
 
   /**
    * Set right child
-   * @param {BinaryTreeNode} node
+   * @param {BinarySearchTree} node
    */
   set right(node) {
     _setRight(this, node);
@@ -182,8 +182,8 @@ class BinarySearchTreeNode {
    * 验证是否是个BST
    */
   validate() {
-    return (!this.left || (this.comparator.lessThan(this.left.value, this.value) && this.left.validate())) &&
-      (!this.right || (this.comparator.greaterThan(this.right.value, this.value) && this.right.validate()));
+    return (!this.left || (this.left._parent === this && this.comparator.lessThan(this.left.value, this.value) && this.left.validate())) &&
+      (!this.right || (this.right._parent === this && this.comparator.greaterThan(this.right.value, this.value) && this.right.validate()));
   }
 }
 

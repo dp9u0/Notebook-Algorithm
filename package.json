@@ -8,9 +8,9 @@
     
   },
   "scripts": {
-    "test": "mocha",
-    "testdebug":"mocha --debug-brk",
-    "benchmark":"node ./test/benchmark/tree.test.js"
+    "test": "mocha ./test/index.js",
+    "testdebug":"mocha --debug-brk ./test/index.js",
+    "benchmark":"node ./test/benchmark/index.js"
   },
   "repository": {
     "type": "git",

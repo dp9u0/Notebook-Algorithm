@@ -93,7 +93,7 @@ function BenchmarkTest(trees, count) {
 }
 
 /**
- * Benckmark
+ * Benckmark SetFakeTree
  */
 class SetFakeTree {
   constructor() {
@@ -120,9 +120,9 @@ console.log(BenchmarkTest([{
   Tree: SetFakeTree,
   desc: "Set"
 }, {
-  Tree: BinarySearchTree,
-  desc: 'BinarySearchTree'
-}, {
   Tree: AVLTree,
   desc: 'AVLTree'
+}, {
+  Tree: BinarySearchTree,
+  desc: 'BinarySearchTree'
 }], TEST_COUNT))

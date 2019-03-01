@@ -1,4 +1,4 @@
-const BinarySearchTree = require("../src/tree/BinarySearchTree");
+const Tree = require("../src/tree/BinarySearchTree");
 const expect = require('chai').expect;
 
 const INPUT_COUNT = 1e5;
@@ -13,7 +13,7 @@ describe('BinarySearchTree', function () {
     it(`insert to an empty tree , inserted element should be root`, function () {
       const input = [];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 8;
       tree.insert(element);
       set.add(element)
@@ -26,7 +26,7 @@ describe('BinarySearchTree', function () {
     it(`insert left`, function () {
       const input = [8];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 4;
       tree.insert(element);
       set.add(element)
@@ -39,7 +39,7 @@ describe('BinarySearchTree', function () {
     it(`insert right`, function () {
       const input = [8, null];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 12;
       tree.insert(element);
       set.add(element)
@@ -52,7 +52,7 @@ describe('BinarySearchTree', function () {
     it(`insert exist element`, function () {
       const input = [8, 4, 12, 2, 6];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 4;
       tree.insert(element);
       set.add(element)
@@ -64,7 +64,7 @@ describe('BinarySearchTree', function () {
   describe('#search()', function () {
     it(`search should work ok`, function () {
       const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       for (let i = 0; i < input.length; i++) {
         const element = input[i];
         expect(tree.search(element), `tree should contains ${element}`).to.be.true;
@@ -78,7 +78,7 @@ describe('BinarySearchTree', function () {
     it(`delete root should work ok`, function () {
       const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 8;
       tree.delete(element);
       set.delete(element);
@@ -91,7 +91,7 @@ describe('BinarySearchTree', function () {
     it(`delete single root should work ok`, function () {
       const input = [8];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 8;
       tree.delete(element);
       set.delete(element);
@@ -104,7 +104,7 @@ describe('BinarySearchTree', function () {
     it(`delete left(left has full child) should work ok`, function () {
       const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 4;
       tree.delete(element);
       set.delete(element);
@@ -117,7 +117,7 @@ describe('BinarySearchTree', function () {
     it(`delete left(left has no child) should work ok`, function () {
       const input = [8, 4, 12];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 4;
       tree.delete(element);
       set.delete(element);
@@ -130,7 +130,7 @@ describe('BinarySearchTree', function () {
     it(`delete left(left only has left) should work ok`, function () {
       const input = [8, 4, 12, 2, null, 10, 14, 1, 3, null, null, 9, 11, 13, 15];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 4;
       tree.delete(element);
       set.delete(element);
@@ -143,7 +143,7 @@ describe('BinarySearchTree', function () {
     it(`delete left(left only has right) should work ok`, function () {
       const input = [8, 4, 12, null, 6, 10, 14, null, null, 5, 7, 9, 11, 13, 15];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 4;
       tree.delete(element);
       set.delete(element);
@@ -157,7 +157,7 @@ describe('BinarySearchTree', function () {
     it(`delete left(left only has right,and right min is left child) should work ok`, function () {
       const input = [8, 4, 12, null, 6, 10, 14, null, null, null, 7, 9, 11, 13, 15];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 4;
       tree.delete(element);
       set.delete(element);
@@ -170,7 +170,7 @@ describe('BinarySearchTree', function () {
     it(`delete right(right has full child) should work ok`, function () {
       const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 12;
       tree.delete(element);
       set.delete(element);
@@ -183,7 +183,7 @@ describe('BinarySearchTree', function () {
     it(`delete right(right has no child) should work ok`, function () {
       const input = [8, 4, 12];
       let set = new Set(input);
-      let tree = BinarySearchTree.fromArray(input);
+      let tree = Tree.fromArray(input);
       let element = 12;
       tree.delete(element);
       set.delete(element);
@@ -231,7 +231,7 @@ describe('BinarySearchTree', function () {
       }
       const input = randomArray(INPUT_COUNT);
       const ops = randomOp(INPUT_COUNT);
-      let tree = new BinarySearchTree();
+      let tree = new Tree();
       let set = new Set();
       let i = s = d = 0;
       for (let j = 0; j < INPUT_COUNT; j++) {
