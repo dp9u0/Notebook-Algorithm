@@ -1,17 +1,9 @@
-const INPUT_COUNT = 1e8;
+const INPUT_COUNT = 1e6;
 const INPUT_MAX = 1e6;
 const TEST_COUNT = 5;
 
-function time() {
-  return process.hrtime();
-};
-
-function performance(start, end) {
-  return ~~(((end[0] * 1e9 + end[1]) - (start[0] * 1e9 + start[1])) / 1e6)
-}
-
 function Random(max) {
-  return ~~(Math.random() * max); 
+  return ~~(Math.random() * max);
 }
 
 function Random10() {
@@ -47,11 +39,10 @@ function BenchmarkTest(trees, testcount, inputcount, inputmax) {
   let results = {};
   trees.forEach((tree, index) => {
     tree.desc = tree.desc || index;
-    results[tree.desc] = {
-      MIX_SUM: 0,
-    }
+    results[tree.desc] = {}
   });
   const input = randomArray(inputcount, inputmax);
+  console.log(`benchmark start :${inputcount} ${inputmax}`);
   while (testcount) {
     const ops = randomOp(inputcount);
     for (let n = 0; n < trees.length; n++) {
@@ -60,18 +51,17 @@ function BenchmarkTest(trees, testcount, inputcount, inputmax) {
         desc
       } = trees[n];
       let result = results[desc];
-      tree = new Tree()
+      tree = new Tree();
       // BEGIN: MIX
+      console.time(desc);
       let {
-        cost,
-        height,
-        size
+        height
       } = testOnce(input, ops, Tree)
-      result[testcount] = cost + "(" + height + "," + size + ")";
-      // result[count] = cost;
-      result.MIX_SUM += cost;
+      console.timeEnd(desc);
+      result[testcount] = height;
       // END: MIX
     }
+    console.table(results);
     testcount--;
   }
   return results;
@@ -79,10 +69,10 @@ function BenchmarkTest(trees, testcount, inputcount, inputmax) {
 
 
 function testOnce(input, ops, Tree) {
-  tree = new Tree()
+  tree = new Tree();
+  let length = input.length;
   // BEGIN: MIX
-  start = time();
-  for (let j = 0; j < INPUT_COUNT; j++) {
+  for (let j = 0; j < length; j++) {
     let op = ops[j];
     let value = input[j];
     if (op === 1) {
@@ -93,10 +83,7 @@ function testOnce(input, ops, Tree) {
       tree.insert(value);
     }
   }
-  end = time();
-  cost = performance(start, end);
   return {
-    cost,
     height: tree.height,
     size: tree.size
   }
@@ -134,7 +121,7 @@ class SetFakeTree {
 // TEST: 
 let AVLTree = require("../../src/tree/AVLTree");
 let BinarySearchTree = require("../../src/tree/BinarySearchTree");
-let result = BenchmarkTest([{
+let trees = [{
   Tree: SetFakeTree,
   desc: "Set"
 }, {
@@ -143,5 +130,7 @@ let result = BenchmarkTest([{
 }, {
   Tree: BinarySearchTree,
   desc: 'BinarySearchTree'
-}], TEST_COUNT, INPUT_COUNT, INPUT_MAX)
-console.table(result)
+}]
+
+BenchmarkTest(trees, TEST_COUNT, INPUT_COUNT, INPUT_MAX)
+// BenchmarkTest(trees, TEST_COUNT, INPUT_COUNT * 10, INPUT_MAX)
