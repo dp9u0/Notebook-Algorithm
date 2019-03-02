@@ -1,5 +1,5 @@
 const INPUT_COUNT = 1e8;
-const INPUT_MAX = 1e5;
+const INPUT_MAX = 1e6;
 const TEST_COUNT = 5;
 
 function time() {
@@ -11,17 +11,17 @@ function performance(start, end) {
 }
 
 function Random(max) {
-  return ~~(Math.random() * max);
+  return ~~(Math.random() * max); 
 }
 
 function Random10() {
   return ~~(Math.random() * 10);
 }
 
-function randomArray(count) {
+function randomArray(count, inputmax) {
   let array = [];
   while (count) {
-    array.push(Random(INPUT_MAX));
+    array.push(Random(inputmax));
     count--;
   }
   return array;
@@ -43,7 +43,7 @@ function randomOp(count) {
   return ops;
 }
 
-function BenchmarkTest(trees, count) {
+function BenchmarkTest(trees, testcount, inputcount, inputmax) {
   let results = {};
   trees.forEach((tree, index) => {
     tree.desc = tree.desc || index;
@@ -51,9 +51,9 @@ function BenchmarkTest(trees, count) {
       MIX_SUM: 0,
     }
   });
-  const input = randomArray(INPUT_COUNT);
-  while (count) {
-    const ops = randomOp(INPUT_COUNT);
+  const input = randomArray(inputcount, inputmax);
+  while (testcount) {
+    const ops = randomOp(inputcount);
     for (let n = 0; n < trees.length; n++) {
       const {
         Tree,
@@ -62,28 +62,44 @@ function BenchmarkTest(trees, count) {
       let result = results[desc];
       tree = new Tree()
       // BEGIN: MIX
-      start = time();
-      for (let j = 0; j < INPUT_COUNT; j++) {
-        let op = ops[j];
-        let value = input[j];
-        if (op === 1) {
-          tree.delete(value);
-        } else if (op === 2) {
-          tree.search(value);
-        } else {
-          tree.insert(value);
-        }
-      }
-      end = time();
-      cost = performance(start, end)
-      result[count] = cost + "(" + tree.height + "," + tree.size + ")";
+      let {
+        cost,
+        height,
+        size
+      } = testOnce(input, ops, Tree)
+      result[testcount] = cost + "(" + height + "," + size + ")";
       // result[count] = cost;
       result.MIX_SUM += cost;
       // END: MIX
     }
-    count--;
+    testcount--;
   }
   return results;
+}
+
+
+function testOnce(input, ops, Tree) {
+  tree = new Tree()
+  // BEGIN: MIX
+  start = time();
+  for (let j = 0; j < INPUT_COUNT; j++) {
+    let op = ops[j];
+    let value = input[j];
+    if (op === 1) {
+      tree.delete(value);
+    } else if (op === 2) {
+      tree.search(value);
+    } else {
+      tree.insert(value);
+    }
+  }
+  end = time();
+  cost = performance(start, end);
+  return {
+    cost,
+    height: tree.height,
+    size: tree.size
+  }
 }
 
 /**
@@ -127,5 +143,5 @@ let result = BenchmarkTest([{
 }, {
   Tree: BinarySearchTree,
   desc: 'BinarySearchTree'
-}], TEST_COUNT)
+}], TEST_COUNT, INPUT_COUNT, INPUT_MAX)
 console.table(result)
