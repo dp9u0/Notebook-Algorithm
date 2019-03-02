@@ -10,7 +10,7 @@
   "scripts": {
     "test": "mocha ./test/index.js",
     "testdebug":"mocha --debug-brk ./test/index.js",
-    "benchmark":"node ./test/benchmark/index.js"
+    "benchmark":"node --max-old-space-size=8192 ./test/benchmark/index.js"
   },
   "repository": {
     "type": "git",

@@ -178,10 +178,10 @@ function _getUncleTest() {
 }
 
 function _sizeTest() {
-  let array = [6, 19, 4, 18, 12, 8, 2, 5, 16, 11, 7, 9, 14, 15, 1, 3, 10, 0, 13, 17];
-  let root = _arrayToTree([...array]);
   describe('BinaryTree', function () {
     describe('#_size()', function () {
+      let array = [6, 19, 4, 18, 12, 8, 2, 5, 16, 11, 7, 9, 14, 15, 1, 3, 10, 0, 13, 17];
+      let root = _arrayToTree([...array]);
       it(`size of tree should be ${array.length}`, function () {
         expect(_size(root)).to.equal(array.length);
       });
@@ -190,11 +190,11 @@ function _sizeTest() {
 }
 
 function _heightTest() {
-  let array = [6, 19, 4, 18, 12, 8, 2, 5, 16, 11, 7, 9, 14, 15, 1, 3, 10, 0, 13, 17];
-  let root = _arrayToTree([...array]);
   describe('BinaryTree', function () {
-    describe('#_size()', function () {
-      it(`size of the tree should be 5`, function () {
+    describe('#_height()', function () {
+      let array = [6, 19, 4, 18, 12, 8, 2, 5, 16, 11, 7, 9, 14, 15, 1, 3, 10, 0, 13, 17];
+      let root = _arrayToTree([...array]);
+      it(`height of the tree should be 5`, function () {
         expect(_height(root)).to.equal(5);
       });
     });
@@ -521,7 +521,7 @@ function _printTest() {
         if (el) {
           let index = arr.indexOf(Number(el));
           if (index === -1) {
-            throw new Error(`cannot find ${el} in ${array}`)
+            throw new Error(`cannot find ${Number(el)} in ${arr}`)
           }
           arr.splice(index, 1);
         }

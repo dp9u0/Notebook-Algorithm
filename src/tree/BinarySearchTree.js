@@ -11,6 +11,44 @@ const {
 const Comparator = require("../common/Comparator");
 
 /**
+ * _validate node is bst or not
+ * @param {BinarySearchTreeNode} node
+ * @return {Boolean} is bst or not
+ */
+function _validate(node) {
+  if (!node) {
+    return true;
+  }
+  let nodes = [node];
+  let set = new Set();
+  let comparator = node.comparator;
+  while (nodes.length) {
+    node = nodes.pop();
+    if (set.has(node)) {
+      return false;
+    }
+    set.add(node);
+    let {
+      _left: left,
+      _right: right
+    } = node;
+    if (left) {
+      if (left._parent !== node || !comparator.lessThan(left.value, node.value)) {
+        return false;
+      }
+      nodes.push(left);
+    }
+    if (right) {
+      if (right._parent !== node || !comparator.greaterThan(right.value, node.value)) {
+        return false;
+      }
+      nodes.push(right);
+    }
+  }
+  return true;
+}
+
+/**
  * BinarySearchTreeNode
  */
 class BinarySearchTreeNode {
@@ -182,8 +220,7 @@ class BinarySearchTreeNode {
    * 验证是否是个BST
    */
   validate() {
-    return (!this.left || (this.left._parent === this && this.comparator.lessThan(this.left.value, this.value) && this.left.validate())) &&
-      (!this.right || (this.right._parent === this && this.comparator.greaterThan(this.right.value, this.value) && this.right.validate()));
+    return _validate(this);
   }
 }
 

@@ -1,11 +1,8 @@
 const Tree = require("../src/tree/BinarySearchTree");
 const expect = require('chai').expect;
 
-const INPUT_COUNT = 1e5;
-const INPUT_MAX = 1e3;
-
-// const INPUT_COUNT = 1;
-// const INPUT_MAX = 1;
+const INPUT_COUNT = 1e4;
+const INPUT_MAX = 1e2;
 
 describe('BinarySearchTree', function () {
   describe('#insert()', function () {

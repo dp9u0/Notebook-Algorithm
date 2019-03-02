@@ -1,24 +1,57 @@
 const {
-  _arrayToTree,
   _setLeft,
   _setRight,
   _replace,
-  _remove,
-  _getUncle,
-  _size,
   _height,
-  _leftHeight,
-  _leftSize,
-  _rightHeight,
-  _rightSize,
   _rotateLeft,
   _rotateRight,
   _inOrderTraverse,
   _print,
-  _validate
 } = require("./BinaryTree");
 
 const Comparator = require("../common/Comparator");
+
+/**
+ * _validate node is AVL Tree or not
+ * @param {AVLTreeNode} node
+ * @return {Boolean} is AVL Tree or not
+ */
+function _validate(node) {
+  if (!node) {
+    return true;
+  }
+  let nodes = [node];
+  let set = new Set();
+  let comparator = node.comparator;
+  while (nodes.length) {
+    node = nodes.pop();
+    if (set.has(node)) {
+      return false;
+    }
+    set.add(node);
+    let balanceFactor = _height(node.left) - _height(node.right);
+    if (Math.abs(balanceFactor) > 2) {
+      return false;
+    }
+    let {
+      _left: left,
+      _right: right
+    } = node;
+    if (left) {
+      if (left._parent !== node || !comparator.lessThan(left.value, node.value)) {
+        return false;
+      }
+      nodes.push(left);
+    }
+    if (right) {
+      if (right._parent !== node || !comparator.greaterThan(right.value, node.value)) {
+        return false;
+      }
+      nodes.push(right);
+    }
+  }
+  return true;
+}
 
 /**
  * 维护AVLTreeNode 
@@ -29,11 +62,20 @@ const Comparator = require("../common/Comparator");
 function _maintain(node) {
   while (node) {
     if (Math.abs(node.balanceFactor) > 1) {
-      node = _balance(node);
+      _balance(node);
     }
-    node._height = Math.max(node.leftHeight, node.rightHeight) + 1
+    _recalculate(node);
     node = node._parent;
   }
+}
+
+/**
+ * 重新计算节点的高度和size
+ * @param {AVLTreeNode} node 
+ */
+function _recalculate(node) {
+  node._height = Math.max(node.leftHeight, node.rightHeight) + 1
+  node._size = node.leftSize + node.rightSize + 1
 }
 
 /**
@@ -41,21 +83,21 @@ function _maintain(node) {
  * @param {AVLTreeNode} node 
  */
 function _balance(node) {
-  let balanced = node;
   if (node.leftHeight > node.rightHeight) {
     if (node.left.leftHeight < node.left.rightHeight) {
-      balanced = node.left;
-      _rotateLeft(node.left);
+      let nodeLeft = node.left;
+      _rotateLeft(nodeLeft);
+      _recalculate(nodeLeft)
     }
     _rotateRight(node);
   } else {
     if (node.right.rightHeight < node.right.leftHeight) {
-      balanced = node.right;
-      _rotateRight(node.right);
+      let nodeRight = node.right;
+      _rotateRight(nodeRight);
+      _recalculate(nodeRight)
     }
     _rotateLeft(node);
   }
-  return balanced;
 }
 
 /**
@@ -229,17 +271,32 @@ class AVLTreeNode {
   }
 
   /**
-   * 
+   * Get Height of Left
    */
   get leftHeight() {
     return this._left ? this._left.height : 0
   }
 
   /**
-   * 
+   * Get Height of Right
    */
   get rightHeight() {
     return this._right ? this._right.height : 0
+  }
+
+
+  /**
+   * Get Size of Left
+   */
+  get leftSize() {
+    return this._left ? this._left.size : 0
+  }
+
+  /**
+   * Get Size of Right
+   */
+  get rightSize() {
+    return this._right ? this._right.size : 0
   }
 
   /**
@@ -263,47 +320,21 @@ class AVLTreeNode {
    * @return {number}
    */
   get height() {
-    //return this._height;
-    return _height(this);
+    return this._height;
   }
 
   /**
    * size of nodes
    */
   get size() {
-    return _size(this);
+    return this._size;
   }
 
   /**
    * 验证是否是个 AVL Tree
    */
   validate() {
-    // let balance = (Math.abs(this.balanceFactor) < 2);
-    // let leftParent = !this.left || this.left._parent === this;
-    // let rightParent = !this.right || this.right._parent === this;
-    // let leftValue = !this.left || this.comparator.lessThan(this.left.value, this.value);
-    // let rightValue = !this.right || this.comparator.greaterThan(this.right.value, this.value);
-    // let leftValid = !this.left || this.left.validate();
-    // let rightValid = !this.right || this.right.validate();
-    // let valid = (balance) &&
-    //   (!this.left || (leftParent && leftValue && leftValid)) &&
-    //   (!this.right || (rightParent && rightValue && rightValid));
-    // if (!valid) {
-    //   console.log({
-    //     balance,
-    //     leftParent,
-    //     leftValue,
-    //     leftValid,
-    //     rightParent,
-    //     rightValue,
-    //     rightValid
-    //   })
-    //   console.table(_print(this))
-    // }
-    // return valid;
-    return (Math.abs(this.balanceFactor) < 2) &&
-      (!this.left || (this.left._parent === this && this.comparator.lessThan(this.left.value, this.value) && this.left.validate())) &&
-      (!this.right || (this.right._parent === this && this.comparator.greaterThan(this.right.value, this.value) && this.right.validate()));
+    return _validate(this);
   }
 }
 

@@ -158,8 +158,17 @@ function _rightHeight(node) {
  * @param {BinaryTreeNode} node 
  */
 function _size(node) {
-  if (!node) return 0;
-  return _leftSize(node) + _rightSize(node) + 1;
+  let nodes = [node];
+  let size = 0;
+  while (nodes.length) {
+    let n = nodes.shift();
+    if (n) {
+      size++;
+      nodes.push(n._left);
+      nodes.push(n._right);
+    }
+  }
+  return size;
 }
 
 /**
@@ -167,10 +176,23 @@ function _size(node) {
  * @param {BinaryTreeNode} node 
  */
 function _height(node) {
-  if (!node) {
-    return 0;
+  let nodes = [node];
+  let height = 0;
+  while (nodes.length) {
+    let currentLevelNodes = [...nodes];
+    nodes = [];
+    for (let i = 0; i < currentLevelNodes.length; i++) {
+      const n = currentLevelNodes[i];
+      if (n) {
+        nodes.push(n._left);
+        nodes.push(n._right);
+      }
+    }
+    if (nodes.length) {
+      height++;
+    }
   }
-  return Math.max(_leftHeight(node), _rightHeight(node)) + 1;
+  return height;
 }
 
 /**
@@ -179,12 +201,21 @@ function _height(node) {
  */
 function _inOrderTraverse(node) {
   let traverse = [];
-  if (!node) {
-    return traverse;
+  if (node) {
+    let nodes = [];
+    let p = node;
+    while (p || nodes.length) {
+      while (p) {
+        nodes.push(p);
+        p = p._left;
+      }
+      if (nodes.length) {
+        p = nodes.pop();
+        traverse.push(p._value);
+        p = p._right;
+      }
+    }
   }
-  traverse = traverse.concat(_inOrderTraverse(node._left));
-  traverse.push(node._value);
-  traverse = traverse.concat(_inOrderTraverse(node._right));
   return traverse;
 }
 
@@ -239,28 +270,35 @@ function _rotateLeft(node) {
 
 /**
  * validate if a node has BinaryTree structure
- * @param {BinaryTreeNode} root 
+ * @param {BinaryTreeNode} node 
  */
-function _validate(root) {
-  let q = [root];
+function _validate(node) {
+  if (!node) {
+    return true;
+  }
+  let nodes = [node];
   let set = new Set();
-  while (q.length) {
-    let node = q.shift();
+  while (nodes.length) {
+    node = nodes.shift();
     if (set.has(node)) {
       return false;
     }
     set.add(node);
-    if (node._left) {
-      if (node._left._parent !== node) {
+    let {
+      _left: left,
+      _right: right
+    } = node;
+    if (left) {
+      if (left._parent !== node) {
         return false;
       }
-      q.push(node._left);
+      nodes.push(left);
     }
-    if (node._right) {
-      if (node._right._parent !== node) {
+    if (right) {
+      if (right._parent !== node) {
         return false;
       }
-      q.push(node._right);
+      nodes.push(right);
     }
   }
   return true;
