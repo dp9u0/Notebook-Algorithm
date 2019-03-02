@@ -29,3 +29,7 @@ AVL树通过定义平衡因子来表示一个节点是否平衡,平衡因子定�
 ### Left-Right Rotation
 
 ![AVL Tree](./img/avl-lr-rotation.png)
+
+## 实现
+
+[AVL Tree Source Code](../src/tree/AVLTree.js)

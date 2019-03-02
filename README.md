@@ -42,10 +42,12 @@
 
 ### [树](./树形数据结构/README.md#树)
 
-* [二叉查找树(BST)](./树形数据结构/BinaryTree.md)
-* [平衡树/平衡二叉树(AVL)](./树形数据结构/AVLTree.md)
+* [二叉查找树(BST)](./树形数据结构/BinarySearchTree.md)
+* [AVL树](./树形数据结构/AVLTree.md)
 * [伸展树(Splay Tree)](./树形数据结构/SplayTree.md)
 * [红黑树(Red Black Tree)](./树形数据结构/RedBlackTree.md)
+* [Treap](./树形数据结构/Treap.md)
+* [SBT(Size Balanced Tree)](./树形数据结构/SizeBalancedTree.md)
 * [B-Tree](./树形数据结构/BTree.md)
 * [R-Tree](./树形数据结构/RTree.md)
 * [前缀树(Trie Tree)/后缀树(Suffix Tree)](./树形数据结构/TrieTreeAndSuffixTree.md)

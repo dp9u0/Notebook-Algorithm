@@ -155,7 +155,7 @@ class BinarySearchTreeNode {
 
   /**
    * Get left child
-   * @return {BinarySearchTree}
+   * @return {BinarySearchTreeNode}
    */
   get left() {
     return this._left;
@@ -163,7 +163,7 @@ class BinarySearchTreeNode {
 
   /**
    * Set left child
-   * @param {BinarySearchTree} node
+   * @param {BinarySearchTreeNode} node
    */
   set left(node) {
     _setLeft(this, node);
@@ -171,7 +171,7 @@ class BinarySearchTreeNode {
 
   /**
    * Get right child
-   * @return {BinarySearchTree}
+   * @return {BinarySearchTreeNode}
    */
   get right() {
     return this._right;
@@ -179,7 +179,7 @@ class BinarySearchTreeNode {
 
   /**
    * Set right child
-   * @param {BinarySearchTree} node
+   * @param {BinarySearchTreeNode} node
    */
   set right(node) {
     _setRight(this, node);
