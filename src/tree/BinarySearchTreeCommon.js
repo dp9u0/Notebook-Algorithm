@@ -1,10 +1,12 @@
+const Comparator = require("../common/Comparator");
+const DefaultComparator = new Comparator();
 /**
- * BinaryTreeNode
+ * Default Binary Search Node
  */
-class BinaryTreeNode {
+class Node {
 
   /**
-   * BinaryTreeNode
+   * Node
    * @param {*} value 
    */
   constructor(value = null) {
@@ -18,7 +20,7 @@ class BinaryTreeNode {
 /** 
  * 完全二叉树数组形式转换成 BinaryTree 并返回 root 节点
  * @param {number[]} array 
- * @return {BinaryTreeNode}
+ * @return {Node}
  */
 function _arrayToTree(array) {
   if (!array.length || !array[0]) {
@@ -27,7 +29,8 @@ function _arrayToTree(array) {
   const isNull = (value) => {
     return value === null || value === undefined;
   }
-  let root = new BinaryTreeNode(array.shift());
+  array = [...array];
+  let root = new Node(array.shift());
   let q = [root];
   while (array.length) {
     let node = q.shift();
@@ -37,13 +40,13 @@ function _arrayToTree(array) {
       throw new Error("invalid array");
     }
     if (!isNull(left)) {
-      _setLeft(node, new BinaryTreeNode(left));
+      _setLeft(node, new Node(left));
       q.push(node._left);
     } else {
       q.push(null);
     }
     if (!isNull(right)) {
-      _setRight(node, new BinaryTreeNode(right));
+      _setRight(node, new Node(right));
       q.push(node._right);
     } else {
       q.push(null);
@@ -54,8 +57,8 @@ function _arrayToTree(array) {
 
 /**
  * 替换节点
- * @param {BinaryTreeNode} node 
- * @param {BinaryTreeNode} newNode 
+ * @param {Node} node 
+ * @param {Node} newNode 
  */
 function _replace(node, newNode) {
   let parent = node._parent;
@@ -73,7 +76,7 @@ function _replace(node, newNode) {
 
 /**
  * 移除节点
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
  */
 function _remove(node) {
   _replace(node, null);
@@ -81,8 +84,8 @@ function _remove(node) {
 
 /**
  * 设置左子树
- * @param {BinaryTreeNode} node 
- * @param {BinaryTreeNode} left 
+ * @param {Node} node 
+ * @param {Node} left 
  */
 function _setLeft(node, left) {
   if (node._left === left) {
@@ -95,8 +98,8 @@ function _setLeft(node, left) {
 
 /**
  * 设置右子树
- * @param {BinaryTreeNode} node 
- * @param {BinaryTreeNode} right 
+ * @param {Node} node 
+ * @param {Node} right 
  */
 function _setRight(node, right) {
   if (node._right === right) {
@@ -109,8 +112,8 @@ function _setRight(node, right) {
 
 /**
  * 获取叔父节点
- * @param {BinaryTreeNode} node 
- * @return {BinaryTreeNode}
+ * @param {Node} node 
+ * @return {Node}
  */
 function _getUncle(node) {
   let parent = node._parent;
@@ -123,7 +126,7 @@ function _getUncle(node) {
 
 /**
  * 左子树大小
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
  */
 function _leftSize(node) {
   return _size(node._left);
@@ -131,7 +134,7 @@ function _leftSize(node) {
 
 /**
  * 右子树大小
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
  */
 function _rightSize(node) {
   return _size(node._right);
@@ -139,7 +142,7 @@ function _rightSize(node) {
 
 /**
  * 左子树高度
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
  */
 function _leftHeight(node) {
   return _height(node._left);
@@ -147,7 +150,7 @@ function _leftHeight(node) {
 
 /**
  * 右子树高度
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
  */
 function _rightHeight(node) {
   return _height(node._right);
@@ -155,7 +158,7 @@ function _rightHeight(node) {
 
 /**
  * 树大小
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
  */
 function _size(node) {
   let nodes = [node];
@@ -173,7 +176,7 @@ function _size(node) {
 
 /**
  * 树高度
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
  */
 function _height(node) {
   let nodes = [node];
@@ -197,7 +200,7 @@ function _height(node) {
 
 /**
  * 中序遍历
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
  */
 function _inOrderTraverse(node) {
   let traverse = [];
@@ -221,7 +224,7 @@ function _inOrderTraverse(node) {
 
 /**
  * 将二叉树输出为可打印格式的数组
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
  */
 function _print(node) {
   const fill = (rows, node, r, s, e) => {
@@ -242,7 +245,7 @@ function _print(node) {
 
 /**
  * 节点右旋
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
  */
 function _rotateRight(node) {
   let nodeLeft = node._left;
@@ -256,7 +259,7 @@ function _rotateRight(node) {
 
 /**
  * 节点左旋
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
  */
 function _rotateLeft(node) {
   let nodeRight = node._right;
@@ -270,17 +273,19 @@ function _rotateLeft(node) {
 
 /**
  * validate if a node has BinaryTree structure
- * @param {BinaryTreeNode} node 
+ * @param {Node} node 
+ * @param {Comparator} comparator 
+ * @param {Function} nodeValidator 
  */
-function _validate(node) {
+function _validate(node, comparator = DefaultComparator, nodeValidator = (node) => true) {
   if (!node) {
     return true;
   }
   let nodes = [node];
   let set = new Set();
   while (nodes.length) {
-    node = nodes.shift();
-    if (set.has(node)) {
+    node = nodes.pop();
+    if (set.has(node) || !nodeValidator(node)) {
       return false;
     }
     set.add(node);
@@ -289,19 +294,121 @@ function _validate(node) {
       _right: right
     } = node;
     if (left) {
-      if (left._parent !== node) {
+      if (left._parent !== node || !comparator.lessThan(left._value, node._value)) {
         return false;
       }
       nodes.push(left);
     }
     if (right) {
-      if (right._parent !== node) {
+      if (right._parent !== node || !comparator.greaterThan(right._value, node._value)) {
         return false;
       }
       nodes.push(right);
     }
   }
   return true;
+}
+
+/**
+ * insert value after node
+ * @param {Node} node insert after node
+ * @param {*} value value to insert
+ * @param {Comparator} comparator comparator to compare value
+ * @param {Function} nodeCreator to create new node
+ * @return {Node} node inserted,may be null
+ */
+function _insert(node, value, comparator = DefaultComparator, nodeCreator = (value) => new Node(value)) {
+  while (node) {
+    if (comparator.lessThan(value, node._value)) {
+      if (node._left) {
+        node = node._left;
+      } else {
+        _setLeft(node, nodeCreator(value));
+        return node._left;
+      }
+    } else if (comparator.greaterThan(value, node._value)) {
+      if (node._right) {
+        node = node._right;
+      } else {
+        _setRight(node, nodeCreator(value));
+        return node._right;
+      }
+    } else {
+      return null;
+    }
+  }
+  // NOTE: Will Never reach here
+  return null;
+}
+
+/**
+ * delete value after node
+ * @param {Node} node delete after node
+ * @param {*} value value to delete
+ * @param {Comparator} comparator comparator to compare value
+ * @return {Object} 
+ *        return.deleted : deleted or not
+ *        return.parent : parent of node that deleted,may be null
+ *        return.root : root after node that delete,may be null
+ */
+function _delete(node, value, comparator = DefaultComparator) {
+  let root = node;
+  let parent = null;
+  let deleted = false;
+  while (node) {
+    if (comparator.lessThan(value, node._value)) {
+      node = node._left;
+    } else if (comparator.greaterThan(value, node._value)) {
+      node = node._right;
+    } else {
+      break;
+    }
+  }
+  if (node) {
+    // delete node
+    deleted = true;
+    let actual = node._right;
+    while (actual && actual._left) {
+      actual = actual._left;
+    }
+    if (actual) {
+      node._value = actual._value;
+      node = actual;
+      parent = node._parent;
+      _replace(actual, actual._right);
+    } else {
+      parent = node._parent;
+      let newNode = _replace(node, node._left);
+      if (root === node) {
+        root = newNode;
+      }
+    }
+  }
+  return {
+    root,
+    deleted,
+    parent
+  };
+}
+
+/**
+ * find node that value euals [value] after node
+ * @param {Node} node find value node after node
+ * @param {*} value value to find
+ * @param {Comparator} comparator comparator to compare value
+ * @return {Node} node founded,may be null
+ */
+function _find(node, value, comparator = DefaultComparator) {
+  while (node) {
+    if (comparator.lessThan(value, node._value)) {
+      node = node._left
+    } else if (comparator.greaterThan(value, node._value)) {
+      node = node._right;
+    } else {
+      return node;
+    }
+  }
+  return null;
 }
 
 // Export
@@ -322,5 +429,8 @@ module.exports = {
   _rotateRight,
   _inOrderTraverse,
   _print,
-  _validate
+  _validate,
+  _insert,
+  _delete,
+  _find
 }

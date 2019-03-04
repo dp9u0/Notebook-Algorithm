@@ -1,56 +1,26 @@
 const {
   _setLeft,
   _setRight,
-  _replace,
-  _height,
   _rotateLeft,
   _rotateRight,
   _inOrderTraverse,
   _print,
-} = require("./BinaryTree");
+  _validate,
+  _leftHeight,
+  _rightHeight,
+  _insert,
+  _delete,
+  _find
+} = require("./BinarySearchTreeCommon");
 
 const Comparator = require("../common/Comparator");
 
 /**
- * _validate node is AVL Tree or not
- * @param {AVLTreeNode} node
- * @return {Boolean} is AVL Tree or not
+ * 
+ * @param {AVLTreeNode} node 
  */
-function _validate(node) {
-  if (!node) {
-    return true;
-  }
-  let nodes = [node];
-  let set = new Set();
-  let comparator = node.comparator;
-  while (nodes.length) {
-    node = nodes.pop();
-    if (set.has(node)) {
-      return false;
-    }
-    set.add(node);
-    let balanceFactor = _height(node.left) - _height(node.right);
-    if (Math.abs(balanceFactor) > 2) {
-      return false;
-    }
-    let {
-      _left: left,
-      _right: right
-    } = node;
-    if (left) {
-      if (left._parent !== node || !comparator.lessThan(left.value, node.value)) {
-        return false;
-      }
-      nodes.push(left);
-    }
-    if (right) {
-      if (right._parent !== node || !comparator.greaterThan(right.value, node.value)) {
-        return false;
-      }
-      nodes.push(right);
-    }
-  }
-  return true;
+function _nodeValidate(node) {
+  return Math.abs(_leftHeight(node) - _rightHeight(node)) < 2;
 }
 
 /**
@@ -126,31 +96,15 @@ class AVLTreeNode {
    * @return {AVLTreeNode} root node after inserted
    */
   insert(value) {
-    let node = this,
-      root = this;
-    let comparator = node.comparator;
-    while (node) {
-      if (comparator.lessThan(value, node.value)) {
-        if (node.left) {
-          node = node.left;
-        } else {
-          _setLeft(node, new AVLTreeNode(value, comparator));
-          break;
-        }
-      } else if (comparator.greaterThan(value, node.value)) {
-        if (node.right) {
-          node = node.right;
-        } else {
-          _setRight(node, new AVLTreeNode(value, comparator));
-          break;
-        }
-      } else {
-        break;
+    let root = this;
+    let node = _insert(this, value, this.comparator, (value) => {
+      return new AVLTreeNode(value, this.comparator);
+    });
+    if (node) {
+      _maintain(node._parent);
+      while (root && root._parent) {
+        root = root._parent;
       }
-    }
-    _maintain(node);
-    while (root && root._parent) {
-      root = root._parent;
     }
     return root;
   }
@@ -161,41 +115,16 @@ class AVLTreeNode {
    * @return {AVLTreeNode} root node after delete,may be return [null]
    */
   delete(value) {
-    let node = this,
-      root = this;
-    let comparator = node.comparator;
-    while (node) {
-      if (comparator.lessThan(value, node.value)) {
-        node = node.left;
-      } else if (comparator.greaterThan(value, node.value)) {
-        node = node.right;
-      } else {
-        break;
+    let {
+      root,
+      parent,
+      deleted
+    } = _delete(this, value, this.comparator);
+    if (deleted) {
+      _maintain(parent);
+      while (root && root._parent) {
+        root = root._parent;
       }
-    }
-    if (node) {
-      // delete node
-      let actual = node.right;
-      while (actual && actual.left) {
-        actual = actual.left;
-      }
-      let maintain;
-      if (actual) {
-        node.value = actual.value;
-        maintain = actual._parent;
-        _replace(actual, actual.right);
-      } else {
-        maintain = node._parent;
-        let newNode = _replace(node, node.left);
-        // update root ,because root deleted
-        if (root === node) {
-          root = newNode;
-        }
-      }
-      _maintain(maintain);
-    }
-    while (root && root._parent) {
-      root = root._parent;
     }
     return root;
   }
@@ -206,18 +135,8 @@ class AVLTreeNode {
    * @return {boolean} find or not
    */
   search(value) {
-    let node = this;
-    let comparator = node.comparator;
-    while (node) {
-      if (comparator.lessThan(value, node.value)) {
-        node = node.left
-      } else if (comparator.greaterThan(value, node.value)) {
-        node = node.right;
-      } else {
-        return true;
-      }
-    }
-    return false;
+    let node = _find(this, value, this.comparator);
+    return !!node;
   }
 
   /**
@@ -334,7 +253,8 @@ class AVLTreeNode {
    * 验证是否是个 AVL Tree
    */
   validate() {
-    return _validate(this);
+
+    return _validate(this, this.comparator, _nodeValidate);
   }
 }
 
@@ -380,11 +300,7 @@ class AVLTree {
    * @return {bool} 是否存在
    */
   search(value) {
-    if (this.root) {
-      return this.root.search(value);
-    } else {
-      return false;
-    }
+    return this.root ? this.root.search(value) : false;
   }
 
   /**

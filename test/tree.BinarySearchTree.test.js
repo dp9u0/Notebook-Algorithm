@@ -34,7 +34,7 @@ describe('BinarySearchTree', function () {
     });
 
     it(`insert right`, function () {
-      const input = [8, null];
+      const input = [8];
       let set = new Set(input);
       let tree = Tree.fromArray(input);
       let element = 12;
@@ -138,7 +138,7 @@ describe('BinarySearchTree', function () {
     });
 
     it(`delete left(left only has right) should work ok`, function () {
-      const input = [8, 4, 12, null, 6, 10, 14, null, null, 5, 7, 9, 11, 13, 15];
+      const input = [8, 4, 12, 6, 10, 14, 5, 7, 9, 11, 13, 15];
       let set = new Set(input);
       let tree = Tree.fromArray(input);
       let element = 4;
@@ -152,7 +152,7 @@ describe('BinarySearchTree', function () {
 
 
     it(`delete left(left only has right,and right min is left child) should work ok`, function () {
-      const input = [8, 4, 12, null, 6, 10, 14, null, null, null, 7, 9, 11, 13, 15];
+      const input = [8, 4, 12, 6, 10, 14, 7, 9, 11, 13, 15];
       let set = new Set(input);
       let tree = Tree.fromArray(input);
       let element = 4;

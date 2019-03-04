@@ -1,54 +1,19 @@
 const {
   _setLeft,
   _setRight,
-  _replace,
   _size,
   _height,
   _rotateLeft,
   _rotateRight,
   _inOrderTraverse,
   _print,
-} = require("./BinaryTree");
+  _validate,
+  _insert,
+  _delete,
+  _find
+} = require("./BinarySearchTreeCommon");
 
 const Comparator = require("../common/Comparator");
-
-/**
- * _validate node is bst or not
- * @param {SplayTreeNode} node
- * @return {Boolean} is bst or not
- */
-function _validate(node) {
-  if (!node) {
-    return true;
-  }
-  let nodes = [node];
-  let set = new Set();
-  let comparator = node.comparator;
-  while (nodes.length) {
-    node = nodes.pop();
-    if (set.has(node)) {
-      return false;
-    }
-    set.add(node);
-    let {
-      _left: left,
-      _right: right
-    } = node;
-    if (left) {
-      if (left._parent !== node || !comparator.lessThan(left.value, node.value)) {
-        return false;
-      }
-      nodes.push(left);
-    }
-    if (right) {
-      if (right._parent !== node || !comparator.greaterThan(right.value, node.value)) {
-        return false;
-      }
-      nodes.push(right);
-    }
-  }
-  return true;
-}
 
 /**
  * splay node to the root
@@ -85,7 +50,7 @@ function _splay(node) {
 }
 
 /**
- * 
+ * SplayTreeNode
  */
 class SplayTreeNode {
   /**
@@ -107,27 +72,9 @@ class SplayTreeNode {
    * @return {SplayTreeNode} root node after inserted
    */
   insert(value) {
-    let node = this;
-    let comparator = node.comparator;
-    while (node) {
-      if (comparator.lessThan(value, node.value)) {
-        if (node.left) {
-          node = node.left;
-        } else {
-          _setLeft(node, new SplayTreeNode(value, comparator));
-          break;
-        }
-      } else if (comparator.greaterThan(value, node.value)) {
-        if (node.right) {
-          node = node.right;
-        } else {
-          _setRight(node, new SplayTreeNode(value, comparator));
-          break;
-        }
-      } else {
-        break;
-      }
-    }
+    let node = _insert(this, value, this.comparator, (value) => {
+      return new SplayTreeNode(value, this.comparator)
+    });
     return this;
   }
 
@@ -137,35 +84,8 @@ class SplayTreeNode {
    * @return {SplayTreeNode} node after delete,may be return [null]
    */
   delete(value) {
-    let node = this,
-      root = this;
-    let comparator = node.comparator;
-    while (node) {
-      if (comparator.lessThan(value, node.value)) {
-        node = node.left;
-      } else if (comparator.greaterThan(value, node.value)) {
-        node = node.right;
-      } else {
-        break;
-      }
-    }
-    if (node) {
-      // delete node
-      let actual = node.right;
-      while (actual && actual.left) {
-        actual = actual.left;
-      }
-      if (actual) {
-        node.value = actual.value;
-        _replace(actual, actual.right);
-      } else {
-        let newNode = _replace(node, node.left);
-        if (root === node) {
-          root = newNode;
-        }
-      }
-    }
-    return root;
+    let result = _delete(this, value, this.comparator)
+    return result.root;
   }
 
   /**
@@ -174,20 +94,13 @@ class SplayTreeNode {
    * @return {boolean} find or not
    */
   search(value, out = {}) {
-    let node = this;
-    let comparator = node.comparator;
-    while (node) {
-      if (comparator.lessThan(value, node.value)) {
-        node = node.left
-      } else if (comparator.greaterThan(value, node.value)) {
-        node = node.right;
-      } else {
-        _splay(node);
-        out.newRoot = node;
-        return true;
-      }
+    let node = _find(this, value, this.comparator);
+    let result = !!node
+    if (result) {
+      _splay(node);
+      out.newRoot = node;
     }
-    return false;
+    return result;
   }
 
   /**
