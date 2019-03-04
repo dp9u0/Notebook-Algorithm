@@ -1,6 +1,4 @@
 const {
-  _setLeft,
-  _setRight,
   _rotateLeft,
   _rotateRight,
   _inOrderTraverse,
@@ -156,29 +154,11 @@ class AVLTreeNode {
   }
 
   /**
-   * Set left child
-   * @param {AVLTreeNode} node
-   */
-  set left(node) {
-    _setLeft(this, node);
-    _maintain(this);
-  }
-
-  /**
    * Get right child
    * @return {AVLTreeNode}
    */
   get right() {
     return this._right;
-  }
-
-  /**
-   * Set right child
-   * @param {AVLTreeNode} node
-   */
-  set right(node) {
-    _setRight(this, node);
-    _maintain(this);
   }
 
   /**
@@ -203,7 +183,6 @@ class AVLTreeNode {
     return this._right ? this._right.height : 0
   }
 
-
   /**
    * Get Size of Left
    */
@@ -227,14 +206,6 @@ class AVLTreeNode {
   }
 
   /**
-   * Set value
-   * @param {*} value
-   */
-  set value(value) {
-    this._value = value;
-  }
-
-  /**
    * tree height
    * @return {number}
    */
@@ -253,7 +224,6 @@ class AVLTreeNode {
    * 验证是否是个 AVL Tree
    */
   validate() {
-
     return _validate(this, this.comparator, _nodeValidate);
   }
 }

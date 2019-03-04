@@ -347,14 +347,15 @@ function _insert(node, value, comparator = DefaultComparator, nodeCreator = (val
  * @param {*} value value to delete
  * @param {Comparator} comparator comparator to compare value
  * @return {Object} 
- *        return.deleted : deleted or not
+ *        return.deleted : deleted node
  *        return.parent : parent of node that deleted,may be null
  *        return.root : root after node that delete,may be null
  */
 function _delete(node, value, comparator = DefaultComparator) {
   let root = node;
   let parent = null;
-  let deleted = false;
+  let deleted = null;
+  let replacement = null;
   while (node) {
     if (comparator.lessThan(value, node._value)) {
       node = node._left;
@@ -366,19 +367,25 @@ function _delete(node, value, comparator = DefaultComparator) {
   }
   if (node) {
     // delete node
-    deleted = true;
     let actual = node._right;
     while (actual && actual._left) {
       actual = actual._left;
     }
     if (actual) {
+      // give actual._value to node
       node._value = actual._value;
       node = actual;
+      deleted = actual;
       parent = node._parent;
-      _replace(actual, actual._right);
+      replacement = actual._right;
+      // replace actual by actual._right,so node actual
+      _replace(node, replacement);
     } else {
+      deleted = node;
       parent = node._parent;
-      let newNode = _replace(node, node._left);
+      replacement = node._left;
+      // replace node by node._left,so node deleted
+      let newNode = _replace(node, replacement);
       if (root === node) {
         root = newNode;
       }
@@ -387,7 +394,8 @@ function _delete(node, value, comparator = DefaultComparator) {
   return {
     root,
     deleted,
-    parent
+    parent,
+    replacement
   };
 }
 

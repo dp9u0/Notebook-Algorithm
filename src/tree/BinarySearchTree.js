@@ -1,6 +1,4 @@
 const {
-  _setLeft,
-  _setRight,
   _size,
   _height,
   _inOrderTraverse,
@@ -79,14 +77,6 @@ class BinarySearchTreeNode {
   }
 
   /**
-   * Set left child
-   * @param {BinarySearchTreeNode} node
-   */
-  set left(node) {
-    _setLeft(this, node);
-  }
-
-  /**
    * Get right child
    * @return {BinarySearchTreeNode}
    */
@@ -95,27 +85,11 @@ class BinarySearchTreeNode {
   }
 
   /**
-   * Set right child
-   * @param {BinarySearchTreeNode} node
-   */
-  set right(node) {
-    _setRight(this, node);
-  }
-
-  /**
    * Get value
    * @return {*}
    */
   get value() {
     return this._value;
-  }
-
-  /**
-   * Set value
-   * @param {*} value
-   */
-  set value(value) {
-    this._value = value;
   }
 
   /**
@@ -137,7 +111,7 @@ class BinarySearchTreeNode {
    * 验证是否是个BST
    */
   validate() {
-    return _validate(this);
+    return _validate(this, this.comparator);
   }
 }
 

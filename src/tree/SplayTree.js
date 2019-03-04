@@ -1,6 +1,4 @@
 const {
-  _setLeft,
-  _setRight,
   _size,
   _height,
   _rotateLeft,
@@ -112,14 +110,6 @@ class SplayTreeNode {
   }
 
   /**
-   * Set left child
-   * @param {SplayTreeNode} node
-   */
-  set left(node) {
-    _setLeft(this, node);
-  }
-
-  /**
    * Get right child
    * @return {SplayTreeNode}
    */
@@ -128,27 +118,11 @@ class SplayTreeNode {
   }
 
   /**
-   * Set right child
-   * @param {SplayTreeNode} node
-   */
-  set right(node) {
-    _setRight(this, node);
-  }
-
-  /**
    * Get value
    * @return {*}
    */
   get value() {
     return this._value;
-  }
-
-  /**
-   * Set value
-   * @param {*} value
-   */
-  set value(value) {
-    this._value = value;
   }
 
   /**
@@ -170,7 +144,7 @@ class SplayTreeNode {
    * 验证是否是个BST
    */
   validate() {
-    return _validate(this);
+    return _validate(this, this.comparator);
   }
 }
 

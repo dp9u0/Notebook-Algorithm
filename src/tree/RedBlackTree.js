@@ -1,10 +1,6 @@
 const {
-  _setLeft,
-  _setRight,
   _size,
   _height,
-  _leftHeight,
-  _rightHeight,
   _rotateLeft,
   _rotateRight,
   _inOrderTraverse,
@@ -16,13 +12,45 @@ const {
 } = require("./BinarySearchTreeCommon");
 
 const Comparator = require("../common/Comparator");
+const COLOR_BLACK = 'B';
+const COLOR_RED = 'R';
 
+/**
+ * 
+ * @param {*} node 
+ */
+function _color(node) {
+  if (!node) {
+    return COLOR_BLACK;
+  }
+  return node._color;
+}
 /**
  * 
  * @param {RedBlackTreeNode} node 
  */
 function _nodeValidate(node) {
   return true;
+}
+
+/**
+ * fixup after insert
+ * @param {RedBlackTreeNode} node 
+ */
+function _insertFixup(node) {
+  while (node && node._parent && _color(node._parent) === COLOR_RED) {
+    node = node._parent;
+  }
+}
+
+/**
+ * fixup after delete
+ * @param {RedBlackTreeNode} node 
+ */
+function _deleteFixup(node) {
+  while (node && node._parent && _color(node) === COLOR_BLACK) {
+    node = node._parent;
+  }
 }
 
 /**
@@ -40,6 +68,7 @@ class RedBlackTreeNode {
     this._parent = null;
     this._left = null;
     this._right = null;
+    this._color = COLOR_RED;
     this.comparator = comparator;
   }
 
@@ -49,9 +78,17 @@ class RedBlackTreeNode {
    * @return {RedBlackTreeNode} root node after inserted
    */
   insert(value) {
-    _insert(this, value, this.comparator, (value) => {
+    let root = this;
+    let node = _insert(this, value, this.comparator, (value) => {
       return new RedBlackTreeNode(value, this.comparator)
     });
+    if (node) {
+      _insertFixup(node);
+      while (root && root._parent) {
+        root = root._parent;
+      }
+    }
+    return root;
   }
 
   /**
@@ -60,8 +97,18 @@ class RedBlackTreeNode {
    * @return {RedBlackTreeNode} node after delete,may be return [null]
    */
   delete(value) {
-    let result = _delete(this, value, this.comparator)
-    return result.root;
+    let {
+      root,
+      parent,
+      deleted
+    } = _delete(this, value, this.comparator);
+    if (deleted) {
+      _deleteFixup(parent);
+      while (root && root._parent) {
+        root = root._parent;
+      }
+    }
+    return root;
   }
 
   /**
@@ -91,14 +138,6 @@ class RedBlackTreeNode {
   }
 
   /**
-   * Set left child
-   * @param {RedBlackTreeNode} node
-   */
-  set left(node) {
-    _setLeft(this, node);
-  }
-
-  /**
    * Get right child
    * @return {RedBlackTreeNode}
    */
@@ -107,27 +146,11 @@ class RedBlackTreeNode {
   }
 
   /**
-   * Set right child
-   * @param {RedBlackTreeNode} node
-   */
-  set right(node) {
-    _setRight(this, node);
-  }
-
-  /**
    * Get value
    * @return {*}
    */
   get value() {
     return this._value;
-  }
-
-  /**
-   * Set value
-   * @param {*} value
-   */
-  set value(value) {
-    this._value = value;
   }
 
   /**
@@ -146,10 +169,10 @@ class RedBlackTreeNode {
   }
 
   /**
-   * 验证是否是个BST
+   * 验证是否是个 RB Tree
    */
   validate() {
-    return _validate(this);
+    return _validate(this, this.comparator, _nodeValidate);
   }
 }
 
@@ -174,7 +197,7 @@ class RedBlackTree {
     if (!this.root) {
       this.root = new RedBlackTreeNode(value, this.comparator);
     } else {
-      this.root.insert(value);
+      this.root = this.root.insert(value);
     }
   }
 
