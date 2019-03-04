@@ -561,7 +561,6 @@ function _searchTest() {
     it(`search should work ok`, function () {
       const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
       let node = _arrayToTree(input);
-      console.table(_print(node))
       for (let i = 0; i < input.length; i++) {
         const element = input[i];
         expect(_find(node, element, DefaultComparator), `tree should contains ${element}`).to.be.not.null;

@@ -122,6 +122,7 @@ class SetFakeTree {
 let AVLTree = require("../../src/tree/AVLTree");
 let BinarySearchTree = require("../../src/tree/BinarySearchTree");
 let SplayTree = require("../../src/tree/SplayTree");
+let RedBlackTree = require("../../src/tree/RedBlackTree");
 let trees = [{
   Tree: SetFakeTree,
   desc: "Set"
@@ -134,6 +135,9 @@ let trees = [{
 }, {
   Tree: SplayTree,
   desc: 'SplayTree'
+}, {
+  Tree: RedBlackTree,
+  desc: 'RedBlackTree'
 }]
 
 BenchmarkTest(trees, TEST_COUNT, INPUT_COUNT, INPUT_MAX)
