@@ -44,10 +44,10 @@
 
 ![Zig-Zag](img/Splay_tree_zigzag.gif)
 
-1.  `rotateLeft(g)` 或者 `rotateRight(g)`
-2.  `rotateRight(p)` 或者 `rotateLeft(p)`
+1. `rotateRight(p)` 或者 `rotateLeft(p)`
+2. `rotateLeft(g)` 或者 `rotateRight(g)`
 
-> 关于为什么循环进行 `Zig-Zig` or` Zig-Zag` 双旋转,而不是循环执行 `Zig` 单旋转?从下面两张图对比可以看到:
+> 关于为什么循环进行 `Zig-Zig` or`Zig-Zag` 双旋转,而不是循环执行 `Zig` 单旋转?从下面两张图对比可以看到:
 >
 > 同样是将节点 `1`,如果 `Splay(1)` 单旋(只进行 `Zig`),Splay 完成后,树的结构并不非常平衡.
 > ![Spaly-Single](img/Splay-Single.png)

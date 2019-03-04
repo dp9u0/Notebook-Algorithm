@@ -4,6 +4,8 @@ const {
   _replace,
   _size,
   _height,
+  _rotateLeft,
+  _rotateRight,
   _inOrderTraverse,
   _print,
 } = require("./BinaryTree");
@@ -46,6 +48,40 @@ function _validate(node) {
     }
   }
   return true;
+}
+
+/**
+ * splay node to the root
+ * @param {SplayTreeNode} node
+ */
+function _splay(node) {
+  while (node._parent) {
+    let p = node._parent;
+    let g = p._parent;
+    if (g) { // ZIG-ZIG or ZIG-ZAG
+      if (g._left === p) {
+        if (p._left === node) { // ZIG-ZIG
+          _rotateRight(g);
+          _rotateRight(p);
+        } else { // ZIG-ZAG
+          _rotateLeft(p);
+          _rotateRight(g);
+        }
+      } else {
+        if (p._right === node) { // ZIG-ZIG
+          _rotateLeft(g);
+          _rotateLeft(p);
+        } else { // ZIG-ZAG
+          _rotateRight(p);
+          _rotateLeft(g);
+        }
+      }
+    } else if (p._left === node) { // ZIG 
+      _rotateRight(p);
+    } else if (p._right === node) { // ZIG 
+      _rotateLeft(p);
+    }
+  }
 }
 
 /**
@@ -125,7 +161,7 @@ class SplayTreeNode {
       } else {
         let newNode = _replace(node, node.left);
         if (root === node) {
-          root = newNode
+          root = newNode;
         }
       }
     }
@@ -137,7 +173,7 @@ class SplayTreeNode {
    * @param {*} value value to search
    * @return {boolean} find or not
    */
-  search(value) {
+  search(value, out = {}) {
     let node = this;
     let comparator = node.comparator;
     while (node) {
@@ -146,6 +182,8 @@ class SplayTreeNode {
       } else if (comparator.greaterThan(value, node.value)) {
         node = node.right;
       } else {
+        _splay(node);
+        out.newRoot = node;
         return true;
       }
     }
@@ -267,7 +305,14 @@ class SplayTree {
    */
   search(value) {
     if (this.root) {
-      return this.root.search(value);
+      let out = {
+        newRoot: this.root
+      };
+      let result = this.root.search(value, out);
+      if (result) {
+        this.root = out.newRoot;
+      }
+      return result;
     } else {
       return false;
     }
@@ -324,3 +369,5 @@ class SplayTree {
     return tree;
   }
 }
+
+module.exports = SplayTree;
