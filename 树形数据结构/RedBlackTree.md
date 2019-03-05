@@ -146,6 +146,14 @@ color[root[T]] ← BLACK
 
 只要将其中多余向上转移到根节点(然后将根节点设为黑色)或者将红色向另一个分支转移(还记得[旋转:将颜色向兄弟子树转移](#旋转:将颜色向兄弟子树转移)吗?),同时,如果向上转移导致上层不满足红黑树性质,只需要找到更新`当前节点z`循环调用即可.
 
+共有3中Case,(实际是6种,但是根据左右孩子的对称,只介绍3种即可,另外3种对称处理),节点含义:
+
+* z : 当前节点
+* w : 兄弟节点
+* p : 父节点
+* u : 叔叔节点
+* g : 祖父节点
+
 ### Insert Case 1
 
 Case 1 可以简单概括为 当前节点为红色 父节点为红色 **叔叔节点为红色**.示意图如下.
@@ -227,8 +235,8 @@ while x ≠ root[T] and color[x] = BLACK
                           LEFT-ROTATE(T, p[x])                             //  (1.3) 对x的父节点进行左旋.
                           w ← right[p[x]]                                  //  (1.4) 左旋后,重新设置x的兄弟节点(原来的x的兄弟节点的).
               if color[left[w]] = BLACK and color[right[w]] = BLACK        //  Case 2 : x是"双重黑"节点,x的兄弟节点是黑色,x的兄弟节点的两个孩子都是黑色.
-                  then color[w] ← RED                                      //  (2.1) 将x的兄弟节点设为"红色".
-                        x ←  p[x]                                          //  (2.2) 设置"x的父节点"为"新的x节点".
+                  then color[w] ← RED                                      //  (2.1) 将x的兄弟节点设为"红色".x和w向上抽取一层黑色,w是单层黑所以变成红色,x是双重黑,因此变成单重黑
+                        x ←  p[x]                                          //  (2.2) 设置"x的父节点"为"新的x节点".新的 x 节点就可能是 红黑节点或者双重黑节点.
                   else                                                     //  Case 3/4 : x是"双重黑"节点,x的兄弟节点是黑色;x的兄弟节点的至少有一个为红色.
                         if color[right[w]] = BLACK                         //  Case 3 : x是"双重黑"节点,x的兄弟节点是黑色;x的兄弟节点的右孩子是黑色的(左孩子是红色)
                             then color[left[w]] ← BLACK                    //  (3.1) 将x兄弟节点的左孩子设为"黑色".
@@ -247,7 +255,7 @@ color[x] ← BLACK // 红黑节点->黑 or 双重黑根节点->黑
 
 删除的FixUp操作引入两个新的颜色: 红黑/双重黑 节点,仅当x 指向该节点时为这两种颜色,如果 x.color = BLACK 则 x 为双重黑节点, x.color = RED 则 x为红黑节点.
 
-通过上述概念,不需要移除删除节点的所代表的一个黑高度,而是将这一个黑高度合并到x节点上,这样左树的黑高度并没有发生变化.仅需要通过循环将多余的这一个黑高度向上转移
+通过上述概念,不需要移除删除节点的所代表的一个黑高度,而是将这一个黑高度合并到x节点上,这样左树的黑高度并没有发生变化.仅需要通过循环将多余的这一个黑高度向上抽取,当x的兄弟节点是红色导致无法抽取黑色时,可以旋转产生x的新的兄弟黑色节点.
 
 转移过程中,x可能指向下面三种节点
 
@@ -257,10 +265,56 @@ color[x] ← BLACK // 红黑节点->黑 or 双重黑根节点->黑
 
 转移过程中,可以通过旋转和改变节点颜色保持红黑树性质.
 
-### Delete Case 1
+共有4中Case,(实际是8种,但是根据左右孩子的对称,只介绍4种即可,另外4种对称处理),介绍中节点含义:
+
+* x : 当前节点
+* w : 兄弟节点
+* p : 父节点
+* u : 叔叔节点
+* g : 祖父节点
 
 ### Delete Case 2
 
-### Delete Case 3
+先介绍 Case 2,因为 Case 1 最终可以转换成 Case 2,3,4中的一种
+
+x是"双重黑"节点,*x的兄弟节点是黑色* **x的兄弟节点的两个孩子都是黑色.**
+
+![RB-Delete-Case2-Before](./img/RB-Delete-Case2-Before.png)
+
+通过向上抽取 `x` 和 `w` 的黑色,`x` 变为黑色,`w` 变为红色, 同时更新`x`指向`p`(双重黑/红黑)
+
+![RB-Delete-Case2-After](./img/RB-Delete-Case2-After.png)
+
+更新新的x后,如果是红黑,循环则可以结束了,x变为黑,如果是双重黑,需要继续调用 `RB-DELETE-FIXUP(T, x)` 处理新的x.
 
 ### Delete Case 4
+
+先介绍 Case 4,因为 Case 3 最终可以转换成 Case 4
+
+x是"双重黑"节点,*x的兄弟节点是黑色*;**x的兄弟节点的右孩子是红色的**(左孩子可能为黑色或者红色)
+
+![RB-Delete-Case4-Before](./img/RB-Delete-Case4-Before.png)
+
+通过将`p`的颜色给`w`,然后设置`p`和 `w.r`为黑色颜色,然后左旋`p`.这时,红黑树的性质恢复了.
+
+![RB-Delete-Case4-After](./img/RB-Delete-Case4-After.png)
+
+### Delete Case 3
+
+x是"双重黑"节点,*x的兄弟节点是黑色*;**x的兄弟节点的右孩子是黑色的**(左孩子是红色)
+
+![RB-Delete-Case3-Before](./img/RB-Delete-Case3-Before.png)
+
+通过简单旋转和颜色交换,可以转换成 Case 4
+
+![RB-Delete-Case3-After](./img/RB-Delete-Case3-After.png)
+
+### Delete Case 1
+
+x是"双重黑"节点,**x的兄弟节点是红色**.(此时x的父节点和x的兄弟节点的子节点必定都是黑节点).
+
+![RB-Delete-Case1-Before](./img/RB-Delete-Case1-Before.png)
+
+颜色交换和旋转后,将兄弟子树上的红色转换到当前子树上,然后更新 `x` 的兄弟 `w` ,观察可以看到,Case 1 可以转换成 Case 2 Case 3 or Case4
+
+![RB-Delete-Case1-After](./img/RB-Delete-Case1-After.png)
