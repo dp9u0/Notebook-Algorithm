@@ -552,7 +552,42 @@ function _insertTest() {
 
 function _deleteTest() {
   describe('#_delete()', function () {
-    // See Binary Search Tree
+    it(`delete left`, function () {
+      const input = [8, 4, 12, 2, 6, 11, 13, 1, 3, 5];
+      let set = new Set(input);
+      let tree = _arrayToTree(input);
+      let element = 4;
+      set.delete(element)
+      let {
+        root,
+        deleted,
+        parent,
+        replacement
+      } = _delete(tree, element, DefaultComparator);
+      tree = root;
+      expect(_validate(tree), `tree should be validate`).to.be.true;
+      expect(tree._left._value, `after delete root._left should be 5`).to.equal(5);
+      expect(_size(tree), `tree size should be ${set.size}`).to.equal(set.size);
+    });
+
+    it(`delete right`, function () {
+      const input = [8, 4, 12, 2, 6, 11, 15];
+      let set = new Set(input);
+      let tree = _arrayToTree(input);
+      let element = 12;
+      set.delete(element)
+      let {
+        root,
+        deleted,
+        parent,
+        replacement
+      } = _delete(tree, element, DefaultComparator);
+      tree = root;
+      expect(_validate(tree), `tree should be validate`).to.be.true;
+      expect(tree._right._value, `after delete root._left should be 15`).to.equal(15);
+      expect(_size(tree), `tree size should be ${set.size}`).to.equal(set.size);
+    });
+
   });
 }
 

@@ -368,25 +368,22 @@ function _delete(node, value, comparator = DefaultComparator) {
   // delete node
   if (node) {
     if (node._left && node._right) {
-      // 找到后继
+      // 实际删除的是node的后继节点
       let actual = node._right;
       while (actual._left) {
         actual = actual._left;
       }
       // give actual._value to node
       node._value = actual._value;
-      deleted = node = actual;
-      parent = node._parent;
+      node = actual;
       replacement = node._right;
-      // replace actual by actual._right,so node actual
-      _replace(node, replacement);
     } else {
-      deleted = node;
-      parent = node._parent;
       replacement = node._left ? node._left : node._right;
-      // replace node by node.children,so node deleted
-      _replace(node, replacement);
     }
+    deleted = node;
+    parent = node._parent;
+    // 删除并替换node
+    _replace(node, replacement);
     if (root === node) {
       root = replacement;
     }
