@@ -365,30 +365,30 @@ function _delete(node, value, comparator = DefaultComparator) {
       break;
     }
   }
+  // delete node
   if (node) {
-    // delete node
-    let actual = node._right;
-    while (actual && actual._left) {
-      actual = actual._left;
-    }
-    if (actual) {
+    if (node._left && node._right) {
+      // 找到后继
+      let actual = node._right;
+      while (actual._left) {
+        actual = actual._left;
+      }
       // give actual._value to node
       node._value = actual._value;
-      node = actual;
-      deleted = actual;
+      deleted = node = actual;
       parent = node._parent;
-      replacement = actual._right;
+      replacement = node._right;
       // replace actual by actual._right,so node actual
       _replace(node, replacement);
     } else {
       deleted = node;
       parent = node._parent;
-      replacement = node._left;
-      // replace node by node._left,so node deleted
-      let newNode = _replace(node, replacement);
-      if (root === node) {
-        root = newNode;
-      }
+      replacement = node._left ? node._left : node._right;
+      // replace node by node.children,so node deleted
+      _replace(node, replacement);
+    }
+    if (root === node) {
+      root = replacement;
     }
   }
   return {

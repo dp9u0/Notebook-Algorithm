@@ -147,7 +147,7 @@ describe('BinarySearchTree', function () {
       let node = tree.root.left;
       expect(tree.validate(), `tree should be validate`).to.be.true;
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
-      expect(node.value, `new root value should be 5`).to.equal(5);
+      expect(node.value, `new root value should be 5`).to.equal(6);
     });
 
 

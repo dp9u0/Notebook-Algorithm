@@ -52,6 +52,10 @@ function _rotateLeft(node) {
 }
 ```
 
+## 旋转并保持红黑树性质
+
+首先介绍如何经过颜色变化和旋转,仍然是红黑树保持红黑树的性质.
+
 ## 插入
 
 插入一个节点的步骤简单可以概括为2步:
@@ -87,32 +91,39 @@ RB-INSERT-FIXUP 伪代码如下:
 
 ```Pseudocode
 RB-INSERT-FIXUP(T, z)
-while color[p[z]] = RED                                                  // 若"当前节点(z)的父节点(p)是红色",则进行以下处理.
-    do if p[z] = left[p[p[z]]]                                           // 若"z的父节点"是"z的祖父节点的左孩子",则进行以下处理.
+while color[p[z]] = RED                                          // 若"当前节点(z)的父节点(p)是红色",则进行以下处理.
+    do if p[z] = left[p[p[z]]]                                       // 若"z的父节点"是"z的祖父节点的左孩子",则进行以下处理.
           then y ← right[p[p[z]]]                                        // 将y设置为"z的叔叔节点(z的祖父节点的右孩子)"
-               if color[y] = RED                                         // Case 1条件:叔叔是红色
-                  then color[p[z]] ← BLACK                    // Case 1  //  (1.1) 将"父节点"设为黑色.
-                       color[y] ← BLACK                       // Case 1  //  (1.2) 将"叔叔节点"设为黑色.
-                       color[p[p[z]]] ← RED                   // Case 1  //  (1.3) 将"祖父节点"设为"红色".
-                       z ← p[p[z]]                            // Case 1  //  (1.4) 将"祖父节点"设为"当前节点"(红色节点)
-                  else if z = right[p[z]]                                // Case 2条件:叔叔是黑色,且当前节点是右孩子,将Case2 通过旋转转换成 Case 3
-                          then z ← p[z]                       // Case 2  //  (2.1) 将"父节点"设置为"当前节点".
-                               LEFT-ROTATE(T, z)              // Case 2  //  (2.2) 左旋"当前节点",这样当前节点就变成了左孩子
-                                                                         // Case 3条件:叔叔是黑色,且当前节点是左孩子.
-                          color[p[z]] ← BLACK                 // Case 3  //  (3.1) 将"父节点"设为"黑色"
-                          color[p[p[z]]] ← RED                // Case 3  //  (3.2) 将"祖父节点"设为"红色".
-                          RIGHT-ROTATE(T, p[p[z]])            // Case 3  //  (3.3) 以"祖父节点"为支点进行右旋.
-       else (same as then clause with "right" and "left" exchanged)      // 若"z的父节点"是"z的祖父节点的右孩子",将上面的操作中"right"和"left"交换位置,然后依次执行.
+               if color[y] = RED                                         // Case 1 : 叔叔是红色
+                  then color[p[z]] ← BLACK                               // (1.1) 将"父节点"设为黑色.
+                       color[y] ← BLACK                                  // (1.2) 将"叔叔节点"设为黑色.
+                       color[p[p[z]]] ← RED                              // (1.3) 将"祖父节点"设为"红色".
+                       z ← p[p[z]]                                       // (1.4) 将"祖父节点"设为"当前节点"
+                  else
+                        if z = right[p[z]]                               // Case 2 : 叔叔是黑色,且当前节点是右孩子,将Case2 通过旋转转换成 Case 3
+                          then z ← p[z]                                  // (2.1) 将"父节点"设置为"当前节点".
+                               LEFT-ROTATE(T, z)                         // (2.2) 左旋"当前节点",这样当前节点就变成了左孩子
+                                                                         // Case 3 : 叔叔是黑色,且当前节点是左孩子.
+                        color[p[z]] ← BLACK                              // (3.1) 将"父节点"设为"黑色"
+                        color[p[p[z]]] ← RED                             // (3.2) 将"祖父节点"设为"红色".
+                        RIGHT-ROTATE(T, p[p[z]])                         // (3.3) 以"祖父节点"为支点进行右旋.
+       else (same as then clause with "right" and "left" exchanged)  // 若"z的父节点"是"z的祖父节点的右孩子",将上面的操作中"right"和"left"交换位置,然后依次执行.
 color[root[T]] ← BLACK
 ```
 
-上面三种情况(Case)处理问题的核心思路都是:将红色的节点移到根节点,然后,将根节点设为黑色
+首先明确的是新增一个红色节点,导致违反红黑树性质的节点只集中在**新增的节点和新增的节点的父节点**(*两个连续节点为红色*)上,因此只要将其中多余的红色(不是转移节点,而是将节点颜色变化掉)向上转移到根节点,然后将根节点设为黑色.
 
 ### Insert Case 1
 
+Case 1 父节点和叔叔节点设置为黑色,祖父节点设置为红色(叔叔节点为红色,祖父节点肯定为黑色).这样,可能发生违反红黑性质的就变成了 **祖父节点和祖父节点的父节点**.可以递归调用 `RB-INSERT-FIXUP`
+
 ### Insert Case 2
 
+Case 2 通过旋转转换成 Case 3
+
 ### Insert Case 3
+
+Case 3 本质是将父节点分支上的多余的一个红色"转移"到叔叔分支上.通过设置颜色和旋转即可实现.
 
 ## 删除
 
@@ -141,33 +152,51 @@ if color[y] = BLACK
 return y
 ```
 
+当删除的节点是红节点时,删除后不会导致违反任何红黑性质.当删除的节点是黑节点时,可能违反
+
+* 性质1:根节点不可以是红色
+* 性质4:不能出现连续两个红色节点
+
 ```Pseudocode
 RB-DELETE-FIXUP(T, x)
 while x ≠ root[T] and color[x] = BLACK  
     do if x = left[p[x]]
-          then w ← right[p[x]]                                 // 若 "x"是"它父节点的左孩子",则设置 "w"为"x的叔叔"(即x为它父节点的右孩子)
-          if color[w] = RED                                                //  Case 1:x是"黑+黑"节点,x的兄弟节点是红色.(此时x的父节点和x的兄弟节点的子节点都是黑节点).
-                  then color[w] ← BLACK                        //  Case 1  //   (1.1) 将x的兄弟节点设为"黑色".
-                       color[p[x]] ← RED                       //  Case 1  //   (1.2) 将x的父节点设为"红色".
-                       LEFT-ROTATE(T, p[x])                    //  Case 1  //   (1.3) 对x的父节点进行左旋.
-                       w ← right[p[x]]                         //  Case 1  //   (1.4) 左旋后,重新设置x的兄弟节点.
-               if color[left[w]] = BLACK and color[right[w]] = BLACK       // Case 2:x是"黑+黑"节点,x的兄弟节点是黑色,x的兄弟节点的两个孩子都是黑色.
-                  then color[w] ← RED                          //  Case 2  //   (2.1) 将x的兄弟节点设为"红色".
-                       x ←  p[x]                               //  Case 2  //   (2.2) 设置"x的父节点"为"新的x节点".
-                  else if color[right[w]] = BLACK                          // Case 3:x是"黑+黑"节点,x的兄弟节点是黑色;x的兄弟节点的左孩子是红色,右孩子是黑色的.
-                          then color[left[w]] ← BLACK          //  Case 3  //   (3.1) 将x兄弟节点的左孩子设为"黑色".
-                               color[w] ← RED                  //  Case 3  //   (3.2) 将x兄弟节点设为"红色".
-                               RIGHT-ROTATE(T, w)              //  Case 3  //   (3.3) 对x的兄弟节点进行右旋.
-                               w ← right[p[x]]                 //  Case 3  //   (3.4) 右旋后,重新设置x的兄弟节点.
-                                                               //  Case 4  // Case 4:x是"黑+黑"节点,x的兄弟节点是黑色;x的兄弟节点的右孩子是红色的.
-                        color[w] ← color[p[x]]                 //  Case 4  //   (4.1) 将x父节点颜色 赋值给 x的兄弟节点.
-                        color[p[x]] ← BLACK                    //  Case 4  //   (4.2) 将x父节点设为"黑色".
-                        color[right[w]] ← BLACK                //  Case 4  //   (4.3) 将x兄弟节点的右子节设为"黑色".
-                        LEFT-ROTATE(T, p[x])                   //  Case 4  //   (4.4) 对x的父节点进行左旋.
-                        x ← root[T]                            //  Case 4  //   (4.5) 设置"x"为"根节点".
-       else (same as then clause with "right" and "left" exchanged)        // 若 "x"是"它父节点的右孩子",将上面的操作中"right"和"left"交换位置,然后依次执行.
-color[x] ← BLACK
+          then w ← right[p[x]]                                         // 若 "x"是"它父节点的左孩子",则设置 "w"为"x兄弟节点"
+              if color[w] = RED                                            //  Case 1 : x是"双重黑"节点,x的兄弟节点是红色.(此时x的父节点和x的兄弟节点的子节点都是黑节点).
+                  then color[w] ← BLACK                                    //  (1.1) 将x的兄弟节点设为"黑色".
+                          color[p[x]] ← RED                                //  (1.2) 将x的父节点设为"红色".
+                          LEFT-ROTATE(T, p[x])                             //  (1.3) 对x的父节点进行左旋.
+                          w ← right[p[x]]                                  //  (1.4) 左旋后,重新设置x的兄弟节点(原来的x的兄弟节点的).
+              if color[left[w]] = BLACK and color[right[w]] = BLACK        //  Case 2 : x是"双重黑"节点,x的兄弟节点是黑色,x的兄弟节点的两个孩子都是黑色.
+                  then color[w] ← RED                                      //  (2.1) 将x的兄弟节点设为"红色".
+                        x ←  p[x]                                          //  (2.2) 设置"x的父节点"为"新的x节点".
+                  else                                                     //  Case 3/4 : x是"双重黑"节点,x的兄弟节点是黑色;x的兄弟节点的至少有一个为红色.
+                        if color[right[w]] = BLACK                         //  Case 3 : x是"双重黑"节点,x的兄弟节点是黑色;x的兄弟节点的右孩子是黑色的(左孩子是红色)
+                            then color[left[w]] ← BLACK                    //  (3.1) 将x兄弟节点的左孩子设为"黑色".
+                                color[w] ← RED                             //  (3.2) 将x兄弟节点设为"红色".
+                                RIGHT-ROTATE(T, w)                         //  (3.3) 对x的兄弟节点进行右旋.
+                                w ← right[p[x]]                            //  (3.4) 右旋后,重新设置x的兄弟节点.
+                                                                           //  Case 4 : x是"双重黑"节点,x的兄弟节点是黑色;x的兄弟节点的右孩子是红色的(左孩子可能为黑色或者红色).
+                        color[w] ← color[p[x]]                             //  (4.1) 将x父节点颜色 赋值给x的兄弟节点.
+                        color[p[x]] ← BLACK                                //  (4.2) 将x父节点设为"黑色".
+                        color[right[w]] ← BLACK                            //  (4.3) 将x兄弟节点的右子节设为"黑色".
+                        LEFT-ROTATE(T, p[x])                               //  (4.4) 对x的父节点进行左旋.
+                        x ← root[T]                                        //  (4.5) 设置"x"为"根节点".
+      else (same as then clause with "right" and "left" exchanged)     // 若 "x"是"它父节点的右孩子",将上面的操作中"right"和"left"交换位置,然后依次执行.
+color[x] ← BLACK // 红黑节点->黑 or 双重黑根节点->黑
 ```
+
+删除的FixUp操作引入两个新的颜色: 红黑/双重黑 节点,仅当x 指向该节点时为这两种颜色,如果 x.color = BLACK 则 x 为双重黑节点, x.color = RED 则 x为红黑节点.
+
+通过上述概念,不需要移除删除节点的所代表的一个黑高度,而是将这一个黑高度合并到x节点上,这样左树的黑高度并没有发生变化.仅需要通过循环将多余的这一个黑高度向上转移
+
+转移过程中,x可能指向下面三种节点
+
+* (循环结束)红节点(该节点变成黑色)
+* (循环结束)根节点(直接移除多余的黑色).
+* 黑节点:变为新的双重黑x,继续向上转移.
+
+转移过程中,可以通过旋转和改变节点颜色保持红黑树性质.
 
 ### Delete Case 1
 
