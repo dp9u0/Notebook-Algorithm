@@ -233,7 +233,7 @@ while x ≠ root[T] and color[x] = BLACK
                   then color[w] ← BLACK                                    //  (1.1) 将x的兄弟节点设为"黑色".
                           color[p[x]] ← RED                                //  (1.2) 将x的父节点设为"红色".
                           LEFT-ROTATE(T, p[x])                             //  (1.3) 对x的父节点进行左旋.
-                          w ← right[p[x]]                                  //  (1.4) 左旋后,重新设置x的兄弟节点(原来的x的兄弟节点的).
+                          w ← right[p[x]]                                  //  (1.4) 左旋后,重新设置x的兄弟节点(原来的x的兄弟节点的左孩子).
               if color[left[w]] = BLACK and color[right[w]] = BLACK        //  Case 2 : x是"双重黑"节点,x的兄弟节点是黑色,x的兄弟节点的两个孩子都是黑色.
                   then color[w] ← RED                                      //  (2.1) 将x的兄弟节点设为"红色".x和w向上抽取一层黑色,w是单层黑所以变成红色,x是双重黑,因此变成单重黑
                         x ←  p[x]                                          //  (2.2) 设置"x的父节点"为"新的x节点".新的 x 节点就可能是 红黑节点或者双重黑节点.
@@ -318,3 +318,7 @@ x是"双重黑"节点,**x的兄弟节点是红色**.(此时x的父节点和x的�
 颜色交换和旋转后,将兄弟子树上的红色转换到当前子树上,然后更新 `x` 的兄弟 `w` ,观察可以看到,Case 1 可以转换成 Case 2 Case 3 or Case4
 
 ![RB-Delete-Case1-After](./img/RB-Delete-Case1-After.png)
+
+## 实现
+
+[R-B Tree Source Code](../src/tree/RedBlackTree.js)
