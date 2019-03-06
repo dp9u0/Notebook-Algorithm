@@ -284,7 +284,7 @@ function _validate(node, comparator = DefaultComparator, nodeValidator = (node) 
   let nodes = [node];
   let set = new Set();
   while (nodes.length) {
-    node = nodes.pop();
+    node = nodes.shift();
     if (set.has(node) || !nodeValidator(node)) {
       return false;
     }
@@ -374,7 +374,7 @@ function _delete(node, value, comparator = DefaultComparator) {
         actual = actual._left;
       }
       // give actual._value to node
-      node._value = actual._value;
+      [node._value, actual._value] = [actual._value, node._value];
       node = actual;
       replacement = node._right;
     } else {

@@ -126,7 +126,7 @@ class BinarySearchTree {
    */
   constructor(fn = null) {
     this.comparator = new Comparator(fn);
-    this.root = null;
+    this._root = null;
   }
 
   /**
@@ -134,10 +134,10 @@ class BinarySearchTree {
    * @param {*} value : value
    */
   insert(value) {
-    if (!this.root) {
-      this.root = new BinarySearchTreeNode(value, this.comparator);
+    if (!this._root) {
+      this._root = new BinarySearchTreeNode(value, this.comparator);
     } else {
-      this.root.insert(value);
+      this._root.insert(value);
     }
   }
 
@@ -146,8 +146,8 @@ class BinarySearchTree {
    * @param {*} value : value
    */
   delete(value) {
-    if (this.root) {
-      this.root = this.root.delete(value)
+    if (this._root) {
+      this._root = this._root.delete(value)
     }
   }
 
@@ -157,7 +157,14 @@ class BinarySearchTree {
    * @return {bool} 是否存在
    */
   search(value) {
-    return this.root ? this.root.search(value) : false;
+    return this._root ? this._root.search(value) : false;
+  }
+
+  /**
+   * Get Root Node Of This Tree
+   */
+  get root() {
+    return this._root;
   }
 
   /**
@@ -165,14 +172,14 @@ class BinarySearchTree {
    * @return {number}
    */
   get height() {
-    return this.root ? this.root.height : 0;
+    return this._root ? this._root.height : 0;
   }
 
   /**
    * size of nodes
    */
   get size() {
-    return this.root ? this.root.size : 0;
+    return this._root ? this._root.size : 0;
   }
 
   /**
@@ -180,21 +187,21 @@ class BinarySearchTree {
    * @return {*[]}
    */
   inOrderTraverse() {
-    return _inOrderTraverse(this.root);
+    return _inOrderTraverse(this._root);
   }
 
   /**
    * 格式化打印
    */
   print() {
-    return _print(this.root);
+    return _print(this._root);
   }
 
   /**
    * 验证是否是个BST
    */
   validate() {
-    return this.root ? this.root.validate() : true;
+    return this._root ? this._root.validate() : true;
   }
 
   /**

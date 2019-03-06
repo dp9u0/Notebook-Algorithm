@@ -3,61 +3,135 @@ const expect = require('chai').expect;
 
 const INPUT_COUNT = 1e4;
 const INPUT_MAX = 1e2;
+const COLOR_BLACK = 'B';
+const COLOR_RED = 'R';
 
-describe('RedBlackTree', function () {
+function insertTest() {
   describe('#insert()', function () {
-    // [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
-    it(`insert to an empty tree , inserted element should be root`, function () {
-      const input = [];
-      let set = new Set(input);
+    it(`insert root work ok`, function () {
+      let input = [];
       let tree = Tree.fromArray(input);
-      let element = 8;
+      let set = new Set(input);
+      let element = 1;
+      set.add(element);
       tree.insert(element);
-      set.add(element)
-      let insertedNode = tree.root;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(insertedNode.value, `inserted element should be ${element}`).to.equal(element);
+      let node = tree._root;
+      expect(tree._root.color, `root color should be "BLACK"`).to.equal(COLOR_BLACK);
+      expect(node.color, `node color should be "BLACK"`).to.equal(COLOR_BLACK);
+      expect(node.value, `node value should be ${element}`).to.equal(element);
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(tree.validate(), `bst should be validate`).to.be.true;
     });
 
-    it(`insert left`, function () {
-      const input = [8];
-      let set = new Set(input);
+    it(`insert root._left._left(left case 1) work ok`, function () {
+      let input = [8, 6, 12];
       let tree = Tree.fromArray(input);
+      let set = new Set(input);
       let element = 4;
+      set.add(element);
       tree.insert(element);
-      set.add(element)
-      let insertedNode = tree.root.left;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(insertedNode.value, `inserted element should be ${element}`).to.equal(element);
+      let node = tree._root._left._left;
+      expect(tree._root.color, `node inserted color should be "BLACK"`).to.equal(COLOR_BLACK);
+      expect(node.color, `node inserted color should be "RED"`).to.equal(COLOR_RED);
+      expect(node.value, `node inserted value should be ${element}`).to.equal(element);
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(tree.validate(), `bst should be validate`).to.be.true;
     });
 
-    it(`insert right`, function () {
-      const input = [8];
-      let set = new Set(input);
+    it(`insert root._left._left(left case 3) work ok`, function () {
+      let input = [8, 6];
       let tree = Tree.fromArray(input);
-      let element = 12;
-      tree.insert(element);
-      set.add(element)
-      let insertedNode = tree.root.right;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(insertedNode.value, `inserted element should be ${element}`).to.equal(element);
-      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
-    });
-
-    it(`insert exist element`, function () {
-      const input = [8, 4, 12, 2, 6];
       let set = new Set(input);
-      let tree = Tree.fromArray(input);
       let element = 4;
+      set.add(element);
       tree.insert(element);
-      set.add(element)
-      expect(tree.validate(), `tree should be validate`).to.be.true;
+      let node = tree._root._left;
+      expect(tree._root.color, `root inserted color should be "BLACK"`).to.equal(COLOR_BLACK);
+      expect(node.color, `node inserted color should be "RED"`).to.equal(COLOR_RED);
+      expect(node.value, `node inserted value should be ${element}`).to.equal(element);
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(tree.validate(), `bst should be validate`).to.be.true;
+      expect(tree._root.value, `node value should be "6"`).to.equal(6);
+    });
+
+    it(`insert root._left._right(left case 2) work ok`, function () {
+      let input = [8, 6];
+      let tree = Tree.fromArray(input);
+      let set = new Set(input);
+      let element = 7;
+      set.add(element);
+      tree.insert(element);
+      let node = tree._root;
+      expect(node.color, `node inserted color should be "BLACK"`).to.equal(COLOR_BLACK);
+      expect(node.value, `node inserted value should be ${element}`).to.equal(element);
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(tree.validate(), `bst should be validate`).to.be.true;
+    });
+
+    it(`insert root._right._right (right case 1)work ok`, function () {
+      let input = [8, 6, 12];
+      let tree = Tree.fromArray(input);
+      let set = new Set(input);
+      let element = 14;
+      set.add(element);
+      tree.insert(element);
+      let node = tree._root._right._right;
+      expect(tree._root.color, `node inserted color should be "BLACK"`).to.equal(COLOR_BLACK);
+      expect(node.color, `node inserted color should be "RED"`).to.equal(COLOR_RED);
+      expect(node.value, `node inserted value should be ${element}`).to.equal(element);
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(tree.validate(), `bst should be validate`).to.be.true;
+    });
+
+    it(`insert root._right._right (right case 2)work ok`, function () {
+      let input = [8, 12];
+      let tree = Tree.fromArray(input);
+      let set = new Set(input);
+      let element = 14;
+      set.add(element);
+      tree.insert(element);
+      let node = tree._root._right;
+      expect(tree._root.color, `node inserted color should be "BLACK"`).to.equal(COLOR_BLACK);
+      expect(node.color, `node inserted color should be "RED"`).to.equal(COLOR_RED);
+      expect(node.value, `node inserted value should be ${element}`).to.equal(element);
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(tree.validate(), `bst should be validate`).to.be.true;
+    });
+
+    it(`insert root._right._left (right case 3)work ok`, function () {
+      let input = [8, 12];
+      let tree = Tree.fromArray(input);
+      let set = new Set(input);
+      let element = 11;
+      set.add(element);
+      tree.insert(element);
+      let node = tree._root;
+      expect(node.color, `node inserted color should be "BLACK"`).to.equal(COLOR_BLACK);
+      expect(node.value, `node inserted value should be ${element}`).to.equal(element);
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(tree.validate(), `bst should be validate`).to.be.true;
     });
   });
+}
 
+function deleteTest() {
+  describe('#delete()', function () {
+    it(`delete red node work ok`, function () {
+      let values = [8, 6, 12, null, null, 11];
+      let colors = [COLOR_BLACK, COLOR_BLACK, COLOR_BLACK, null, null, COLOR_RED]
+      let tree = Tree._fromNodeArray(values, colors);
+      let set = new Set(values);
+      set.delete(null);
+      let element = 11;
+      set.delete(element);
+      tree.delete(element);
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(tree.validate(), `bst should be validate`).to.be.true;
+    });
+  });
+}
+
+function searchTest() {
   describe('#search()', function () {
     it(`search should work ok`, function () {
       const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
@@ -70,127 +144,9 @@ describe('RedBlackTree', function () {
       expect(tree.search(`888`), `tree should not contains 888`).to.be.false;
     });
   });
+}
 
-  describe('#delete()', function () {
-    it(`delete root should work ok`, function () {
-      const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
-      let set = new Set(input);
-      let tree = Tree.fromArray(input);
-      let element = 8;
-      tree.delete(element);
-      set.delete(element);
-      let node = tree.root;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
-      expect(node.value, `new root value should be 9`).to.equal(9);
-    });
-
-    it(`delete single root should work ok`, function () {
-      const input = [8];
-      let set = new Set(input);
-      let tree = Tree.fromArray(input);
-      let element = 8;
-      tree.delete(element);
-      set.delete(element);
-      let node = tree.root;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
-      expect(node, `new root should be null`).to.be.null;
-    });
-
-    it(`delete left(left has full child) should work ok`, function () {
-      const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
-      let set = new Set(input);
-      let tree = Tree.fromArray(input);
-      let element = 4;
-      tree.delete(element);
-      set.delete(element);
-      let node = tree.root.left;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
-      expect(node.value, `new root value should be 5`).to.equal(5);
-    });
-
-    it(`delete left(left has no child) should work ok`, function () {
-      const input = [8, 4, 12];
-      let set = new Set(input);
-      let tree = Tree.fromArray(input);
-      let element = 4;
-      tree.delete(element);
-      set.delete(element);
-      let node = tree.root.left;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
-      expect(node, `new root should be null`).to.be.null;
-    });
-
-    it(`delete left(left only has left) should work ok`, function () {
-      const input = [8, 4, 12, 2, null, 10, 14, 1, 3, null, null, 9, 11, 13, 15];
-      let set = new Set(input);
-      let tree = Tree.fromArray(input);
-      let element = 4;
-      tree.delete(element);
-      set.delete(element);
-      let node = tree.root.left;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
-      expect(node.value, `new root value should be 2`).to.equal(2);
-    });
-
-    it(`delete left(left only has right) should work ok`, function () {
-      const input = [8, 4, 12, 6, 10, 14, 5, 7, 9, 11, 13, 15];
-      let set = new Set(input);
-      let tree = Tree.fromArray(input);
-      let element = 4;
-      tree.delete(element);
-      set.delete(element);
-      let node = tree.root.left;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
-      expect(node.value, `new root value should be 5`).to.equal(6);
-    });
-
-
-    it(`delete left(left only has right,and right min is left child) should work ok`, function () {
-      const input = [8, 4, 12, 6, 10, 14, 7, 9, 11, 13, 15];
-      let set = new Set(input);
-      let tree = Tree.fromArray(input);
-      let element = 4;
-      tree.delete(element);
-      set.delete(element);
-      let node = tree.root.left;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
-      expect(node.value, `new root value should be 6`).to.equal(6);
-    });
-
-    it(`delete right(right has full child) should work ok`, function () {
-      const input = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15];
-      let set = new Set(input);
-      let tree = Tree.fromArray(input);
-      let element = 12;
-      tree.delete(element);
-      set.delete(element);
-      let node = tree.root.right;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
-      expect(node.value, `new root value should be 13`).to.equal(13);
-    });
-
-    it(`delete right(right has no child) should work ok`, function () {
-      const input = [8, 4, 12];
-      let set = new Set(input);
-      let tree = Tree.fromArray(input);
-      let element = 12;
-      tree.delete(element);
-      set.delete(element);
-      let node = tree.root.right;
-      expect(tree.validate(), `tree should be validate`).to.be.true;
-      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
-      expect(node, `new root should be null`).to.be.null;
-    });
-  });
-
+function randonTest() {
   describe('#randomTest()', function () {
     this.timeout(30000);
     it(`randomTest should work ok()`, function (done) {
@@ -243,10 +199,17 @@ describe('RedBlackTree', function () {
           tree.insert(value);
           set.add(value);
         }
-        expect(tree.size, `tree size should be ${i+1}`).to.equal(set.size);
-        expect(tree.validate(), `bst should be validate`).to.be.true;
+        expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+        let validate = tree.validate();
+        expect(validate, `bst should be validate`).to.be.true;
       }
       done()
     });
   })
+}
+describe('RedBlackTree', function () {
+  insertTest();
+  deleteTest();
+  searchTest();
+  randonTest();
 });
