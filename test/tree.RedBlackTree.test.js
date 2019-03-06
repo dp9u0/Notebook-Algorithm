@@ -1,7 +1,7 @@
 const Tree = require("../src/tree/RedBlackTree");
 const expect = require('chai').expect;
 
-const INPUT_COUNT = 1e4;
+const INPUT_COUNT = 1e5;
 const INPUT_MAX = 1e2;
 const COLOR_BLACK = 'B';
 const COLOR_RED = 'R';
@@ -116,6 +116,36 @@ function insertTest() {
 
 function deleteTest() {
   describe('#delete()', function () {
+
+    it(`delete 84 from []`, function () {
+
+      let values = [64,
+        53, 71,
+        51, 60, 66, 73,
+        50, 52, 56, 61, null, null, null, null,
+        null, null, null, null, 54, 59, null, 63, null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null, null, null, 58
+      ]
+      let colors = [COLOR_BLACK,
+        COLOR_RED, COLOR_BLACK,
+        COLOR_BLACK, COLOR_BLACK, COLOR_BLACK, COLOR_BLACK,
+        COLOR_BLACK, COLOR_BLACK, COLOR_RED, COLOR_BLACK, null, null, null, null,
+        null, null, null, null, COLOR_BLACK, COLOR_BLACK, null, COLOR_RED, null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null, null, null, COLOR_RED
+      ];
+      let tree = Tree._fromNodeArray(values, colors);
+      let set = new Set(values);
+      // console.table(tree.print())
+      expect(tree.validate(), `bst should be validate`).to.be.true;
+      set.delete(null);
+      let element = 51;
+      set.delete(element);
+      tree.delete(element);
+      // console.table(tree.print())
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(tree.validate(), `bst should be validate`).to.be.true;
+    });
+
     it(`delete red node work ok`, function () {
       let values = [8, 6, 12, null, null, 11];
       let colors = [COLOR_BLACK, COLOR_BLACK, COLOR_BLACK, null, null, COLOR_RED]
@@ -128,6 +158,22 @@ function deleteTest() {
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
       expect(tree.validate(), `bst should be validate`).to.be.true;
     });
+
+    it(`delete 84 from [84, 79, 86, 77, 81, 85, 90, 76, 78, 80, 82, null, null, 87]`, function () {
+      let values = [84, 79, 86, 77, 81, 85, 90, 76, 78, 80, 82, null, null, 87];
+      let colors = [COLOR_BLACK, COLOR_RED, COLOR_RED, COLOR_BLACK, COLOR_BLACK, COLOR_BLACK, COLOR_BLACK, COLOR_RED, COLOR_RED, COLOR_RED, COLOR_RED, null, null, COLOR_RED]
+      let tree = Tree._fromNodeArray(values, colors);
+      let set = new Set(values);
+      // console.table(tree.print())
+      set.delete(null);
+      let element = 84;
+      set.delete(element);
+      tree.delete(element);
+      // console.table(tree.print())
+      expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(tree.validate(), `bst should be validate`).to.be.true;
+    });
+
   });
 }
 
@@ -148,7 +194,7 @@ function searchTest() {
 
 function randonTest() {
   describe('#randomTest()', function () {
-    this.timeout(30000);
+    this.timeout(60000);
     it(`randomTest should work ok()`, function (done) {
       function Random() {
         return ~~(Math.random() * INPUT_MAX);
@@ -190,17 +236,48 @@ function randonTest() {
       for (let j = 0; j < INPUT_COUNT; j++) {
         let value = input[j];
         let op = ops[j];
-        if (op === 1) {
-          tree.delete(value);
-          set.delete(value);
-        } else if (op === 2) {
-          expect(tree.search(value)).to.equal(set.has(value));
-        } else {
-          tree.insert(value);
-          set.add(value);
+        let before = tree.print();
+        let values = Array.from(set);
+        let output = false;
+        // console.log({
+        //   op,
+        //   value
+        // })
+        try {
+          if (op === 1) {
+            set.delete(value);
+            tree.delete(value);
+          } else if (op === 2) {
+            expect(tree.search(value)).to.equal(set.has(value));
+          } else {
+            tree.insert(value);
+            set.add(value);
+          }
+        } catch (error) {
+          expect(() => {
+            throw error
+          }).not.throw();
+          output = true;
         }
-        expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
         let validate = tree.validate();
+        // if (!validate || output) {
+        //   console.log(values.join(","));
+        //   console.table(before);
+        //   console.table({
+        //     op,
+        //     value
+        //   });
+        //   console.table(tree.print());
+        // }
+        // if (tree.size !== set.size) {
+        //   console.log({
+        //     op,
+        //     value
+        //   })
+        //   console.log(tree.inOrderTraverse().sort((a, b) => a - b).join(","));
+        //   console.log(Array.from(set).sort((a, b) => a - b).join(","));
+        // }
+        expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
         expect(validate, `bst should be validate`).to.be.true;
       }
       done()

@@ -1,4 +1,4 @@
-const INPUT_COUNT = 1e6;
+const INPUT_COUNT = 1e7;
 const INPUT_MAX = 1e6;
 const TEST_COUNT = 5;
 
@@ -25,10 +25,10 @@ function randomOp(count) {
     let op = Random10();
     if (op < 1) { // DELETE [0]
       ops.push(1);
-    } else if (op < 7) { // SEARCH [1,2,3,4,5,6]
+    } else if (op < 8) { // SEARCH [1,2,3,4,5,6]
       ops.push(2);
     } else {
-      ops.push(3); // INSERT [7,8,9]
+      ops.push(3); // INSERT [8,9]
     }
     count--;
   }
@@ -53,12 +53,11 @@ function BenchmarkTest(trees, testcount, inputcount, inputmax) {
       let result = results[desc];
       tree = new Tree();
       // BEGIN: MIX
-      console.time(desc);
       let {
-        height
-      } = testOnce(input, ops, Tree)
-      console.timeEnd(desc);
-      result[testcount] = height;
+        height,
+        size
+      } = testOnce(input, ops, Tree, desc)
+      result[testcount] = height + "," + size;
       // END: MIX
     }
     console.table(results);
@@ -68,7 +67,8 @@ function BenchmarkTest(trees, testcount, inputcount, inputmax) {
 }
 
 
-function testOnce(input, ops, Tree) {
+function testOnce(input, ops, Tree, desc) {
+  console.time(desc);
   tree = new Tree();
   let length = input.length;
   // BEGIN: MIX
@@ -83,6 +83,7 @@ function testOnce(input, ops, Tree) {
       tree.insert(value);
     }
   }
+  console.timeEnd(desc);
   return {
     height: tree.height,
     size: tree.size
@@ -108,7 +109,9 @@ class SetFakeTree {
   search(value) {
     return this.set.has(value)
   }
-
+  validate() {
+    return true;
+  }
   get height() {
     return 0;
   }
@@ -130,14 +133,14 @@ let trees = [{
   Tree: AVLTree,
   desc: 'AVLTree'
 }, {
+  Tree: RedBlackTree,
+  desc: 'RedBlackTree'
+}, {
   Tree: BinarySearchTree,
   desc: 'BinarySearchTree'
 }, {
   Tree: SplayTree,
   desc: 'SplayTree'
-}, {
-  Tree: RedBlackTree,
-  desc: 'RedBlackTree'
 }]
 
 BenchmarkTest(trees, TEST_COUNT, INPUT_COUNT, INPUT_MAX)

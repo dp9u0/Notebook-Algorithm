@@ -74,7 +74,9 @@ function _setColor(node, color) {
  * @param {RedBlackTreeNode} node 
  */
 function _setColorRed(node) {
-  _setColor(node, COLOR_RED);
+  if (node) {
+    node._color = COLOR_RED;
+  }
 }
 
 /**
@@ -82,7 +84,9 @@ function _setColorRed(node) {
  * @param {RedBlackTreeNode} node 
  */
 function _setColorBlack(node) {
-  _setColor(node, COLOR_BLACK);
+  if (node) {
+    node._color = COLOR_BLACK;
+  }
 }
 
 /**
@@ -90,7 +94,10 @@ function _setColorBlack(node) {
  * @param {RedBlackTreeNode} node 判断的节点
  */
 function _isRed(node) {
-  return _getColor(node) === COLOR_RED;
+  if (!node) {
+    return false;
+  }
+  return node._color === COLOR_RED;
 }
 
 /**
@@ -98,7 +105,10 @@ function _isRed(node) {
  * @param {RedBlackTreeNode} node 判断的节点
  */
 function _isBlack(node) {
-  return _getColor(node) === COLOR_BLACK;
+  if (!node) {
+    return true;
+  }
+  return node._color === COLOR_BLACK;
 }
 
 /**
@@ -138,16 +148,6 @@ function _getBrother(node) {
  */
 function _isLeftV2(node, parent) {
   return parent._left === node;
-}
-
-/**
- * node是否是右孩子,供 deleteFixup 使用,node 可能为空
- * 无法通过 node._parent 获取到parent,需要主动传入parent
- * @param {RedBlackTreeNode} node 判断的node
- * @param {RedBlackTreeNode} parent parent节点
- */
-function _isRightV2(node, parent) {
-  return parent._right === node;
 }
 
 /**
@@ -216,13 +216,13 @@ function _insertFixup(z, p, root) {
     let isLeft = _isLeft(p);
     let u = _getBrother(p);
     let g = p._parent;
-    if (_isRed(u)) { // case 1
+    if (_isRed(u)) { // CASE: 1
       _setColorBlack(p);
       _setColorBlack(u);
       _setColorRed(g);
       z = g;
       p = z._parent;
-    } else { // case 2/3
+    } else { // CASE: 2/3
       let case2 = isLeft ? _isRight(z) : _isLeft(z);
       if (case2) { // CASE:2
         if (isLeft) {
@@ -271,13 +271,12 @@ function _deleteFixup(x, p, root) {
       }
       w = _getBrotherV2(x, p);
     }
-    let {
-      _left: wl,
-      _right: wr
-    } = w;
+    let wl = w._left,
+      wr = w._right;
     if (_isBlack(wl) && _isBlack(wr)) { // CASE: 2
       _setColorRed(w);
       x = p;
+      p = x._parent;
     } else {
       let case3 = isLeft ? _isBlack(wr) : _isBlack(wl);
       if (case3) { // CASE: 3
@@ -290,6 +289,8 @@ function _deleteFixup(x, p, root) {
           _rotateLeft(w);
         }
         w = _getBrotherV2(x, p);
+        wl = w._left;
+        wr = w._right;
       }
       // CASE: 4
       _setColor(w, _getColor(p));
@@ -436,9 +437,7 @@ class RedBlackTreeNode {
    * 验证是否是个 RB Tree
    */
   validate() {
-    // TODO: JUST FOR TEST
-    // return _validate(this, this.comparator, _nodeValidate);
-    return _validate(this, this.comparator);
+    return _validate(this, this.comparator, _nodeValidate);
   }
 }
 
