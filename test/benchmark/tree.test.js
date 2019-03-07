@@ -54,10 +54,9 @@ function BenchmarkTest(trees, testcount, inputcount, inputmax) {
       tree = new Tree();
       // BEGIN: MIX
       let {
-        height,
-        size
+        height
       } = testOnce(input, ops, Tree, desc)
-      result[testcount] = height + "," + size;
+      result[testcount] = height;
       // END: MIX
     }
     console.table(results);
@@ -85,8 +84,7 @@ function testOnce(input, ops, Tree, desc) {
   }
   console.timeEnd(desc);
   return {
-    height: tree.height,
-    size: tree.size
+    height: tree.height
   }
 }
 
@@ -126,6 +124,8 @@ let AVLTree = require("../../src/tree/AVLTree");
 let BinarySearchTree = require("../../src/tree/BinarySearchTree");
 let SplayTree = require("../../src/tree/SplayTree");
 let RedBlackTree = require("../../src/tree/RedBlackTree");
+let Treap = require("../../src/tree/Treap");
+
 let trees = [{
   Tree: SetFakeTree,
   desc: "Set"
@@ -141,6 +141,9 @@ let trees = [{
 }, {
   Tree: SplayTree,
   desc: 'SplayTree'
+}, {
+  Tree: Treap,
+  desc: 'Treap'
 }]
 
 BenchmarkTest(trees, TEST_COUNT, INPUT_COUNT, INPUT_MAX)

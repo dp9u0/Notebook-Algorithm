@@ -17,6 +17,46 @@ BST树的操作主要要 查以及增删.其复杂度为 O(log(n)).
 
 因此需要在插入或删除时对二叉树不断的进行平衡,使其左右子树高度接近.
 
+## 左旋和右旋
+
+在二叉搜索树中,左旋和右旋是相当普遍而重要的操作.红黑树,AVL树,Splay树,Treap等等一系列自平衡的二叉搜索树都会利用旋转操作维持一定程度的平衡,同时不破坏二叉树基本性质.
+
+![RotateRight](img/RotateRight.jpg)
+
+```js
+/**
+ * 节点右旋
+ * @param {BinaryTreeNode} node
+ */
+function _rotateRight(node) {
+  let nodeLeft = node._left;
+  let nodeLeftRight = node._left._right;
+  _setLeft(node, null);
+  _replace(node, nodeLeft);
+  _setRight(nodeLeft, node);
+  _setLeft(node, nodeLeftRight);
+  return nodeLeft;
+}
+```
+
+![RotateLeft](img/RotateLeft.jpg)
+
+```js
+/**
+ * 节点左旋
+ * @param {BinaryTreeNode} node
+ */
+function _rotateLeft(node) {
+  let nodeRight = node._right;
+  let nodeRightLeft = node._right._left;
+  _setRight(node, null);
+  _replace(node, nodeRight);
+  _setLeft(nodeRight, node);
+  _setRight(node, nodeRightLeft);
+  return nodeRight;
+}
+```
+
 ## 实现
 
 [Binary Search Tree Source Code](../src/tree/BinarySearchTree.js)

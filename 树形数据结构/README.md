@@ -36,7 +36,6 @@
 * [伸展树(Splay Tree)](./SplayTree.md): 又叫分裂树,是一种自调整的二叉查找树
 * [红黑树(Red Black Tree)](./RedBlackTree.md): 一种自调整的平衡二叉查找树
 * [Treap](./Treap.md)
-* [SBT(Size Balanced Tree)](./SizeBalancedTree.md)
 * [B-Tree](./BTree.md)
 * [R-Tree](./RTree.md)
 * [前缀树(Trie Tree)/后缀树(Suffix Tree)](./TrieTreeAndSuffixTree.md)

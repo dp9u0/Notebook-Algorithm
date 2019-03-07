@@ -49,7 +49,6 @@
 * [伸展树(Splay Tree)](./树形数据结构/SplayTree.md)
 * [红黑树(Red Black Tree)](./树形数据结构/RedBlackTree.md)
 * [Treap](./树形数据结构/Treap.md)
-* [SBT(Size Balanced Tree)](./树形数据结构/SizeBalancedTree.md)
 * [B-Tree](./树形数据结构/BTree.md)
 * [R-Tree](./树形数据结构/RTree.md)
 * [前缀树(Trie Tree)/后缀树(Suffix Tree)](./树形数据结构/TrieTreeAndSuffixTree.md)
