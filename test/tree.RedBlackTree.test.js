@@ -1,7 +1,7 @@
 const Tree = require("../src/tree/RedBlackTree");
 const expect = require('chai').expect;
 
-const INPUT_COUNT = 1e5;
+const INPUT_COUNT = 1e4;
 const INPUT_MAX = 1e2;
 const COLOR_BLACK = 'B';
 const COLOR_RED = 'R';

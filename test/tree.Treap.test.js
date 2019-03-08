@@ -47,7 +47,6 @@ describe('Treap', function () {
       let element = 4;
       tree.insert(element);
       set.add(element)
-      console.table(tree.print())
       expect(tree.validate(), `tree should be validate`).to.be.true;
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
     });
