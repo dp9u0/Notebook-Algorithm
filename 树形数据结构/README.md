@@ -31,17 +31,13 @@
 * 满二叉树 : 一颗深度为k且有2^k-1个结点的二叉树称为满二叉树
 * 完全二叉树 : 除最后一层外,每一层上的节点数均达到最大值,在最后一层上只缺少右边的若干结点.
 
+## 二叉查找树
+
 * [二叉查找树(BST)](./BinarySearchTree.md): 每个结点最多有2个子树的树结构
 * [AVL树](./AVLTree.md): 一种自调整的平衡二叉查找树
 * [伸展树(Splay Tree)](./SplayTree.md): 又叫分裂树,是一种自调整的二叉查找树
 * [红黑树(Red Black Tree)](./RedBlackTree.md): 一种自调整的平衡二叉查找树
 * [Treap](./Treap.md)
-* [B-Tree](./BTree.md)
-* [R-Tree](./RTree.md)
-* [前缀树(Trie Tree)/后缀树(Suffix Tree)](./TrieTreeAndSuffixTree.md)
-* [最优二叉树((Huffman Tree)](./HuffmanTree.md) : 给定n个权值作为n个叶子结点,构造一棵二叉树,若该树的带权路径长度达到最小,称这样的二叉树为最优二叉树
-* [Segment Tree](./SegmentTree.md)
-* [Fenwick Tree / Binary Indexed Tree](./FenwickTree.md)
 
 ## [堆](./Heap.md)
 
@@ -52,6 +48,13 @@
 * [斐波那契堆(Fibonacci Heap)](./Heap.md#斐波那契堆)
 * [优先队列(Priority Queue)](./Heap.md#优先队列)
 
-## [跳表](./SkipList.md)
+## 其他树/树形结构
 
-## [森林](./Forest.md)
+* [B-Tree](./BTree.md)
+* [R-Tree](./RTree.md)
+* [前缀树(Trie Tree)/后缀树(Suffix Tree)](./TrieTreeAndSuffixTree.md)
+* [最优二叉树((Huffman Tree)](./HuffmanTree.md) : 给定n个权值作为n个叶子结点,构造一棵二叉树,若该树的带权路径长度达到最小,称这样的二叉树为最优二叉树
+* [Segment Tree](./SegmentTree.md)
+* [Fenwick Tree / Binary Indexed Tree](./FenwickTree.md)
+* [跳表](./SkipList.md)
+* [森林](./Forest.md)
