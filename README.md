@@ -40,6 +40,8 @@
 
 * [栈与队列](./线性数据结构/6.StackAndQueue.md)
 
+## [散列数据结构](./散列数据结构/README.md)
+
 ## [树形数据结构](./树形数据结构/README.md)
 
 ### 二叉查找树
@@ -69,8 +71,6 @@
 * [Fenwick Tree / Binary Indexed Tree](./树形数据结构/FenwickTree.md)
 * [跳表](./树形数据结构/SkipList.md)
 * [森林](./树形数据结构/Forest.md)
-
-## [散列数据结构](./散列数据结构/README.md)
 
 ## [排序算法](./排序算法/README.md)
 
