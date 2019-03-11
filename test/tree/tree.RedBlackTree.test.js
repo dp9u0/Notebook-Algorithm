@@ -1,4 +1,4 @@
-const Tree = require("../src/tree/RedBlackTree");
+const Tree = require("../../src/tree/RedBlackTree");
 const expect = require('chai').expect;
 
 const INPUT_COUNT = 1e4;

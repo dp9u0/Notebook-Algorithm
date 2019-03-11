@@ -1,10 +1,10 @@
-const Tree = require("../src/tree/Treap");
+const Tree = require("../../src/tree/BinarySearchTree");
 const expect = require('chai').expect;
 
 const INPUT_COUNT = 1e4;
 const INPUT_MAX = 1e2;
 
-describe('Treap', function () {
+describe('BinarySearchTree', function () {
   describe('#insert()', function () {
     // [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
     it(`insert to an empty tree , inserted element should be root`, function () {
@@ -14,7 +14,9 @@ describe('Treap', function () {
       let element = 8;
       tree.insert(element);
       set.add(element)
+      let insertedNode = tree.root;
       expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(insertedNode.value, `inserted element should be ${element}`).to.equal(element);
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
     });
 
@@ -25,7 +27,9 @@ describe('Treap', function () {
       let element = 4;
       tree.insert(element);
       set.add(element)
+      let insertedNode = tree.root.left;
       expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(insertedNode.value, `inserted element should be ${element}`).to.equal(element);
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
     });
 
@@ -36,7 +40,9 @@ describe('Treap', function () {
       let element = 12;
       tree.insert(element);
       set.add(element)
+      let insertedNode = tree.root.right;
       expect(tree.validate(), `tree should be validate`).to.be.true;
+      expect(insertedNode.value, `inserted element should be ${element}`).to.equal(element);
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
     });
 
@@ -73,8 +79,10 @@ describe('Treap', function () {
       let element = 8;
       tree.delete(element);
       set.delete(element);
+      let node = tree.root;
       expect(tree.validate(), `tree should be validate`).to.be.true;
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 9`).to.equal(9);
     });
 
     it(`delete single root should work ok`, function () {
@@ -84,8 +92,10 @@ describe('Treap', function () {
       let element = 8;
       tree.delete(element);
       set.delete(element);
+      let node = tree.root;
       expect(tree.validate(), `tree should be validate`).to.be.true;
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node, `new root should be null`).to.be.null;
     });
 
     it(`delete left(left has full child) should work ok`, function () {
@@ -95,8 +105,10 @@ describe('Treap', function () {
       let element = 4;
       tree.delete(element);
       set.delete(element);
+      let node = tree.root.left;
       expect(tree.validate(), `tree should be validate`).to.be.true;
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 5`).to.equal(5);
     });
 
     it(`delete left(left has no child) should work ok`, function () {
@@ -106,8 +118,10 @@ describe('Treap', function () {
       let element = 4;
       tree.delete(element);
       set.delete(element);
+      let node = tree.root.left;
       expect(tree.validate(), `tree should be validate`).to.be.true;
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node, `new root should be null`).to.be.null;
     });
 
     it(`delete left(left only has left) should work ok`, function () {
@@ -117,8 +131,10 @@ describe('Treap', function () {
       let element = 4;
       tree.delete(element);
       set.delete(element);
+      let node = tree.root.left;
       expect(tree.validate(), `tree should be validate`).to.be.true;
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 2`).to.equal(2);
     });
 
     it(`delete left(left only has right) should work ok`, function () {
@@ -128,8 +144,10 @@ describe('Treap', function () {
       let element = 4;
       tree.delete(element);
       set.delete(element);
+      let node = tree.root.left;
       expect(tree.validate(), `tree should be validate`).to.be.true;
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 5`).to.equal(6);
     });
 
 
@@ -140,8 +158,10 @@ describe('Treap', function () {
       let element = 4;
       tree.delete(element);
       set.delete(element);
+      let node = tree.root.left;
       expect(tree.validate(), `tree should be validate`).to.be.true;
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 6`).to.equal(6);
     });
 
     it(`delete right(right has full child) should work ok`, function () {
@@ -151,8 +171,10 @@ describe('Treap', function () {
       let element = 12;
       tree.delete(element);
       set.delete(element);
+      let node = tree.root.right;
       expect(tree.validate(), `tree should be validate`).to.be.true;
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node.value, `new root value should be 13`).to.equal(13);
     });
 
     it(`delete right(right has no child) should work ok`, function () {
@@ -162,8 +184,10 @@ describe('Treap', function () {
       let element = 12;
       tree.delete(element);
       set.delete(element);
+      let node = tree.root.right;
       expect(tree.validate(), `tree should be validate`).to.be.true;
       expect(tree.size, `tree size should be ${set.size}`).to.equal(set.size);
+      expect(node, `new root should be null`).to.be.null;
     });
   });
 

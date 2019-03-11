@@ -21,9 +21,9 @@ const {
   _insert,
   _delete,
   _find
-} = require("../src/tree/BinarySearchTreeCommon");
+} = require("../../src/tree/BinarySearchTreeCommon");
 
-const Comparator = require("../src/common/Comparator");
+const Comparator = require("../../src/common/Comparator");
 const DefaultComparator = new Comparator();
 
 function _arrayToTreeTest() {

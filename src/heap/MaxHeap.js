@@ -1,8 +1,10 @@
 const Comparator = require("../common/Comparator");
+
 /**
- * Heap
+ * MaxHeap
  */
-class Heap {
+class MaxHeap {
+  
   /**
    * 构造
    * @param {Function} fn comparator function
@@ -12,4 +14,4 @@ class Heap {
   }
 }
 
-module.exports = Heap;
+module.exports = MaxHeap;

@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
-const Tree = require("../src/tree/AVLTree");
+const Tree = require("../../src/tree/AVLTree");
 const {
   _height,
-} = require("../src/tree/BinarySearchTreeCommon");
+} = require("../../src/tree/BinarySearchTreeCommon");
 
 
 const INPUT_COUNT = 1e4;

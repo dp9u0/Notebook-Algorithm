@@ -1,4 +1,4 @@
-const Tree = require("../src/tree/SplayTree");
+const Tree = require("../../src/tree/SplayTree");
 const expect = require('chai').expect;
 
 const INPUT_COUNT = 1e4;
