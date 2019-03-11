@@ -7,6 +7,11 @@ function _defalutMinOrderedFn(first, second) {
   return first < second;
 }
 
+/**
+ * 
+ * @param {*[]} heap heap to validate
+ * @param {Function} ordered check if tow element in ordered
+ */
 function _validate(heap, ordered = _defalutMinOrderedFn) {
   for (let i = heap.length - 1; i > 0; i--) {
     let parent = _parentIndex(i);
@@ -86,7 +91,7 @@ function _hasRight(heap, index) {
  * heapify up 
  * @param {*[]} heap heap values
  * @param {Number} index start index to up,default index is last index in heap
- * @param {Function} ordered if tow element in ordered
+ * @param {Function} ordered check if tow element in ordered
  */
 function _heapifyUp(heap, index = heap.length - 1, ordered = _defalutMinOrderedFn) {
   _validateIndex(heap, index);
@@ -104,7 +109,7 @@ function _heapifyUp(heap, index = heap.length - 1, ordered = _defalutMinOrderedF
  * heapify down 
  * @param {*[]} heap heap values
  * @param {Number} index start index to down,default index is root in heap
- * @param {Function} ordered if tow element in ordered
+ * @param {Function} ordered check if tow element in ordered
  */
 function _heapifyDown(heap, index = 0, ordered = _defalutMinOrderedFn) {
   _validateIndex(heap, index);
@@ -148,7 +153,7 @@ function _print(heap) {
     fill(rows, _leftIndex(index), r + 1, s, i - 1);
     fill(rows, _rightIndex(index), r + 1, i + 1, e);
   }
-  let h = Math.ceil(Math.log2(heap.length));
+  let h = Math.ceil(Math.log2(heap.length + 1));
   let l = Math.pow(2, h - 1) * 2 - 1;
   let rows = Array.from({
     length: h

@@ -6,8 +6,8 @@
 // require("./tree/tree.Treap.test");
 
 require("./heap/heap.HeapCommon.test");
-// require("./heap/heap.MaxHeap.test");
-// require("./heap/heap.MinHeap.test");
+require("./heap/heap.MinHeap.test");
+require("./heap/heap.MaxHeap.test");
 // require("./heap/heap.LeftistHeap.test");
 // require("./heap/heap.BinomialHeap.test");
 // require("./heap/heap.FibonacciHeap.test");
