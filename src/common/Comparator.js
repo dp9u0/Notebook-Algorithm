@@ -6,7 +6,7 @@ class Comparator {
    * @param {function(a: *, b: *)} compareFunction
    */
   constructor(compareFunction) {
-    this.compareFunction = compareFunction || /*defaultCompareFunction*/((a, b) => a === b ? 0 : a < b ? -1 : 1);
+    this.compareFunction = compareFunction || /*defaultCompareFunction*/ ((a, b) => a === b ? 0 : a < b ? -1 : 1);
   }
 
   /**
@@ -69,4 +69,4 @@ class Comparator {
 }
 
 
-module.exports= Comparator;
+module.exports = Comparator;
