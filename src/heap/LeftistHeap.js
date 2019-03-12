@@ -149,6 +149,13 @@ class LeftistHeapNode {
     this._right = null;
     this._npl = 0;
   }
+
+  /**
+   * getter of value
+   */
+  get value() {
+    return this._value;
+  }
 }
 /**
  * LeftistHeap
@@ -165,12 +172,14 @@ class LeftistHeap {
   }
 
   /**
-   * 
+   * insert a value to heap
    * @param {*} value element to insert
+   * @return {LeftistHeapNode} node inserted
    */
   insert(value) {
     let node = new LeftistHeapNode(value);
     this.root = _merge(this.root, node, this.comparator);
+    return node;
   }
 
   /**
