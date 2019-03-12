@@ -1,3 +1,5 @@
+const Comparator = require("../common/Comparator");
+
 /**
  * 双向链表
  */
@@ -6,11 +8,12 @@ class DoublyLinkedList {
   /**
    * 构造函数
    */
-  constructor() {
+  constructor(fn = null) {
+    this.comparator = new Comparator(fn);
     this.dummyHead = new DoublyLinkedListNode();
     this.dummyTail = new DoublyLinkedListNode();
-    this.dummyHead.next = this.dummyTail;
-    this.dummyTail.previous = this.dummyHead;
+    this.dummyHead._next = this.dummyTail;
+    this.dummyTail._previous = this.dummyHead;
   }
 
 
@@ -19,7 +22,7 @@ class DoublyLinkedList {
    */
   length() {
     let length = 0
-    let node = this.dummyHead.next;
+    let node = this.dummyHead._next;
     while (node !== this.dummyTail) {
       length++;
     }
@@ -27,17 +30,26 @@ class DoublyLinkedList {
   }
 
   /**
+   * find node's value equals value 
+   * @param {*} value value to found
+   * @return {DoublyLinkedListNode} node founded
+   */
+  find(value) {
+    let node = this.dummyHead._next;
+    while (node !== this.dummyTail) {
+      if (this.comparator.equal(node.value, value)) {
+        return node;
+      }
+    }
+    return null;
+  }
+
+  /**
    * 是否包含某个值
    * @param {*} value 
    */
   contains(value) {
-    let node = this.dummyHead.next;
-    while (node !== this.dummyTail) {
-      if (node.value === value) {
-        return true;
-      }
-    }
-    return false;
+    return find(value) !== null;
   }
 
   /**
@@ -46,10 +58,10 @@ class DoublyLinkedList {
    */
   prepend(value) {
     let newNode = new DoublyLinkedListNode(value);
-    newNode.previous = this.dummyHead;
-    newNode.next = this.dummyHead.next;
-    this.dummyHead.next.previous = newNode;
-    this.dummyHead.next = newNode;
+    newNode._previous = this.dummyHead;
+    newNode._next = this.dummyHead._next;
+    this.dummyHead._next._previous = newNode;
+    this.dummyHead._next = newNode;
   }
 
   /**
@@ -58,10 +70,10 @@ class DoublyLinkedList {
    */
   append(value) {
     let newNode = new DoublyLinkedListNode(value);
-    newNode.previous = this.dummyTail.previous;
-    newNode.next = this.dummyTail;
-    this.dummyTail.previous.next = newNode;
-    this.dummyTail.previous = newNode;
+    newNode._previous = this.dummyTail._previous;
+    newNode._next = this.dummyTail;
+    this.dummyTail._previous._next = newNode;
+    this.dummyTail._previous = newNode;
   }
 
   /**
@@ -71,29 +83,29 @@ class DoublyLinkedList {
    */
   insert(value, after) {
     let node = this.dummyHead;
-    while (node.value !== after && node.next != this.dummyTail) {
-      node = node.next;
+    while (!this.comparator.equal(node.value, after) && node._next != this.dummyTail) {
+      node = node._next;
     }
     let newNode = new DoublyLinkedListNode(value);
-    newNode.next = node.next;
-    newNode.previous = node;
-    node.next.previous = newNode;
-    node.next = newNode;
+    newNode._next = node._next;
+    newNode._previous = node;
+    node._next._previous = newNode;
+    node._next = newNode;
   }
 
   /**
    * remove first node 
    */
   removeHead() {
-    if (this.dummyHead.next !== this.dummyTail) {
-      let remove = this.dummyHead.next;
-      remove.previous.next = remove.next;
-      remove.next.previous = remove.previous;
+    if (this.dummyHead._next !== this.dummyTail) {
+      let remove = this.dummyHead._next;
+      remove._previous._next = remove._next;
+      remove._next._previous = remove._previous;
 
       // NOTE: for memory leak
       remove.value = null;
-      remove.previous = null;
-      remove.next = null;
+      remove._previous = null;
+      remove._next = null;
     }
   }
 
@@ -101,14 +113,14 @@ class DoublyLinkedList {
    * remove last node
    */
   removeTail() {
-    if (this.dummyTail.previous !== this.dummyHead) {
-      let remove = this.dummyTail.previous;
-      remove.previous.next = remove.next;
-      remove.next.previous = remove.previous;
+    if (this.dummyTail._previous !== this.dummyHead) {
+      let remove = this.dummyTail._previous;
+      remove._previous._next = remove._next;
+      remove._next._previous = remove._previous;
       // NOTE: for memory leak
       remove.value = null;
-      remove.previous = null;
-      remove.next = null;
+      remove._previous = null;
+      remove._next = null;
     }
   }
 
@@ -117,16 +129,16 @@ class DoublyLinkedList {
    * @param {*} value 
    */
   remove(value) {
-    let node = this.dummyHead.next;
+    let node = this.dummyHead._next;
     while (node !== this.dummyTail) {
-      let next = node.next;
-      if (node.value === value) {
-        node.previous.next = node.next;
-        node.next.previous = node.previous;
+      let next = node._next;
+      if (this.comparator.equal(node.value, value)) {
+        node._previous._next = node._next;
+        node._next._previous = node._previous;
         // NOTE: for memory leak
         node.value = null;
-        node.previous = null;
-        node.next = null;
+        node._previous = null;
+        node._next = null;
       }
       node = next;
     }
@@ -137,10 +149,10 @@ class DoublyLinkedList {
    */
   toArray() {
     let array = new Array();
-    let node = this.dummyHead.next;
+    let node = this.dummyHead._next;
     while (node != this.dummyTail) {
       array.push(node.value);
-      node = node.next;
+      node = node._next;
     }
     return array;
   }
@@ -156,9 +168,18 @@ class DoublyLinkedListNode {
    * @param {*} value 
    */
   constructor(value) {
+    /**
+     * @type {*}
+     */
     this.value = value;
-    this.previous = null;
-    this.next = null;
+    /**
+     * @type {DoublyLinkedListNode}
+     */
+    this._previous = null;
+    /**
+     * @type {DoublyLinkedListNode}
+     */
+    this._next = null;
   }
 
 }

@@ -1,3 +1,5 @@
+const Comparator = require("../common/Comparator");
+
 /**
  * LinkedListNode
  */
@@ -9,7 +11,10 @@ class LinkedListNode {
    */
   constructor(value) {
     this.value = value;
-    this.next = null;
+    /**
+     * @type {LinkedListNode}
+     */
+    this._next = null;
   }
 }
 
@@ -21,8 +26,24 @@ class LinkedList {
   /**
    * LinkedList 构造
    */
-  constructor() {
+  constructor(fn = null) {
+    this.comparator = new Comparator(fn);
     this.dummyHead = new LinkedListNode();
+  }
+
+  /**
+   * find node's value equals value 
+   * @param {*} value value to found
+   * @return {LinkedListNode} node founded
+   */
+  find(value) {
+    let node = this.dummyHead._next;
+    while (node) {
+      if (this.comparator.equal(node.value, value)) {
+        return node;
+      }
+    }
+    return null;
   }
 
   /**
@@ -30,13 +51,7 @@ class LinkedList {
    * @param {*} value 
    */
   contains(value) {
-    let node = this.dummyHead.next;
-    while (node) {
-      if (node.value === value) {
-        return true;
-      }
-    }
-    return false;
+    return find(value) !== null;
   }
 
   /**
@@ -44,7 +59,7 @@ class LinkedList {
    */
   length() {
     let length = 0;
-    let node = this.dummyHead.next;
+    let node = this.dummyHead._next;
     while (node) {
       length++;
     }
@@ -57,8 +72,8 @@ class LinkedList {
    */
   prepend(value) {
     let newNode = new LinkedListNode(value);
-    newNode.next = this.dummyHead.next;
-    this.dummyHead.next = newNode;
+    newNode._next = this.dummyHead._next;
+    this.dummyHead._next = newNode;
   }
 
   /**
@@ -67,10 +82,10 @@ class LinkedList {
    */
   append(value) {
     let node = this.dummyHead;
-    while (node.next) {
-      node = node.next;
+    while (node._next) {
+      node = node._next;
     }
-    node.next = new LinkedListNode(value);
+    node._next = new LinkedListNode(value);
   }
 
   /**
@@ -80,24 +95,24 @@ class LinkedList {
    */
   insert(value, after) {
     let node = this.dummyHead;
-    while (node.value !== after && node.next) {
-      node = node.next;
+    while (!this.comparator.equal(node.value, after) && node._next) {
+      node = node._next;
     }
     let newNode = new LinkedListNode(value);
-    newNode.next = node.next;
-    node.next = newNode;
+    newNode._next = node._next;
+    node._next = newNode;
   }
 
   /**
    * remove first node 
    */
   removeHead() {
-    if (this.dummyHead.next) {
-      let remove = this.dummyHead.next;
-      this.dummyHead.next = remove.next;
+    if (this.dummyHead._next) {
+      let remove = this.dummyHead._next;
+      this.dummyHead._next = remove._next;
       // NOTE: for memory leak
       remove.value = null;
-      remove.next = null;
+      remove._next = null;
     }
   }
 
@@ -107,15 +122,15 @@ class LinkedList {
   removeTail() {
     let node = this.dummyHead;
     let pre = null;
-    while (node.next) {
+    while (node._next) {
       pre = node;
-      node = node.next;
+      node = node._next;
     }
     if (pre) {
-      pre.next = null;
+      pre._next = null;
       // NOTE: for memory leak
       node.value = null;
-      node.next = null;
+      node._next = null;
     }
   }
 
@@ -125,16 +140,16 @@ class LinkedList {
    */
   remove(value) {
     let pre = this.dummyHead;
-    let node = pre.next;
+    let node = pre._next;
     while (node) {
-      if (node.value === value) {
-        pre.next = node.next;
-        node.next = null;
+      if (this.comparator.equal(node.value, value)) {
+        pre._next = node._next;
+        node._next = null;
         node.value = null;
       } else {
-        pre = pre.next;
+        pre = pre._next;
       }
-      node = (pre ? pre.next : null);
+      node = (pre ? pre._next : null);
     }
   }
 
@@ -143,10 +158,10 @@ class LinkedList {
    */
   toArray() {
     let array = new Array();
-    let node = this.dummyHead.next;
+    let node = this.dummyHead._next;
     while (node) {
       array.push(node.value);
-      node = node.next;
+      node = node._next;
     }
     return array;
   }
