@@ -3,32 +3,6 @@
 const Comparator = require("../common/Comparator");
 
 /**
- * FibonacciHeapNode
- */
-class FibonacciHeapNode {
-
-  /**
-   * FibonacciHeapNode
-   * @param {*} value value of this node
-   */
-  constructor(value) {
-    this._value = value;
-    this._prev = this;
-    this._next = this;
-    this._degree = 0;
-    this._parent = null;
-    this._child = null;
-    this._marked = null;
-  }
-
-  /**
-   * getter of value
-   */
-  get value() {
-    return this._value;
-  }
-}
-/**
  * FibonacciHeap
  */
 class FibonacciHeap {

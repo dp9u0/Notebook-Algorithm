@@ -42,18 +42,16 @@
 ## [堆](./Heap.md)
 
 * [二叉堆(大根堆 小根堆)](./Heap.md#二叉堆)
-* [二项树](./Heap.md#二项树)
-* [二项堆](./Heap.md#二项堆)
 * [左倾堆](./Heap.md#左倾堆)
+* [二项堆](./Heap.md#二项堆)
 * [斐波那契堆(Fibonacci Heap)](./Heap.md#斐波那契堆)
-* [优先队列(Priority Queue)](./Heap.md#优先队列)
 
 ## 其他树/树形结构
 
 * [B-Tree](./BTree.md)
 * [R-Tree](./RTree.md)
 * [前缀树(Trie Tree)/后缀树(Suffix Tree)](./TrieTreeAndSuffixTree.md)
-* [最优二叉树((Huffman Tree)](./HuffmanTree.md) : 给定n个权值作为n个叶子结点,构造一棵二叉树,若该树的带权路径长度达到最小,称这样的二叉树为最优二叉树
+* [最优二叉树((Huffman Tree)](./HuffmanTree.md)
 * [Segment Tree](./SegmentTree.md)
 * [Fenwick Tree / Binary Indexed Tree](./FenwickTree.md)
 * [跳表](./SkipList.md)

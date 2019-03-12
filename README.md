@@ -55,18 +55,16 @@
 ### [堆](./树形数据结构/Heap.md)
 
 * [二叉堆(大根堆 小根堆)](./树形数据结构/Heap.md#二叉堆)
-* [二项树](./树形数据结构/Heap.md#二项树)
 * [二项堆](./树形数据结构/Heap.md#二项堆)
 * [左倾堆](./树形数据结构/Heap.md#左倾堆)
 * [斐波那契堆(Fibonacci Heap)](./树形数据结构/Heap.md#斐波那契堆)
-* [优先队列(Priority Queue)](./树形数据结构/Heap.md#优先队列)
 
 ### 其他树/树形结构
 
 * [B-Tree](./树形数据结构/BTree.md)
 * [R-Tree](./树形数据结构/RTree.md)
 * [前缀树(Trie Tree)/后缀树(Suffix Tree)](./树形数据结构/TrieTreeAndSuffixTree.md)
-* [最优二叉树((Huffman Tree)](./树形数据结构/HuffmanTree.md) : 给定n个权值作为n个叶子结点,构造一棵二叉树,若该树的带权路径长度达到最小,称这样的二叉树为最优二叉树
+* [最优二叉树((Huffman Tree)](./树形数据结构/HuffmanTree.md)
 * [Segment Tree](./树形数据结构/SegmentTree.md)
 * [Fenwick Tree / Binary Indexed Tree](./树形数据结构/FenwickTree.md)
 * [跳表](./树形数据结构/SkipList.md)
@@ -154,6 +152,7 @@
 
 ### 博客与网站
 
+* [DataStructure](https://www.growingwiththeweb.com/p/explore.html?t=Data%20structure)
 * The-Art-Of-Programming-By-July : [\[GitHub\]](https:/github.com/julycoding/The-Art-Of-Programming-By-July)
 * leetcode : [[leetcode]](http:/leetcode.com/)
 * 算法和数据结构词典:[[Dictionary of Algorithms and Data Structures]](https:/xlinux.nist.gov/dads/)
