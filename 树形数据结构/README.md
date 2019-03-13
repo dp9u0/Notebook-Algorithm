@@ -11,6 +11,12 @@
 * 每一个非根结点有且只有一个父结点
 * 除了根结点外,每个子结点可以分为多个不相交的子树
 
+![Tree](img/Tree.png)
+
+## 森林
+
+一颗或多颗树组成的集合称为森林
+
 ## 相关术语
 
 * 度 : 一个节点含有的子树的个数称为该节点的**度**
@@ -53,6 +59,4 @@
 * [前缀树(Trie Tree)/后缀树(Suffix Tree)](./TrieTreeAndSuffixTree.md)
 * [最优二叉树(Huffman Tree)](./HuffmanTree.md)
 * [Segment Tree](./SegmentTree.md)
-* [Fenwick Tree / Binary Indexed Tree](./FenwickTree.md)
 * [跳表](./SkipList.md)
-* [森林](./Forest.md)
