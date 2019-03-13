@@ -51,7 +51,7 @@
 * [B-Tree](./BTree.md)
 * [R-Tree](./RTree.md)
 * [前缀树(Trie Tree)/后缀树(Suffix Tree)](./TrieTreeAndSuffixTree.md)
-* [最优二叉树((Huffman Tree)](./HuffmanTree.md)
+* [最优二叉树(Huffman Tree)](./HuffmanTree.md)
 * [Segment Tree](./SegmentTree.md)
 * [Fenwick Tree / Binary Indexed Tree](./FenwickTree.md)
 * [跳表](./SkipList.md)
