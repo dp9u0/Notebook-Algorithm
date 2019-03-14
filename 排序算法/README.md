@@ -26,7 +26,9 @@
 
 ## 冒泡排序
 
-冒泡排序算法的运作如下:
+这个算法的名字由来是因为越小的元素会经由交换慢慢浮到数列的顶端.
+
+步骤为:
 
 1. 比较相邻的元素.如果第一个比第二个大,就交换他们两个.
 2. 对每一对相邻元素作同样的工作,从开始第一对到结尾的最后一对.这步做完后,最后的元素会是最大的数.
@@ -34,19 +36,42 @@
 4. 持续每次对越来越少的元素重复上面的步骤,直到没有任何一对数字需要比较.
 
 ```Pseudocode
-bubble_sort (array) {
-  for(i from 1 to length(array) - 1){
-    for(j from 0 to length(array)- 1 - i){
-      if (array[j] > array[j+1])
-        swap(array[j], array[j+1])
-    }
-  }
-}
+bubble_sort(A)
+  for i := 1 to length(A) - 1 do
+    for j := 0 to length(A)- 1 - i do
+      if (A[j] > A[j+1]) then
+        swap(A[j],A[j+1])
 ```
 
 ![冒泡排序](img/bubbleSort.gif)
 
 ## 快速排序
+
+快速排序使用分治法(*Divide and conquer*)策略来把一个序列(list)分为两个子序列(sub-lists).
+
+步骤为:
+
+1. 从数列中挑出一个元素,称为基准(*pivot*),
+2. 重新排序数列,所有比基准值小的元素摆放在基准前面,所有比基准值大的元素摆在基准后面(相同的数可以到任何一边).在这个分割结束之后,该基准就处于数列的中间位置.这个称为分割(partition)操作.
+3. 递归(recursively)把小于基准值元素的子数列和大于基准值元素的子数列排序.
+
+```Pseudocode
+quicksort(A, lo, hi)
+    if lo < hi then
+        p := partition(A, lo, hi)
+        quicksort(A, lo, p - 1)
+        quicksort(A, p + 1, hi)
+
+partition(A, lo, hi)
+    pivot := A[hi]
+    i := lo
+    for j := lo to hi - 1 do
+        if A[j] < pivot then
+            swap(A[i],A[j])
+            i := i + 1
+    swap(A[i],A[hi])
+    return i
+```
 
 ![快速排序](img/quickSort.gif)
 
