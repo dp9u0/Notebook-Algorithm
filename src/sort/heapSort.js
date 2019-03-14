@@ -1,12 +1,11 @@
 /**
  * heap sort
- * @param {*[]} inputs source array
- * @param {(a,b)=> number} compareFn The name of the function used to determine the order of the elements. 
- * If omitted, the elements are sorted in ascending, ASCII character order.
+ * @param {*[]} input source array
+ * @param {(a,b)=> boolean} disordered The function used to determine if two element is disordered.
  * @return {*[]} sort results
  */
-function sort(inputs, compareFn) {
-  return inputs;
+function sort(input, disordered) {
+  return input;
 }
 
 module.exports = sort;
