@@ -24,7 +24,7 @@ function randomArray(count, max = 100) {
 }
 
 const inputs = [
-  [1, , 4, 5, 2, 4, 5, 6],
+  [1, 6, 4, 5, 2, 4, 5, 6],
   randomArray(10),
   randomArray(20),
 ];
@@ -59,7 +59,7 @@ describe("Sort", function () {
   // sortTest(shellSort, 'shellSort');
   sortTest(selectionSort, 'selectionSort');
   // sortTest(heapSort, 'heapSort');
-  // sortTest(mergeSort, 'mergeSort');
+  sortTest(mergeSort, 'mergeSort');
   // sortTest(countingSort, 'countingSort');
   // sortTest(radixSort, 'radixSort');
   // sortTest(bucketSort, 'bucketSort');
