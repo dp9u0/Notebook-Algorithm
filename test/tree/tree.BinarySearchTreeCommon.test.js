@@ -468,7 +468,6 @@ function _validateTest() {
       let root = _arrayToTree([...array]);
       expect(_validate(root, DefaultComparator, (node) => false)).to.be.false;
     });
-    // TODO: 
   });
 
 }
