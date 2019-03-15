@@ -7,10 +7,12 @@
 function sort(input, disordered) {
   for (let i = 1; i < input.length; i++) {
     let j = i - 1;
-    while (disordered(input[j], input[i])) {
+    let value = input[i];
+    while (j >= 0 && disordered(input[j], value)) {
       input[j + 1] = input[j];
+      j--;
     }
-    input[j] = input[i];
+    input[j + 1] = value;
   }
   return input;
 }

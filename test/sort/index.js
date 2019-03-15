@@ -29,14 +29,10 @@ const inputs = [
   randomArray(20),
 ];
 
-function checkSorted(results) {
-  for (let i = 1; i < results.length; i++) {
-    expect(!disordered(results[i - 1], results[i]), `expect ${results[i-1]} <= ${results[i]}`).to.be.true;
+function checkSorted(output, expectOutput) {
+  for (let i = 1; i < output.length; i++) {
+    expect(expectOutput[i] === output[i], `expect ${i} : ${expectOutput[i]} === ${output[i]}`).to.be.true;
   }
-}
-
-function disordered(a, b) {
-  return a > b;
 }
 
 function sortTest(sort, description) {
@@ -47,7 +43,7 @@ function sortTest(sort, description) {
       it(`sort ${input.length} elements: ${input.join(',')}
       want: ${expectOutput.join(',')}
       got : ${output.join(',')}`, function () {
-        checkSorted(output);
+        checkSorted(output, expectOutput);
       });
     }
   });
@@ -56,7 +52,7 @@ describe("Sort", function () {
   sortTest(bubbleSort, 'bubbleSort');
   sortTest(quickSort, 'quickSort');
   sortTest(insertionSort, 'insertionSort');
-  // sortTest(shellSort, 'shellSort');
+  sortTest(shellSort, 'shellSort');
   sortTest(selectionSort, 'selectionSort');
   // sortTest(heapSort, 'heapSort');
   sortTest(mergeSort, 'mergeSort');

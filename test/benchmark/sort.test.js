@@ -9,8 +9,8 @@ const countingSort = require("../../src/sort/countingSort");
 const radixSort = require("../../src/sort/radixSort");
 const bucketSort = require("../../src/sort/bucketSort");
 
-const INPUT_COUNT = 1e1;
-const INPUT_MAX = 1e1;
+const INPUT_COUNT = 1e4;
+const INPUT_MAX = 1e5;
 const TEST_COUNT = 5;
 
 function Random(max = 100) {
@@ -49,7 +49,7 @@ function sortTest(sortFns, inputCount, inputMax, testCount) {
     let count = testCount;
     while (count > 0) {
       count--;
-      testOnce(inputs[count], sortFn, desc);
+      testOnce([...inputs[count]], sortFn, desc);
     }
   }
 }
