@@ -9,7 +9,7 @@ const countingSort = require("../../src/sort/countingSort");
 const radixSort = require("../../src/sort/radixSort");
 const bucketSort = require("../../src/sort/bucketSort");
 
-const INPUT_COUNT = 1e4;
+const INPUT_COUNT = 1e5;
 const INPUT_MAX = 1e5;
 const TEST_COUNT = 5;
 
