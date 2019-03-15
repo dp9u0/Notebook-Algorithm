@@ -54,10 +54,10 @@ function sortTest(sort, description) {
 }
 describe("Sort", function () {
   sortTest(bubbleSort, 'bubbleSort');
-  // sortTest(quickSort, 'quickSort');
-  // sortTest(insertionSort, 'insertionSort');
+  sortTest(quickSort, 'quickSort');
+  sortTest(insertionSort, 'insertionSort');
   // sortTest(shellSort, 'shellSort');
-  // sortTest(selectionSort, 'selectionSort');
+  sortTest(selectionSort, 'selectionSort');
   // sortTest(heapSort, 'heapSort');
   // sortTest(mergeSort, 'mergeSort');
   // sortTest(countingSort, 'countingSort');

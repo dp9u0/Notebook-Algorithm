@@ -5,6 +5,13 @@
  * @return {*[]} sort results
  */
 function sort(input, disordered) {
+  for (let i = 1; i < input.length; i++) {
+    let j = i - 1;
+    while (disordered(input[j], input[i])) {
+      input[j + 1] = input[j];
+    }
+    input[j] = input[i];
+  }
   return input;
 }
 

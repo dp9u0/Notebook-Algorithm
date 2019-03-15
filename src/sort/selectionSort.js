@@ -5,6 +5,15 @@
  * @return {*[]} sort results
  */
 function sort(input, disordered) {
+  for (let i = 0; i < input.length; i++) {
+    let min = i;
+    for (let j = i + 1; j < input.length; j++) {
+      if (disordered(input[min], input[j])) {
+        min = j;
+      }
+    }
+    [input[i], input[min]] = [input[min], input[i]];
+  }
   return input;
 }
 
