@@ -34,3 +34,7 @@ repeat
 ```
 
 ![添加](img/SkipList-AddElement.gif)
+
+## 跳表实现
+
+[SkipList](../src/tree/SkipList.js)

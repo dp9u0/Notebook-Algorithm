@@ -16,6 +16,12 @@
 
 把堆存储的最后那个节点移到填在根节点处,再从上而下调整父节点与它的子节点(**heapify-down**)
 
+### 实现
+
+[最大堆](../src/heap/MaxHeap.js)
+
+[最小堆](../src/heap/MinHeap.js)
+
 ## 左倾堆
 
 左倾堆的每个节点有一个附加信息,即`null path length(npl)`: 从一个节点到一个最近的不满节点的路径长度(不满节点:两个子节点至少有一个为NULL)
@@ -36,6 +42,10 @@
 4. 更新根节点的npl = 右子堆npl + 1
 
 ![LeftistTree](img/LeftistTree.png)
+
+### LeftistTree 实现
+
+[LeftistTree](../src/heap/LeftistTree.js)
 
 ## 二项堆
 
@@ -133,6 +143,10 @@ function deleteMin(heap)
 * 减小给定结点关键字的值
 * 删除给定结点
 
+### BinomialHeap 实现
+
+[BinomialHeap](../src/heap/BinomialHeap.js)
+
 ## 斐波那契堆(Fibonacci Heap)
 
 斐波那契堆是由一组最小堆有序树构成的集合,每个最小堆有序树的度数为其子节点的数目,树的度数为其根节点的度数.
@@ -154,6 +168,10 @@ function deleteMin(heap)
 * 减小给定结点关键字的值(平摊分析 O(1)): 对一个节点的键值降低后,自键值降低的节点开始自下而上的迭代执行下述操作,直至到根节点或一个未被标记(marked)节点为止
   如果当前节点键值小于其父节点的键值,则把该节点及其子树摘下来作为堆的新树的根节点；其原父节点如果是被标记(marked)节点,则也被摘下来作为堆的新树的根节点；如果其原父节点不是被标记(marked)节点且不是根节点,则其原父节点被加标记.
 * 删除给定结点(平摊分析 O(log(n))): 把被删除节点的键值调整为负无穷小，然后减小给定结点关键字的值，然后再删除最小关键字所在结点
+
+### FibonacciHeap 实现
+
+[FibonacciHeap](../src/heap/FibonacciHeap.js)
 
 ## 优先队列(Priority Queue)
 

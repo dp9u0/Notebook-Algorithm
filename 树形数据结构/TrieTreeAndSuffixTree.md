@@ -33,6 +33,10 @@ trie树常用于搜索提示.如当输入一个网址,可以自动搜索出可�
 
 `base`负责记录状态,用于状态转移,`check` 负责检查各个字符串是否是从同一个状态转移而来,当`check[i]`为负值时,表示此状态为字符串的结束
 
+### Trie 实现
+
+[Trie](../src/tree/Trie.js)
+
 ## 后缀树(Suffix Tree)
 
 ![Suffix-Tree](img/Suffix-Tree.png)

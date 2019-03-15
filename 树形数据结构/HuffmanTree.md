@@ -22,3 +22,7 @@
 然后给霍夫曼树的所有左链接'0'与右链接'1',再从树根至树叶依序记录所有字母的编码
 
 ![HuffmanEncoding](img/HuffmanEncoding.jpg)
+
+## HuffmanTree 实现
+
+[HuffmanTree](../src/tree/HuffmanTree.js)
