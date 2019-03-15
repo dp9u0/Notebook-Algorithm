@@ -54,7 +54,7 @@ describe("Sort", function () {
   sortTest(insertionSort, 'insertionSort');
   sortTest(shellSort, 'shellSort');
   sortTest(selectionSort, 'selectionSort');
-  // sortTest(heapSort, 'heapSort');
+  sortTest(heapSort, 'heapSort');
   sortTest(mergeSort, 'mergeSort');
   // sortTest(countingSort, 'countingSort');
   // sortTest(radixSort, 'radixSort');
