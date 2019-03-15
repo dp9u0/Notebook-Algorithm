@@ -55,6 +55,11 @@ function sortTest(sortFns, inputCount, inputMax, testCount) {
 }
 
 sortTest([{
+  sortFn: (input) => {
+    return input.sort((a, b) => a - b);
+  },
+  desc: "default"
+}, {
   sortFn: bubbleSort,
   desc: 'bubbleSort'
 }, {

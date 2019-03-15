@@ -41,7 +41,7 @@ function sortTest(sort, description) {
       let expectOutput = [...input].sort((a, b) => a - b);
       let output = sort([...input], (a, b) => a > b)
       it(`sort ${input.length} elements: ${input.join(',')}
-      want: ${expectOutput.join(',')}
+      exp : ${expectOutput.join(',')}
       got : ${output.join(',')}`, function () {
         checkSorted(output, expectOutput);
       });
@@ -56,7 +56,7 @@ describe("Sort", function () {
   sortTest(selectionSort, 'selectionSort');
   sortTest(heapSort, 'heapSort');
   sortTest(mergeSort, 'mergeSort');
-  // sortTest(countingSort, 'countingSort');
-  // sortTest(radixSort, 'radixSort');
-  // sortTest(bucketSort, 'bucketSort');
+  sortTest(countingSort, 'countingSort');
+  sortTest(radixSort, 'radixSort');
+  sortTest(bucketSort, 'bucketSort');
 })
