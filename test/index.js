@@ -19,4 +19,9 @@
 // require("./hash/hash.HashTable.test");
 
 // Sort
-require("./sort");
+// require("./sort");
+
+// Graph
+require("./graph/graph.GraphEdge.test");
+require("./graph/graph.GraphVertex.test");
+require("./graph/graph.Graph.test");
