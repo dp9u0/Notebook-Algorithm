@@ -2,8 +2,10 @@
  * Comparator 比较器
  */
 class Comparator {
+
   /**
-   * @param {function(a: *, b: *)} compareFunction
+   * Comparator
+   * @param {(a:*,b:*)=>boolean} compareFunction
    */
   constructor(compareFunction) {
     this.compareFunction = compareFunction || /*defaultCompareFunction*/ ((a, b) => a === b ? 0 : a < b ? -1 : 1);
