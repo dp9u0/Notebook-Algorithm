@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // TODO: BinomialHeap
 
 const Comparator = require("../common/Comparator");
@@ -12,7 +13,7 @@ class BinomialHeap {
    * @param {Function} fn comparator function
    */
   constructor(fn = null) {
-
+    this.comparator = new Comparator(fn)
   }
 
   /**

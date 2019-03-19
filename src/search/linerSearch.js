@@ -8,7 +8,7 @@ let Comparator = require('../common/Comparator');
  * @param {} [comparatorFn] comparatorFn
  * @return {number} index found
  */
-export default function linearSearch(array, seekElement, comparatorFn) {
+function linearSearch(array, seekElement, comparatorFn) {
   const comparator = new Comparator(comparatorFn);
   for (let index = 0; index < array.length; index++) {
     const element = array[index];
@@ -18,3 +18,5 @@ export default function linearSearch(array, seekElement, comparatorFn) {
   }
   return -1;
 }
+
+module.exports = linearSearch;

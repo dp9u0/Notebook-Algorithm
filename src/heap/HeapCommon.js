@@ -114,7 +114,8 @@ function _heapifyUp(heap, index = heap.length - 1, ordered = _defalutMinOrderedF
 function _heapifyDown(heap, index = 0, ordered = _defalutMinOrderedFn) {
   _validateIndex(heap, index);
   while (_hasLeft(heap, index)) {
-    let child = left = _leftIndex(index);
+    let left = _leftIndex(index);
+    let child = left;
     if (_hasRight(heap, index)) {
       let right = _rightIndex(index)
       if (!ordered(heap[left], heap[right])) {

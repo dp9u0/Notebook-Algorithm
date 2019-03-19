@@ -277,7 +277,7 @@ function _rotateLeft(node) {
  * @param {Comparator} comparator 
  * @param {Function} nodeValidator 
  */
-function _validate(node, comparator = DefaultComparator, nodeValidator = (node) => true) {
+function _validate(node, comparator = DefaultComparator, nodeValidator = () => true) {
   if (!node) {
     return true;
   }

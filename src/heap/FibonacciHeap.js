@@ -1,5 +1,5 @@
+/* eslint-disable no-unused-vars */
 // TODO: FibonacciHeap
-
 const Comparator = require("../common/Comparator");
 
 /**

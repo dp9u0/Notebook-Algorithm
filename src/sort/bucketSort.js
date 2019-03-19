@@ -18,7 +18,7 @@ function sort(input) {
     let element = input.shift();
     buckets[~~((element - min) / DEFAULT_BUCKET_SIZE)].push(element);
   }
-  for (i = 0; i < buckets.length; i++) {
+  for (let i = 0; i < buckets.length; i++) {
     // 每个桶中仅有 ${DEFAULT_BUCKET_SIZE} 个元素,可以使用插入排序
     insertionSort(buckets[i], (a, b) => a > b);
     for (let j = 0; j < buckets[i].length; j++) {

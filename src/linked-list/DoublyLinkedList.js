@@ -49,7 +49,7 @@ class DoublyLinkedList {
    * @param {*} value 
    */
   contains(value) {
-    return find(value) !== null;
+    return this.find(value) !== null;
   }
 
   /**

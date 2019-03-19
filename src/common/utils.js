@@ -1,6 +1,6 @@
 // Warn if overriding existing method
 if (Array.prototype.equals)
-  console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
+  // console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
 // attach the .equals method to Array's prototype to call it on any array
 Array.prototype.equals = function (array) {
   // if the other array is a falsy value, return
@@ -29,7 +29,7 @@ Object.defineProperty(Array.prototype, "equals", {
 
 Object.prototype.equals = function (obj) {
   //For the first loop, we only check for types
-  for (propName in this) {
+  for (const propName in this) {
     //Check for inherited methods and properties - like .equals itself
     //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty
     //Return false if the return value is different
@@ -43,7 +43,7 @@ Object.prototype.equals = function (obj) {
     }
   }
   //Now a deeper check using other objects property names
-  for (propName in obj) {
+  for (const propName in obj) {
     //We must check instances anyway, there may be a property that only exists in object2
     //I wonder, if remembering the checked values from the first loop would be faster or not 
     if (this.hasOwnProperty(propName) !== obj.hasOwnProperty(propName)) {

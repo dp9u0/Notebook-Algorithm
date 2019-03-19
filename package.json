@@ -5,12 +5,12 @@
   "main": "index.js",
   "directories": {
     "test": "test"
-    
   },
   "scripts": {
+    "lint": "eslint ./src",
     "test": "mocha ./test/index.js",
-    "testdebug":"mocha --debug-brk ./test/index.js",
-    "benchmark":"node --max-old-space-size=8192 ./test/benchmark/index.js"
+    "testdebug": "mocha --debug-brk ./test/index.js",
+    "benchmark": "node --max-old-space-size=8192 ./test/benchmark/index.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/dp9u0/Notebook-Algorithm#readme",
   "devDependencies": {
     "chai": "^4.2.0",
+    "eslint": "^5.15.3",
     "mocha": "^6.0.2"
   }
 }

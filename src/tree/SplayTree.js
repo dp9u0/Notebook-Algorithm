@@ -70,7 +70,7 @@ class SplayTreeNode {
    * @return {SplayTreeNode} root node after inserted
    */
   insert(value) {
-    let node = _insert(this, value, this.comparator, (value) => {
+    _insert(this, value, this.comparator, (value) => {
       return new SplayTreeNode(value, this.comparator)
     });
     return this;
@@ -211,7 +211,7 @@ class SplayTree {
   get root() {
     return this._root;
   }
-  
+
   /**
    * tree height
    * @return {number}

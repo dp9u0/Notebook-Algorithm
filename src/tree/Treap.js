@@ -7,7 +7,9 @@ const {
   _validate,
   _insert,
   _delete,
-  _find
+  _find,
+  _setLeft,
+  _setRight
 } = require("./BinarySearchTreeCommon");
 
 const Comparator = require("../common/Comparator");
