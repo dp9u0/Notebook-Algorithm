@@ -174,9 +174,23 @@ describe('GraphVertex', () => {
 
     expect(vertexA.degree).to.equal(2);
 
-    vertexA.addEdge(edgeAB);
+    const edgeAB2 = new GraphEdge(vertexA, vertexB);
+
+    vertexA.addEdge(edgeAB2);
     expect(vertexA.degree).to.equal(3);
 
     expect(vertexA.edges.length).to.equal(3);
   });
+
+  it('should throw error when add same edge to vertex', () => {
+    function addSameEdge() {
+      const vertexA = new GraphVertex('A');
+      const vertexB = new GraphVertex('B');
+      const edgeAB = new GraphEdge(vertexA, vertexB);
+      vertexA.addEdge(edgeAB);
+      vertexA.addEdge(edgeAB);
+    }
+
+    expect(addSameEdge).to.throw();
+  })
 });

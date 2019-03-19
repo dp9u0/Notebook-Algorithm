@@ -297,7 +297,7 @@ describe('Graph', () => {
   });
 
   it('should should throw an error when trying to delete not existing vertex', () => {
-    function deleteNotExistingEdge() {
+    function deleteNotExistingVertex() {
       const graph = new Graph();
       const vertexA = new GraphVertex('A');
       const vertexB = new GraphVertex('B');
@@ -305,8 +305,7 @@ describe('Graph', () => {
       graph.addVertex(vertexA).addVertex(vertexB);
       graph.removeVertex(vertexC);
     }
-
-    expect(deleteNotExistingEdge).to.throw();
+    expect(deleteNotExistingVertex).to.throw();
   });
 
   it('should be possible to reverse graph', () => {

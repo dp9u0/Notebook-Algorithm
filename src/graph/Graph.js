@@ -38,6 +38,9 @@ class Graph {
    * @returns {Graph} this graph after remove
    */
   removeVertex(vertex) {
+    if (this._isDirected) {
+      throw new Error('Donnot Support remove vertex in directed graph,because this may cause some bugs');
+    }
     // Delete edge from the list of edges.
     if (this._vertices[vertex.value]) {
       // Try to remove edges.
@@ -322,19 +325,28 @@ class GraphVertex {
    * @returns {GraphVertex} this value
    */
   addEdge(edge) {
-    this._edges.push(edge);
+    let index = this._edges.indexOf(edge);
+    if (index !== -1) {
+      throw new Error("Cannot add edge already existed");
+    } else {
+      this._edges.push(edge);
+    }
     return this;
   }
 
   /**
    * removeEdge to this vertex
    * @param {GraphEdge} edge edge to remove
+   * @returns {GraphVertex} this value
    */
   removeEdge(edge) {
     let index = this._edges.indexOf(edge);
     if (index !== -1) {
       this._edges.splice(index, 1);
+    } else {
+      // throw new Error("Cannot remove edge not existed")
     }
+    return this;
   }
 
   /**
