@@ -400,6 +400,8 @@ describe('Graph', () => {
       [Infinity, 0, Infinity, 0],
       [Infinity, 0, 0, Infinity],
     ]);
+    // console.table(graph.verticesIndices);
+    // console.table(adjacencyMatrix)
   });
 
   it('should generate adjacency matrix for directed graph', () => {
@@ -426,5 +428,7 @@ describe('Graph', () => {
       [Infinity, Infinity, Infinity, 5],
       [Infinity, Infinity, Infinity, Infinity],
     ]);
+    // console.table(graph.verticesIndices);
+    // console.table(adjacencyMatrix)
   });
 });

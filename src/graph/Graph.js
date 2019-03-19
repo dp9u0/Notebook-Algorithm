@@ -150,7 +150,8 @@ class Graph {
   }
 
   /**
-   * @return {number}
+   * weight of all edges
+   * @return {number} weight
    */
   get weight() {
     return this.allEdges.reduce((weight, graphEdge) => {
@@ -177,7 +178,8 @@ class Graph {
   }
 
   /**
-   * @return {object}
+   * index of vertices
+   * @return {object} map indexes
    */
   get verticesIndices() {
     const verticesIndices = {};
@@ -188,7 +190,8 @@ class Graph {
   }
 
   /**
-   * @return {*[][]}
+   * to adjacency matrix
+   * @return {*[][]} matrix
    */
   toAdjacencyMatrix() {
     const vertices = this.allVertices;
@@ -209,7 +212,8 @@ class Graph {
   }
 
   /**
-   * @return {string}
+   * toString
+   * @return {string} string value
    */
   toString() {
     return Object.keys(this._vertices).toString();

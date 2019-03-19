@@ -1,2 +1,2 @@
-// require("./tree.test")
+require("./tree.test")
 require("./sort.test");
