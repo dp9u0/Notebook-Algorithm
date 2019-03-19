@@ -270,6 +270,45 @@ describe('Graph', () => {
     expect(deleteNotExistingEdge).to.throw();
   });
 
+  it('should be possible to delete vertex from graph', () => {
+    const graph = new Graph();
+
+    const vertexA = new GraphVertex('A');
+    const vertexB = new GraphVertex('B');
+    const vertexC = new GraphVertex('C');
+
+    const edgeAB = new GraphEdge(vertexA, vertexB);
+    const edgeBC = new GraphEdge(vertexB, vertexC);
+    const edgeAC = new GraphEdge(vertexA, vertexC);
+
+    graph
+      .addEdge(edgeAB)
+      .addEdge(edgeBC)
+      .addEdge(edgeAC);
+
+    expect(graph.allEdges.length).to.equal(3);
+    expect(graph.allVertices.length).to.equal(3);
+
+    graph.removeVertex(vertexA);
+
+    expect(graph.allEdges.length).to.equal(1);
+    expect(graph.allVertices.length).to.equal(2);
+    expect(graph.allEdges[0].value).to.equal(edgeBC.value);
+  });
+
+  it('should should throw an error when trying to delete not existing vertex', () => {
+    function deleteNotExistingEdge() {
+      const graph = new Graph();
+      const vertexA = new GraphVertex('A');
+      const vertexB = new GraphVertex('B');
+      const vertexC = new GraphVertex('C');
+      graph.addVertex(vertexA).addVertex(vertexB);
+      graph.removeVertex(vertexC);
+    }
+
+    expect(deleteNotExistingEdge).to.throw();
+  });
+
   it('should be possible to reverse graph', () => {
     const vertexA = new GraphVertex('A');
     const vertexB = new GraphVertex('B');

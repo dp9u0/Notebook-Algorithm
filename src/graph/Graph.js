@@ -4,8 +4,8 @@
 class Graph {
 
   /**
-   * 是否是有向图
-   * @param {boolean} isDirected
+   * Graph
+   * @param {boolean} [isDirected=false] graph is directed or not
    */
   constructor(isDirected = false) {
     this._vertices = {};
@@ -14,72 +14,69 @@ class Graph {
   }
 
   /**
-   * @param {GraphVertex} newVertex
-   * @returns {Graph}
+   * add vertex
+   * @param {GraphVertex} vertex vertex
+   * @returns {Graph} this graph after add vertex
    */
-  addVertex(newVertex) {
-    this._vertices[newVertex.value] = newVertex;
+  addVertex(vertex) {
+    this._vertices[vertex.value] = vertex;
     return this;
   }
 
   /**
-   * @param {string} vertexValue find Vertex by value
-   * @returns GraphVertex
+   * find vertex by value
+   * @param {string} value value to find
+   * @returns {GraphVertex|undefined} vertex found,if not found return undefined
    */
-  findVertex(vertexValue) {
-    return this._vertices[vertexValue];
+  findVertex(value) {
+    return this._vertices[value];
   }
 
   /**
-   * @param {GraphVertex} vertex
-   * @returns {GraphVertex[]}
+   * remove vertex from this graph
+   * @param {GraphVertex} vertex vertex to remove
+   * @returns {Graph} this graph after remove
    */
-  neighbors(vertex) {
-    return vertex.neighbors;
+  removeVertex(vertex) {
+    // Delete edge from the list of edges.
+    if (this._vertices[vertex.value]) {
+      // Try to remove edges.
+      const edges = vertex.edges;
+      for (const edge of edges) {
+        this.removeEdge(edge);
+      }
+      delete this._vertices[vertex.value];
+    } else {
+      throw new Error('Vertex not found in graph');
+    }
+    return this;
   }
 
   /**
-   * @return {GraphVertex[]}
-   */
-  get allVertices() {
-    return Object.values(this._vertices);
-  }
-
-  /**
-   * @return {GraphEdge[]}
-   */
-  get allEdges() {
-    return Object.values(this._edges);
-  }
-
-  /**
-   * @param {GraphEdge} edge
-   * @returns {Graph}
+   * add edge to this graph
+   * @param {GraphEdge} edge edge to add
+   * @returns {Graph} this graph after add
    */
   addEdge(edge) {
     // Try to find and end start vertices.
     let startVertex = this.findVertex(edge.startVertex.value);
     let endVertex = this.findVertex(edge.endVertex.value);
-
     // Insert start vertex if it wasn't inserted.
     if (!startVertex) {
       this.addVertex(edge.startVertex);
       startVertex = this.findVertex(edge.startVertex.value);
     }
-
     // Insert end vertex if it wasn't inserted.
     if (!endVertex) {
       this.addVertex(edge.endVertex);
       endVertex = this.findVertex(edge.endVertex.value);
     }
-
     // Check if edge has been already added.
     if (this._edges[edge.value]) {
       throw new Error('Edge has already been added before');
     } else {
       this._edges[edge.value] = edge;
     }
-
     // Add edge to the vertices.
     if (this._isDirected) {
       // If graph IS directed then add the edge only to start vertex.
@@ -89,31 +86,34 @@ class Graph {
       startVertex.addEdge(edge);
       endVertex.addEdge(edge);
     }
-
     return this;
   }
 
   /**
-   * @param {GraphEdge} edge
+   * remove edge from this graph
+   * @param {GraphEdge} edge edge to remove
+   * @returns {Graph} this graph after remove
    */
   removeEdge(edge) {
     // Delete edge from the list of edges.
     if (this._edges[edge.value]) {
       delete this._edges[edge.value];
+      // Try to find and end start vertices and delete edge from them.
+      const startVertex = this.findVertex(edge.startVertex.value);
+      const endVertex = this.findVertex(edge.endVertex.value);
+      startVertex.removeEdge(edge);
+      endVertex.removeEdge(edge);
     } else {
       throw new Error('Edge not found in graph');
     }
-    // Try to find and end start vertices and delete edge from them.
-    const startVertex = this.findVertex(edge.startVertex.value);
-    const endVertex = this.findVertex(edge.endVertex.value);
-    startVertex.removeEdge(edge);
-    endVertex.removeEdge(edge);
+    return this;
   }
 
   /**
-   * @param {GraphVertex} startVertex
-   * @param {GraphVertex} endVertex
-   * @return {(GraphEdge|null)}
+   * find edge by vertex
+   * @param {GraphVertex} startVertex startVertex
+   * @param {GraphVertex} endVertex endVertex
+   * @return {(GraphEdge|null)} edge found or null
    */
   findEdge(startVertex, endVertex) {
     const vertex = this.findVertex(startVertex.value);
@@ -121,6 +121,32 @@ class Graph {
       return null;
     }
     return vertex.findEdge(endVertex);
+  }
+
+  /**
+   * get neighbors of vertex
+   * this is a wrap if vertex.neighbors
+   * @param {GraphVertex} vertex vertex to found neighbors
+   * @returns {GraphVertex[]} neighbors
+   */
+  neighbors(vertex) {
+    return vertex.neighbors;
+  }
+
+  /**
+   * get all vertex of this graph
+   * @return {GraphVertex[]} vertex
+   */
+  get allVertices() {
+    return Object.values(this._vertices);
+  }
+
+  /**
+   * get all edges of this graph
+   * @return {GraphEdge[]} edges
+   */
+  get allEdges() {
+    return Object.values(this._edges);
   }
 
   /**
@@ -196,6 +222,8 @@ class Graph {
 class GraphEdge {
 
   /**
+   * GraphEdge
+   * 
    * @param {GraphVertex} startVertex startVertex
    * @param {GraphVertex} endVertex endVertex
    * @param {number} [weight=0] weight default 0
@@ -213,21 +241,24 @@ class GraphEdge {
   }
 
   /**
-   * 
+   * start vertex
+   * @return {GraphVertex} start vertex
    */
   get startVertex() {
     return this._startVertex;
   }
 
   /**
-   * 
+   * end vertex
+   * @return {GraphVertex} end vertex
    */
   get endVertex() {
     return this._endVertex;
   }
 
   /**
-   * 
+   * weight of this edge
+   * @return {number} weight
    */
   get weight() {
     return this._weight;
@@ -235,7 +266,7 @@ class GraphEdge {
 
   /**
    * get value string of `${start}_${end}`
-   * @return {string}
+   * @return {string} value string
    */
   get value() {
     const start = this.startVertex.value;
@@ -245,7 +276,7 @@ class GraphEdge {
 
   /**
    * reverse graph edge vertex
-   * @return {GraphEdge}
+   * @return {GraphEdge} this edge after reverse
    */
   reverse() {
     [this._startVertex, this._endVertex] = [this._endVertex, this._startVertex];
@@ -253,6 +284,7 @@ class GraphEdge {
   }
 
   /**
+   * toString
    * @return {string}
    */
   toString() {
@@ -266,7 +298,8 @@ class GraphEdge {
 class GraphVertex {
 
   /**
-   * @param {*} value
+   * GraphVertex
+   * @param {*} value value of this vertex
    */
   constructor(value) {
     if (value === undefined) {
@@ -279,8 +312,10 @@ class GraphVertex {
   }
 
   /**
-   * @param {GraphEdge} edge
-   * @returns {GraphVertex}
+   * addEdge to this vertex
+   * 
+   * @param {GraphEdge} edge edge to remove
+   * @returns {GraphVertex} this value
    */
   addEdge(edge) {
     this._edges.push(edge);
@@ -288,7 +323,8 @@ class GraphVertex {
   }
 
   /**
-   * @param {GraphEdge} edge
+   * removeEdge to this vertex
+   * @param {GraphEdge} edge edge to remove
    */
   removeEdge(edge) {
     let index = this._edges.indexOf(edge);
@@ -298,11 +334,16 @@ class GraphVertex {
   }
 
   /**
-   * @returns {GraphVertex[]}
+   * get all neighbors
+   * 
+   * @returns {GraphVertex[]} neighbors of this vertex
    */
   get neighbors() {
     const edges = this._edges;
-    /** @param {GraphEdge} edge */
+    /** 
+     * map fn
+     * @param {GraphEdge} edge input edge
+     * */
     const neighborsConverter = (edge) => {
       return edge.startVertex === this ? edge.endVertex : edge.startVertex;
     };
@@ -312,31 +353,35 @@ class GraphVertex {
   }
 
   /**
-   * @return {GraphEdge[]}
+   * getter for edges 
+   * @return {GraphEdge[]} edges
    */
   get edges() {
     return [...this._edges];
   }
 
   /**
-   * @return {number}
+   * degree number of edges
+   * @return {number} number of edges
    */
   get degree() {
     return this._edges.length;
   }
 
   /**
-   * @param {GraphEdge} requiredEdge
-   * @returns {boolean}
+   * check if this vertex has edge
+   * @param {GraphEdge} edge edge to find
+   * @returns {boolean} have or not
    */
-  hasEdge(requiredEdge) {
-    let index = this._edges.indexOf(requiredEdge);
+  hasEdge(edge) {
+    let index = this._edges.indexOf(edge);
     return index !== -1;
   }
 
   /**
-   * @param {GraphVertex} vertex
-   * @returns {boolean}
+   *  check if this vertex has vertex as neighbor
+   * @param {GraphVertex} vertex vertex as neighbor
+   * @returns {boolean} have or not
    */
   hasNeighbor(vertex) {
     const vertices = this._edges.find(edge => edge.startVertex === vertex || edge.endVertex === vertex);
@@ -344,8 +389,9 @@ class GraphVertex {
   }
 
   /**
-   * @param {GraphVertex} vertex
-   * @returns {(GraphEdge|null)}
+   * find edge to another neighbor vertex
+   * @param {GraphVertex} vertex neighbor
+   * @returns {(GraphEdge|null)} edge found or null
    */
   findEdge(vertex) {
     const edgeFinder = (edge) => {
@@ -357,13 +403,15 @@ class GraphVertex {
 
   /**
    * value
+   * @returns {number} value
    */
   get value() {
     return this._value;
   }
 
   /**
-   * @return {GraphVertex}
+   * remove all edges
+   * @return {GraphVertex} this value after remove all edges
    */
   deleteAllEdges() {
     this.edges.forEach(edge => this.removeEdge(edge));
@@ -371,8 +419,9 @@ class GraphVertex {
   }
 
   /**
-   * @param {function} [callback]
-   * @returns {string}
+   * to string
+   * @param {(value:any)=>string} [callback] callback fn to format value
+   * @returns {string} string
    */
   toString(callback) {
     return callback ? callback(this._value) : `${this._value}`;
