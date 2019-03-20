@@ -14,7 +14,7 @@ const DefaultCallbacks = {
  * @param {Graph} graph graph to search
  * @param {Object} callbacks callbacks when traverse
  */
-function bfs(graph, callbacks=DefaultCallbacks) {
+function bfs(graph, callbacks = DefaultCallbacks) {
 
 }
 
