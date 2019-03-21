@@ -54,7 +54,6 @@ function initCallbacks(callbacks) {
  * @param {VertexTraverseCallbacks} callbacks callbacks when traverse
  */
 function depthFirstSearch(graph, current, previous, callbacks) {
-
   callbacks.entering({
     current,
     previous

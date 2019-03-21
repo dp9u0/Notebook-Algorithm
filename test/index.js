@@ -29,3 +29,4 @@ require("./graph/graph.depthFirstSearch.test");
 require("./graph/graph.breadthFirstSearch.test");
 require("./graph/graph.articulationPoints.test");
 require("./graph/graph.graphBridges.test");
+require('./graph/graph.scc.test');
