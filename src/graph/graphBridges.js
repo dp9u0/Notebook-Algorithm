@@ -17,8 +17,8 @@ class VertexData {
 }
 
 /**
- * 
- * @param {Graph} graph 
+ * graphBridges
+ * @param {Graph} graph graph
  */
 function graphBridges(graph) {
   let bridges = new Set();

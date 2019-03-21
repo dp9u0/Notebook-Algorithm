@@ -18,7 +18,7 @@ class VertexData {
 }
 
 /**
- * 
+ * Tarjan
  * @param {Graph} graph 
  */
 function Tarjan(graph) {
@@ -132,8 +132,8 @@ function Kosaraju(graph) {
 }
 
 /**
- * 
- * @param {Graph} graph 
+ * 强连通分量
+ * @param {Graph} graph graph
  */
 function scc(graph, tarjan = true) {
   if (tarjan) {
