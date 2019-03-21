@@ -215,6 +215,12 @@ class Graph {
   }
 
   /**
+   * 是否是有向图
+   */
+  get isDirected() {
+    return this._isDirected;
+  }
+  /**
    * toString
    * @return {string} string value
    */

@@ -181,13 +181,13 @@ Kosaraju算法,Tarjan算法,Gabow算法皆为寻找有向图强连通分量的�
 
 [实现源码](../src/graph/topologicalSort.js)
 
-### 欧拉路径
-
-[实现源码](../src/graph/eulerianPath.js)
-
 ### 检测图中的环
 
 [实现源码](../src/graph/detect-cycle.js)
+
+### 欧拉路径
+
+[实现源码](../src/graph/eulerianPath.js)
 
 ### 哈密顿图
 
