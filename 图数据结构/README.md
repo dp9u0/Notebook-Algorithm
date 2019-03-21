@@ -117,10 +117,6 @@
 
 ### 桥和割点算法(bridge,cut vertex)
 
-#### 桥
-
-[实现源码](../src/graph/bridges.js)
-
 #### 割点
 
 在一个无向图中.如果有一个顶点集合.删除这个顶点集合以及这个集合中所有顶点相关联的边以后.图的连通分量增多.就称这个点集为割点集合.
@@ -139,6 +135,14 @@
 ![割点](img/articulation-point.png)
 
 [实现源码](../src/graph/articulationPoints.js)
+
+#### 桥
+
+求图的桥的算法与割点算法类似,也是通过判断节点再不通过`(current,previous)`这个 Edge 情况下,是否能到达比previous时间还早的节点.
+
+同时需要注意的是深度遍历过程中,需要记得更新previous的`lowDiscoveryTime`
+
+[实现源码](../src/graph/graphBridges.js)
 
 ### 欧拉路径
 
