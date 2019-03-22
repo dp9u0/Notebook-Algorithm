@@ -32,3 +32,4 @@ require("./graph/graph.graphBridges.test");
 require('./graph/graph.scc.test');
 require('./graph/graph.topologicalSort.test');
 require('./graph/graph.detectCircle.test');
+require('./graph/graph.eulerianPath.test');

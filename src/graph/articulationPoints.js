@@ -7,9 +7,9 @@
 
    /**
     * 
-    * @param {number} discoveryTime 
-    * @param {number} children 
-    * @param {number} lowDiscoveryTime 
+    * @param {number} discoveryTime discoveryTime
+    * @param {number} children children
+    * @param {number} lowDiscoveryTime lowDiscoveryTime
     */
    constructor(discoveryTime, lowDiscoveryTime = discoveryTime, children = 0) {
      this.discoverTime = discoveryTime;
@@ -20,8 +20,8 @@
  /**
   * Tarjan's algorithm for finding articulation points in graph.
   *
-  * @param {Graph} graph
-  * @return {Object}
+  * @param {Graph} graph graph
+  * @return {Object} articulationPoints
   */
  function articulationPoints(graph) {
    let articulationPointsSet = new Set();

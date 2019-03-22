@@ -4,9 +4,10 @@ const depthFirstSearch = require('./depthFirstSearch');
 /**
  * Detect cycle in Graph using Depth First Search.
  * @param {Graph} graph graph
+ * @returns {Object} cycles
  */
 function detectCycle(graph) {
-  let isDirected = graph.isDirected;// 无向图的情况下不允许 A-B 再 B-A 但有向图允许
+  let isDirected = graph.isDirected; // 无向图的情况下不允许 A-B 再 B-A 但有向图允许
   let cycle = null;
   const white = new Set(graph.allVertices);
   const black = new Set();

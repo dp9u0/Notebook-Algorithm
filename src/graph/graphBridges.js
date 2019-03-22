@@ -7,8 +7,8 @@ class VertexData {
 
   /**
    * 
-   * @param {number} discoveryTime 
-   * @param {number} lowDiscoveryTime 
+   * @param {number} discoveryTime discoveryTime
+   * @param {number} lowDiscoveryTime lowDiscoveryTime
    */
   constructor(discoveryTime, lowDiscoveryTime = discoveryTime) {
     this.discoverTime = discoveryTime;
@@ -19,6 +19,7 @@ class VertexData {
 /**
  * graphBridges
  * @param {Graph} graph graph
+ * @returns {GraphEdge}  bridges
  */
 function graphBridges(graph) {
   let bridges = new Set();

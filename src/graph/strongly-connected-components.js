@@ -134,6 +134,7 @@ function Kosaraju(graph) {
 /**
  * 强连通分量
  * @param {Graph} graph graph
+ * @returns {GraphVertex[][]} scc
  */
 function scc(graph, tarjan = true) {
   if (tarjan) {

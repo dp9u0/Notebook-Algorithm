@@ -3,6 +3,7 @@ const depthFirstSearch = require('./depthFirstSearch');
 /**
  * topologicalSort
  * @param {Graph} graph graph
+ * @returns {GraphVertex[]} sorted vertex
  */
 function topologicalSort(graph) {
   const seen = new Set();
