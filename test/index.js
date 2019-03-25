@@ -37,3 +37,8 @@ require('./graph/graph.eulerianPath.test');
 require('./graph/graph.hamiltonianPath.test');
 require('./graph/graph.kruskal.test');
 require('./graph/graph.prim.test');
+require('./graph/graph.floydWarshall.test');
+// require('./graph/graph.dijkstra.test');
+// require('./graph/graph.bellmanFord.test');
+// require('./graph/graph.spfa.test');
+// require('./graph/graph.astar.test');

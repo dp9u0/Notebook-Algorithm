@@ -167,7 +167,7 @@ Dijkstra(vertices, edges, source)
     u := vertex in Q with min dist[u]
     remove u from Q
     for each neighbor v of u
-      alt := dist[u] + length(u, v)
+      alt := dist[u] + weight(u, v)
       if (alt < dist[v]) then
         dist[v] := alt
         prev[v] := u
