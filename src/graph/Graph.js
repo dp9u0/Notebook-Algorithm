@@ -333,7 +333,7 @@ class GraphVertex {
   addEdge(edge) {
     let index = this._edges.indexOf(edge);
     if (index !== -1) {
-      throw new Error("Cannot add edge already existed");
+      // throw new Error("Cannot add edge already existed");
     } else {
       this._edges.push(edge);
     }

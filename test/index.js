@@ -5,6 +5,7 @@ require("./tree/tree.AVLTree.test");
 require("./tree/tree.SplayTree.test");
 require("./tree/tree.RedBlackTree.test");
 require("./tree/tree.Treap.test");
+require('./tree/tree.DisjoinSet.test');
 
 // HEAP
 require("./heap/heap.HeapCommon.test");
@@ -34,3 +35,5 @@ require('./graph/graph.topologicalSort.test');
 require('./graph/graph.detectCircle.test');
 require('./graph/graph.eulerianPath.test');
 require('./graph/graph.hamiltonianPath.test');
+require('./graph/graph.kruskal.test');
+require('./graph/graph.prim.test');
