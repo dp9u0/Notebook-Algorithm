@@ -5,7 +5,7 @@ const {
 } = require('../../src/graph/Graph');
 const expect = require("chai").expect;
 
-const detectCycle = require('../../src/graph/detect-cycle');
+const detectCycle = require('../../src/graph/detectCycle');
 
 describe('DetectCycle', () => {
 

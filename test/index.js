@@ -1,25 +1,25 @@
-// // TREE
-// require("./tree/tree.BinarySearchTreeCommon.test")
-// require("./tree/tree.BinarySearchTree.test");
-// require("./tree/tree.AVLTree.test");
-// require("./tree/tree.SplayTree.test");
-// require("./tree/tree.RedBlackTree.test");
-// require("./tree/tree.Treap.test");
+// TREE
+require("./tree/tree.BinarySearchTreeCommon.test")
+require("./tree/tree.BinarySearchTree.test");
+require("./tree/tree.AVLTree.test");
+require("./tree/tree.SplayTree.test");
+require("./tree/tree.RedBlackTree.test");
+require("./tree/tree.Treap.test");
 
-// // HEAP
-// require("./heap/heap.HeapCommon.test");
-// require("./heap/heap.MinHeap.test");
-// require("./heap/heap.MaxHeap.test");
-// require("./heap/heap.LeftistHeap.test");
-// require("./heap/heap.BinomialHeap.test");
-// require("./heap/heap.FibonacciHeap.test");
+// HEAP
+require("./heap/heap.HeapCommon.test");
+require("./heap/heap.MinHeap.test");
+require("./heap/heap.MaxHeap.test");
+require("./heap/heap.LeftistHeap.test");
+require("./heap/heap.BinomialHeap.test");
+require("./heap/heap.FibonacciHeap.test");
 
-// // HASH
-// require("./hash/hash.HashSet.test");
-// require("./hash/hash.HashTable.test");
+// HASH
+require("./hash/hash.HashSet.test");
+require("./hash/hash.HashTable.test");
 
-// // Sort
-// require("./sort");
+// Sort
+require("./sort");
 
 // Graph
 require("./graph/graph.GraphEdge.test");
@@ -33,4 +33,4 @@ require('./graph/graph.scc.test');
 require('./graph/graph.topologicalSort.test');
 require('./graph/graph.detectCircle.test');
 require('./graph/graph.eulerianPath.test');
-require('./graph/graph.hamiltonianCycle.test');
+require('./graph/graph.hamiltonianPath.test');

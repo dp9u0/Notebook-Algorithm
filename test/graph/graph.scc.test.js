@@ -3,7 +3,7 @@ const {
   GraphVertex,
   GraphEdge
 } = require('../../src/graph/Graph');
-const stronglyConnectedComponents = require('../../src/graph/strongly-connected-components');
+const stronglyConnectedComponents = require('../../src/graph/stronglyConnectedComponents');
 const expect = require("chai").expect;
 
 describe('stronglyConnectedComponents', () => {
