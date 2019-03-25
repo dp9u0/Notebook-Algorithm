@@ -118,25 +118,122 @@
 
 Prim算法求最小生成树的时候和边数无关,和顶点树有关,所以适合求解稠密网的最小生成树.
 
-## 单源最短路径
+## 最短路径
 
-### Floyd
+最短路径问题是图论研究中的一个经典算法问题,旨在寻找图(由结点和路径组成的)中两结点之间的最短路径.算法具体的形式包括:
+
+全源最短路径问题: 求图中所有顶点之间的最短路径.适合使用基于动态规划的Floyd-Warshall算法.
+
+单源最短路径问题: 适合使用Dijkstra算法.
+
+另外
+
+### Floyd Warshall
+
+Floyd-Warshall 原理是动态规划.动态转移方程为:
+
+```js
+shortestPath(i,j,k) = Min(
+shortestPath(i,j,k-1),
+shortestPath(i,k,k-1)+shortestPath(k,j,k-1))
+```
+
+```Pseudocode
+FloydWarshall(vertices, edges, source)
+let dist = [|V|][|V|] and minimum distances initialized to INFINITY
+for each edge(u,v) in edges
+    dist[u][v] := w(u,v)  // the weight of the edge (u,v)
+for each v in vertices
+    dist[v][v] := 0
+for k from 1 to |V|
+    for i from 1 to |V|
+       for j from 1 to |V|
+          if (dist[i][j] > dist[i][k] + dist[k][j]) then
+             dist[i][j] := dist[i][k] + dist[k][j]
+```
 
 [实现源码](../src/graph/floydWarshall.js)
 
 ### Dijkstra
 
+```Pseudocode
+Dijkstra(vertices, edges, source)
+  for each vertex v in vertices
+    dist[v] := INFINITY
+    prev[v] := UNDEFINED
+    add v to Q
+  dist[source] := 0
+  while Q is not empty
+    u := vertex in Q with min dist[u]
+    remove u from Q
+    for each neighbor v of u
+      alt := dist[u] + length(u, v)
+      if (alt < dist[v]) then
+        dist[v] := alt
+        prev[v] := u
+  return dist[], prev[]
+```
+
 [实现源码](../src/graph/dijkstra.js)
 
-### bellman-ford
+### Bellman Ford
+
+```Pseudocode
+BellmanFord(vertices, edges, source)  
+  // This implementation takes in a graph, represented as
+  // lists of vertices and edges, and fills two arrays
+  // (dist and prev) about the shortest path
+  // from the source to each vertex
+  // Step 1: initialize graph
+  for each vertex v in vertices
+    dist[v] := inf             // Initialize the dist to all vertices to infinity
+    prev[v] := null         // And having a null prev
+  dist[source] := 0              // The dist from the source to itself is, of course, zero
+  // Step 2: relax edges repeatedly
+  for i from 1 to size(vertices)-1
+    for each edge (u, v) with weight w in edges
+      if (dist[u] + w < dist[v]) then
+        dist[v] := dist[u] + w
+        prev[v] := u
+  // Step 3: check for negative-weight cycles
+  for each edge (u, v) with weight w in edges
+    if (dist[u] + w < dist[v]) then
+      error "Graph contains a negative-weight cycle"
+  return dist[], prev[]
+```
 
 [实现源码](../src/graph/bellmanFord.js)
 
 ### SPFA
 
+Bellman-Ford算法的改进版本
+
+```Pseudocode
+ShortestPathFaster(vertices, edges, s)
+  for each vertex v ≠ s in vertices
+    dist(v) := INFINITY
+  dist(s) := 0
+  put s into Q
+  while Q is not empty
+    u := poll Q
+    for each edge (u, v) in edges of u
+      if dist(u) + w(u, v) < dist(v) then
+        dist(v) := dist(u) + w(u, v)
+        if v is not in Q then
+          put v into Q
+ ```
+
 [实现源码](../src/graph/spfa.js)
 
 ### A*
+
+这是一种在图形平面上,有多个节点的路径,求出最低通过成本的算法.常用于游戏中的NPC的移动计算,或网络游戏的BOT的移动计算上.
+
+该算法综合了最良优先搜索和`Dijkstra`算法的优点:在进行启发式搜索提高算法效率的同时,可以保证找到一条最优路径(基于评估函数).
+
+在此算法中:,如果以`g(n)`表示从起点到任意顶点`n`的实际距离,`h(n)`表示任意顶点`n`到目标顶点的估算距离(根据所采用的评估函数的不同而变化),那么A*算法的估算函数为:
+
+`f(n)=g(n)+h(n)`
 
 [实现源码](../src/graph/astar.js)
 
