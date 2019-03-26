@@ -125,34 +125,4 @@ describe('spfa', () => {
     expect(prev.D.value).to.equal('E');
   });
 
-  it('should find minimum pathsto all vertices for undirected graph with negative edge weights', () => {
-    const vertexS = new GraphVertex('S');
-    const vertexA = new GraphVertex('A');
-    const vertexB = new GraphVertex('B');
-
-    const edgeSA = new GraphEdge(vertexS, vertexA, 3);
-    const edgeSB = new GraphEdge(vertexS, vertexB, 4);
-    const edgeAB = new GraphEdge(vertexA, vertexB, -2);
-
-    const graph = new Graph();
-    graph
-      .addEdge(edgeSA)
-      .addEdge(edgeSB)
-      .addEdge(edgeAB);
-
-    const {
-      dist,
-      prev
-    } = dijkstra(graph, vertexS);
-
-    expect(dist).to.deep.equal({
-      S: 0,
-      A: 2,
-      B: 1
-    });
-
-    expect(prev.S).to.be.null;
-    expect(prev.A.value).to.equal('B');
-    expect(prev.B.value).to.equal('A');
-  });
 });

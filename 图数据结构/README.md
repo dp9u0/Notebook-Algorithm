@@ -191,10 +191,10 @@ Dijkstra算法最简单的实现方法是用一个链表或者数组来存储可
 举例说明
 
 ```js
-// 邻接矩阵:代表点 0 1 2 构成的无向图,计算从0出发的距离
+// 邻接矩阵:代表点 0 1 2 构成的有向图,计算从0出发的距离
 [[0,3,4]
-[3,0,-2]
-[4,-2,0]]
+[Inf,0,-2]
+[Inf,Inf,0]]
 ```
 
 根据Dijkstra 算法, 遍历 `0` 的邻居`1`时,会选择 `dist[1]=3` 而不会考虑 `dist[1]=4+(-2)`.这就是 Dijkstra 的局限性.
@@ -213,8 +213,8 @@ BellmanFord(vertices, edges, source)
   // from the source to each vertex
   // Step 1: initialize graph
   for each vertex v in vertices
-    dist[v] := inf             // Initialize the dist to all vertices to infinity
-    prev[v] := null         // And having a null prev
+    dist[v] := INFINITY             // Initialize the dist to all vertices to infinity
+    prev[v] := UNDEFINED         // And having a null prev
   dist[source] := 0              // The dist from the source to itself is, of course, zero
   // Step 2: relax edges repeatedly
   for i from 1 to size(vertices)-1
@@ -230,6 +230,17 @@ BellmanFord(vertices, edges, source)
 ```
 
 [实现源码](../src/graph/bellmanFord.js)
+
+Bellman Ford虽然解决可负权的问题但是还是会引发另外问题问题,考虑如下无向图:
+
+```js
+// 邻接矩阵:代表点 0 1 2 构成的无向图,计算从0出发的距离
+[[0,3,4]
+[3,0,-2]
+[4,-2,0]]
+```
+
+更新  `dist[1] = dist[2] + (-2)` 后又会引发更新 `dist[2] = dist[1] + -2` 这就是 `Graph contains a negative-weight cycle`问题,需要检查处理.
 
 ### SPFA
 

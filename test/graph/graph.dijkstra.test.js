@@ -155,4 +155,35 @@ describe('dijkstra', () => {
     expect(prev.A.value).to.equal('S');
     expect(prev.B.value).to.equal('A');
   });
+
+  it('should find paths (but not minimum) to all vertices for directed graph with negative edge weights', () => {
+    const vertexS = new GraphVertex('S');
+    const vertexA = new GraphVertex('A');
+    const vertexB = new GraphVertex('B');
+
+    const edgeSA = new GraphEdge(vertexS, vertexA, 3);
+    const edgeSB = new GraphEdge(vertexS, vertexB, 4);
+    const edgeBA = new GraphEdge(vertexB, vertexA, -2);
+
+    const graph = new Graph(true);
+    graph
+      .addEdge(edgeSA)
+      .addEdge(edgeSB)
+      .addEdge(edgeBA);
+
+    const {
+      dist,
+      prev
+    } = dijkstra(graph, vertexS);
+
+    expect(dist).to.deep.equal({
+      S: 0,
+      A: 3,
+      B: 4
+    });
+
+    expect(prev.S).to.be.null;
+    expect(prev.A.value).to.equal('S');
+    expect(prev.B.value).to.equal('S');
+  });
 });
