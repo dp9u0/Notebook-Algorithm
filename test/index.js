@@ -43,3 +43,6 @@ require('./graph/graph.dijkstra.test');
 require('./graph/graph.bellmanFord.test');
 require('./graph/graph.spfa.test');
 require('./graph/graph.astar.test');
+
+// String
+require('./string/string.levenshteinDistance.test');

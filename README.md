@@ -100,11 +100,9 @@
 
 * [排序](./字符串算法/README.md#排序)
 * [字符串匹配](./字符串算法/README.md#字符串匹配)
-  * Brute-Force
-  * KMP
-  * BM
-  * Sunday
-* [正则表达式](./字符串算法/README.md#正则表达式)
+  * Knuth-Morris-Pratt
+  * Boyer-Moore
+* [正则表达式](./字符串算法/RegExp.md)
 
 ## [算法研究](./算法研究/README.md)
 
