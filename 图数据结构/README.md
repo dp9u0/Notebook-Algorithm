@@ -218,10 +218,11 @@ BellmanFord(vertices, edges, source)
   dist[source] := 0              // The dist from the source to itself is, of course, zero
   // Step 2: relax edges repeatedly
   for i from 1 to size(vertices)-1
-    for each edge (u, v) with weight w in edges
-      if (dist[u] + w < dist[v]) then
-        dist[v] := dist[u] + w
-        prev[v] := u
+    for each u in vertices
+      for each edge (u, v) with weight w in edges of u
+        if (dist[u] + w < dist[v]) then
+          dist[v] := dist[u] + w
+          prev[v] := u
   // Step 3: check for negative-weight cycles
   for each edge (u, v) with weight w in edges
     if (dist[u] + w < dist[v]) then
@@ -244,19 +245,23 @@ Bellman Ford虽然解决可负权的问题但是还是会引发另外问题问�
 
 ### SPFA
 
-Bellman-Ford算法的改进版本
+Bellman-Ford算法的改进版本,遍历时不再是无脑的选取任意顶点,而是选取当前路径最短的节点,会一定程度上降低复杂度.
+
+但是还是需要考虑负权环的问题.
 
 ```Pseudocode
 ShortestPathFaster(vertices, edges, s)
-  for each vertex v ≠ s in vertices
+  for each vertex v in vertices
     dist(v) := INFINITY
+    prev[v] := UNDEFINED
   dist(s) := 0
   add s into Q
   while Q is not empty
     u := poll Q
-    for each edge (u, v) in edges of u
-      if dist(u) + w(u, v) < dist(v) then
-        dist(v) := dist(u) + w(u, v)
+    for each edge (u, v) with weight w in edges of u
+      if dist(u) + w < dist(v) then
+        dist(v) := dist(u) + w
+        prev[v] := u
         if v is not in Q then
           add v into Q
  ```

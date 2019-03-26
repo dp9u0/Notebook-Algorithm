@@ -41,5 +41,5 @@ require('./graph/graph.prim.test');
 require('./graph/graph.floydWarshall.test');
 require('./graph/graph.dijkstra.test');
 require('./graph/graph.bellmanFord.test');
-// require('./graph/graph.spfa.test');
-// require('./graph/graph.astar.test');
+require('./graph/graph.spfa.test');
+require('./graph/graph.astar.test');

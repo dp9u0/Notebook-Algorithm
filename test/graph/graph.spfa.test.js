@@ -124,5 +124,54 @@ describe('spfa', () => {
     expect(prev.A.value).to.equal('D');
     expect(prev.D.value).to.equal('E');
   });
+  
+  it('should throw when find minimum paths but graph contains a negative-weight cycle', () => {
+    const vertexS = new GraphVertex('S');
+    const vertexA = new GraphVertex('A');
+    const vertexB = new GraphVertex('B');
 
+    const edgeSA = new GraphEdge(vertexS, vertexA, 3);
+    const edgeSB = new GraphEdge(vertexS, vertexB, 4);
+    const edgeAB = new GraphEdge(vertexA, vertexB, -2);
+
+    const graph = new Graph();
+    graph
+      .addEdge(edgeSA)
+      .addEdge(edgeSB)
+      .addEdge(edgeAB);
+
+    expect(() => spfa(graph, vertexS)).to.throw();
+  });
+
+
+  it('should find minimum paths to all vertices for directed graph with negative edge weights', () => {
+    const vertexS = new GraphVertex('S');
+    const vertexA = new GraphVertex('A');
+    const vertexB = new GraphVertex('B');
+
+    const edgeSA = new GraphEdge(vertexS, vertexA, 3);
+    const edgeSB = new GraphEdge(vertexS, vertexB, 4);
+    const edgeBA = new GraphEdge(vertexB, vertexA, -2);
+
+    const graph = new Graph(true);
+    graph
+      .addEdge(edgeSA)
+      .addEdge(edgeSB)
+      .addEdge(edgeBA);
+
+    const {
+      dist,
+      prev
+    } = spfa(graph, vertexS);
+
+    expect(dist).to.deep.equal({
+      S: 0,
+      A: 2,
+      B: 4
+    });
+
+    expect(prev.S).to.be.null;
+    expect(prev.A.value).to.equal('B');
+    expect(prev.B.value).to.equal('S');
+  });
 });
