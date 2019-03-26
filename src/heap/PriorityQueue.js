@@ -3,8 +3,6 @@ const Comparator = require("../common/Comparator");
 const {
   _heapifyUp,
   _heapifyDown,
-  _hasLeft,
-  _hasRight,
   _parentIndex,
   _hasParent
 } = require("./HeapCommon");
@@ -69,9 +67,22 @@ class PriorityQueue {
    * @param {number} priority priority
    */
   changePriority(value, priority) {
-    _remove.call(this, value);
-    this.add(value, priority);
+    if (this.has(value)) {
+      _remove.call(this, value);
+      this.add(value, priority);
+    } else {
+      throw new Error('value not exist in this queue');
+    }
     return this;
+  }
+
+  /**
+   * check has value
+   * @param {*} value value to find
+   * @returns {boolean} have or not
+   */
+  has(value) {
+    return this._priorities.has(value);
   }
 
   /**
@@ -79,13 +90,15 @@ class PriorityQueue {
    * @returns {*} value
    */
   pop() {
-    if (!this._heap.length) {
+    if (this.isEmpty) {
       return null;
     }
     let value = this._heap.shift();
-    this._heap.unshift(this._heap.pop());
     this._priorities.delete(value);
-    _heapifyDown(this._heap, 0, (first, second) => this._comparator.lessThanOrEqual(first, second));
+    if (!this.isEmpty) {
+      this._heap.unshift(this._heap.pop());
+      _heapifyDown(this._heap, 0, (first, second) => this._comparator.lessThanOrEqual(first, second));
+    }
     return value;
   }
 
@@ -94,10 +107,18 @@ class PriorityQueue {
    * @returns {*} value
    */
   peek() {
-    if (!this._heap.length) {
+    if (this.isEmpty) {
       return null;
     }
     return this._heap[0];
+  }
+
+  /**
+   * empty or not
+   * @returns {boolean} if this queue has no element
+   */
+  get isEmpty() {
+    return this._heap.length === 0;
   }
 }
 

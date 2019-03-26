@@ -7,6 +7,13 @@ describe('PriorityQueue', () => {
     expect(priorityQueue).to.not.be.undefined
   });
 
+  it('should throw error when change priority for element not exists', () => {
+    const priorityQueue = new PriorityQueue();
+    expect(() => {
+      priorityQueue.changePriority(1, 2);
+    }).to.throw();
+  });
+
   it('should insert items to the queue and respect priorities', () => {
     const priorityQueue = new PriorityQueue();
 

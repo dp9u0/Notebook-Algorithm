@@ -14,7 +14,7 @@
 // require("./heap/heap.LeftistHeap.test");
 // require("./heap/heap.BinomialHeap.test");
 // require("./heap/heap.FibonacciHeap.test");
-require('./heap/heap.PriorityQueue.test');
+// require('./heap/heap.PriorityQueue.test');
 
 // // HASH
 // require("./hash/hash.HashSet.test");
@@ -39,7 +39,7 @@ require('./heap/heap.PriorityQueue.test');
 // require('./graph/graph.kruskal.test');
 // require('./graph/graph.prim.test');
 // require('./graph/graph.floydWarshall.test');
-// require('./graph/graph.dijkstra.test');
+require('./graph/graph.dijkstra.test');
 // require('./graph/graph.bellmanFord.test');
 // require('./graph/graph.spfa.test');
 // require('./graph/graph.astar.test');

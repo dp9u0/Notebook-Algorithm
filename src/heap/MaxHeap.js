@@ -34,12 +34,14 @@ class MaxHeap {
    * @return {*} element on top of heap
    */
   pop() {
-    if (!this.heap.length) {
+    if (this.isEmpty) {
       return null;
     }
     let element = this.heap.shift();
-    this.heap.unshift(this.heap.pop())
-    _heapifyDown(this.heap, 0, (first, second) => this.comparator.greaterThanOrEqual(first, second));
+    if (!this.isEmpty) {
+      this.heap.unshift(this.heap.pop())
+      _heapifyDown(this.heap, 0, (first, second) => this.comparator.greaterThanOrEqual(first, second));
+    }
     return element;
   }
 
@@ -48,10 +50,17 @@ class MaxHeap {
    * @return {*} element on top of heap
    */
   peek() {
-    if (!this.heap.length) {
+    if (this.isEmpty) {
       return null;
     }
     return this.heap[0];
+  }
+  /**
+   * empty or not
+   * @returns {boolean} if this heap has no element
+   */
+  get isEmpty() {
+    return this.heap.length === 0;
   }
 
   /**

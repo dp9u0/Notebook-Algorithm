@@ -139,7 +139,7 @@ shortestPath(i,k,k-1)+shortestPath(k,j,k-1))
 ```
 
 ```Pseudocode
-FloydWarshall(vertices, edges, source)
+FloydWarshall(vertices, edges)
 let dist = [|V|][|V|] and minimum distances initialized to INFINITY
 for each edge(u,v) in edges
     dist[u][v] := w(u,v)  // the weight of the edge (u,v)
@@ -156,6 +156,10 @@ for k from 1 to |V|
 
 ### Dijkstra
 
+迪杰斯特拉算法主要特点是以起始点为中心向外层层扩展,直到扩展所有可遍历点为止,每次扩散都选择距离起始点最短的点.同时访问过的点不再访问.控制访问过的点不再访问,可以通过维护 OPEN CLOSE 表等方式.
+
+扩展以松弛操作为基础,即估计的最短路径值渐渐地被更加准确的值替代,直至得到最优解
+
 ```Pseudocode
 Dijkstra(vertices, edges, source)
   for each vertex v in vertices
@@ -165,7 +169,7 @@ Dijkstra(vertices, edges, source)
   dist[source] := 0
   while Q is not empty
     u := vertex in Q with min dist[u]
-    remove u from Q
+    remove u from Q // 从Q中移除,也可以达到OPEN 列表的效果.
     for each neighbor v of u
       alt := dist[u] + weight(u, v)
       if (alt < dist[v]) then
@@ -174,9 +178,32 @@ Dijkstra(vertices, edges, source)
   return dist[], prev[]
 ```
 
+Dijkstra算法最简单的实现方法是用一个链表或者数组来存储可遍历顶点的集合 `Q`,所以搜索 `Q`中最小元素的运算只需要线性搜索Q中的所有元素.这样的话算法的运行时间是 `O(n^2)`.
+
+对于边数少于 `n^2` 的稀疏图来说,我们可以用邻接表更有效的实现该算法.
+
+同时将将一个二叉堆或者斐波纳契堆用作优先队列来查找最小的顶点.当用到二叉堆的时候,算法所需的时间为 `O((m+n)logn)`,斐波纳契堆能稍微提高一些性能,让算法运行时间达到 `O(m+nlogn)`.然而,使用斐波纳契堆常常会由于算法常数过大而导致速度没有显著提高.
+
 [实现源码](../src/graph/dijkstra.js)
 
+由于Dijkstra采用的是贪心算法,无法考虑远处的负权边,因此无法解决负权问题.
+
+举例说明
+
+```js
+// 邻接矩阵:代表点 0 1 2 构成的无向图,计算从0出发的距离
+[[0,3,4]
+[3,0,-2]
+[4,-2,0]]
+```
+
+根据Dijkstra 算法, 遍历 `0` 的邻居`1`时,会选择 `dist[1]=3` 而不会考虑 `dist[1]=4+(-2)`.这就是 Dijkstra 的局限性.
+
 ### Bellman Ford
+
+与Dijkstra算法类似 BF也是以松弛操作为基础.
+
+然而对于松弛操作`Dijkstra`以贪心法选取未被处理的具有最小权值的节点,然后对其的出边进行松弛操作,而`Bellman-Ford`算法简单地对所有边进行松弛操作,共 `|V|-1` 次,其中 `|V|` 是图的点的数量.在重复地计算中,已计算得到正确的距离的边的数量不断增加,直到所有边都计算得到了正确的路径.
 
 ```Pseudocode
 BellmanFord(vertices, edges, source)  
@@ -213,14 +240,14 @@ ShortestPathFaster(vertices, edges, s)
   for each vertex v ≠ s in vertices
     dist(v) := INFINITY
   dist(s) := 0
-  put s into Q
+  add s into Q
   while Q is not empty
     u := poll Q
     for each edge (u, v) in edges of u
       if dist(u) + w(u, v) < dist(v) then
         dist(v) := dist(u) + w(u, v)
         if v is not in Q then
-          put v into Q
+          add v into Q
  ```
 
 [实现源码](../src/graph/spfa.js)

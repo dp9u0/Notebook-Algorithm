@@ -63,11 +63,11 @@ describe('dijkstra', () => {
       F: 11,
     });
 
-    expect(prev.F.getKey()).to.equal('D');
-    expect(prev.D.getKey()).to.equal('B');
-    expect(prev.B.getKey()).to.equal('A');
-    expect(prev.G.getKey()).to.equal('E');
-    expect(prev.C.getKey()).to.equal('A');
+    expect(prev.F.value).to.equal('D');
+    expect(prev.D.value).to.equal('B');
+    expect(prev.B.value).to.equal('A');
+    expect(prev.G.value).to.equal('E');
+    expect(prev.C.value).to.equal('A');
     expect(prev.A).to.be.null;
     expect(prev.H).to.be.null;
   });
@@ -107,7 +107,7 @@ describe('dijkstra', () => {
       prev
     } = dijkstra(graph, vertexS);
 
-    expect(dist).toEqual({
+    expect(dist).to.deep.equal({
       H: Infinity,
       S: 0,
       A: 5,
@@ -119,9 +119,40 @@ describe('dijkstra', () => {
 
     expect(prev.H).to.be.null;
     expect(prev.S).to.be.null;
-    expect(prev.B.getKey()).to.equal('C');
-    expect(prev.C.getKey()).to.equal('A');
-    expect(prev.A.getKey()).to.equal('D');
-    expect(prev.D.getKey()).to.equal('E');
+    expect(prev.B.value).to.equal('C');
+    expect(prev.C.value).to.equal('A');
+    expect(prev.A.value).to.equal('D');
+    expect(prev.D.value).to.equal('E');
+  });
+
+  it('should find paths (but not minimum) to all vertices for undirected graph with negative edge weights', () => {
+    const vertexS = new GraphVertex('S');
+    const vertexA = new GraphVertex('A');
+    const vertexB = new GraphVertex('B');
+
+    const edgeSA = new GraphEdge(vertexS, vertexA, 3);
+    const edgeSB = new GraphEdge(vertexS, vertexB, 4);
+    const edgeAB = new GraphEdge(vertexA, vertexB, -2);
+
+    const graph = new Graph();
+    graph
+      .addEdge(edgeSA)
+      .addEdge(edgeSB)
+      .addEdge(edgeAB);
+
+    const {
+      dist,
+      prev
+    } = dijkstra(graph, vertexS);
+
+    expect(dist).to.deep.equal({
+      S: 0,
+      A: 3,
+      B: 1
+    });
+
+    expect(prev.S).to.be.null;
+    expect(prev.A.value).to.equal('S');
+    expect(prev.B.value).to.equal('A');
   });
 });
