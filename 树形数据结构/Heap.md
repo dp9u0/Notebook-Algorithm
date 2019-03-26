@@ -177,6 +177,8 @@ function deleteMin(heap)
 
 普通的队列是一种先进先出的数据结构,元素在队列尾追加,而从队列头删除.在优先队列中,元素被赋予优先级.当访问元素时,具有最高优先级的元素最先删除.优先队列具有最高级先出(**first in, largest out**)的行为特征.通常采用堆(例如二项堆,斐波那契堆等)数据结构来实现.
 
+[PriorityQueue](../src/heap/PriorityQueue.js)
+
 ## Reference
 
 [binomial-heap/overview](https://www.growingwiththeweb.com/data-structures/binomial-heap/overview/)
