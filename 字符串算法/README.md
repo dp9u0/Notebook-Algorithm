@@ -20,6 +20,8 @@
 
 将一个字符串变换成另外一个字符串所需要**替换**的字符个数
 
+[Hamming Distance Source Code](../src/string/hammingDistance.js)
+
 ### Levenshtein Distance
 
 指两个字串之间,由一个转成另一个所需的最少编辑操作次数.允许的编辑操作包括:替换,插入,删除
@@ -31,5 +33,7 @@ d[i, j] := min(
   d[i  , j-1] + 1,     // INSERT
   d[i-1, j-1] + cost   // REPLACE(WHEN NOT EQUAL) OR DO NOTHING
 )
+
+[Levenshtein Distance Source Code](../src/string/levenshteinDistance.js)
 
 ## [正则表达式](./RegExp.md)
