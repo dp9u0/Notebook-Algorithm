@@ -3,6 +3,7 @@
  * @typedef {Object} PatternTable
  * @property {Object[]} badCharacter badCharacter
  * @property {number[]} goodSuffix goodSuffix
+ * @property {number} length
  */
 
 /**
@@ -23,6 +24,7 @@ function buildPattern(pattern) {
   // console.table(badCharacter);
   // console.table(goodSuffix);
   return {
+    length,
     badCharacter,
     goodSuffix,
   };
@@ -35,8 +37,9 @@ function buildPattern(pattern) {
  * @param {string} dismatchChar  dismatch character
  */
 function getOffset(patternTable, dismatchIndex, badChar) {
-  let posBadChar = patternTable.badCharacter[dismatchIndex][badChar] || -1;
-  return Math.max(dismatchIndex - posBadChar, patternTable.goodSuffix[dismatchIndex]);
+  let posBadChar = patternTable.badCharacter[dismatchIndex][badChar] === undefined ? -1 : patternTable.badCharacter[dismatchIndex][badChar];
+  return dismatchIndex - posBadChar;
+  // return Math.max(dismatchIndex - posBadChar, patternTable.goodSuffix[dismatchIndex]);
 }
 
 /**
@@ -50,8 +53,8 @@ function boyerMoore(text, pattern) {
     return 0;
   }
   const patternTable = buildPattern(pattern);
- 
-  let pIndex = pattern.length - 1;
+  let patternLastIndex = pattern.length - 1;
+  let pIndex = patternLastIndex;
   let tIndex = pIndex;
   while (tIndex < text.length) {
     if (text[tIndex] === pattern[pIndex]) {
@@ -61,8 +64,8 @@ function boyerMoore(text, pattern) {
       tIndex--;
       pIndex--;
     } else {
-      tIndex += getOffset(patternTable, pIndex, text[tIndex]);
-      pIndex = pattern.length - 1;
+      tIndex = tIndex + (patternLastIndex - pIndex) + getOffset(patternTable, pIndex, text[tIndex]);
+      pIndex = patternLastIndex;
     }
   }
   return -1;
