@@ -5,13 +5,16 @@
  */
 function buildPattern(pattern) {
   const patternTable = new Array(pattern.length).fill(0); // Initialize
-  let prefixIndex = 0;
+  let prefixCount = 0;
   for (let i = 1; i < pattern.length; i++) {
-    if (pattern[i] === pattern[prefixIndex]) {
-      patternTable[i] = ++prefixIndex;
-    } else if (prefixIndex) {
-      prefixIndex = patternTable[prefixIndex - 1];
-      i--; // Still Compare Current pattern[i] with prefix
+    let compareIndex = 0 + prefixCount;
+    if (pattern[i] === pattern[compareIndex]) {
+      patternTable[i] = (++prefixCount);
+    } else if (prefixCount) {
+      // AABAAAB prefixCount = 2,i = 5
+      // ABABCABABAB prefixCount = 4,i = 9
+      prefixCount = patternTable[0 + prefixCount - 1];
+      i--;
     }
   }
   return patternTable;
@@ -39,7 +42,7 @@ function knuthMorrisPratt(text, pattern) {
       pIndex++;
     } else {
       if (pIndex) {
-        // Have Common Prefix
+        // Jump over some prefix strings have already been compared
         pIndex = patternTable[pIndex - 1];
       } else {
         pIndex = 0;
@@ -50,4 +53,7 @@ function knuthMorrisPratt(text, pattern) {
   return -1;
 }
 
-module.exports = knuthMorrisPratt;
+module.exports = {
+  knuthMorrisPratt,
+  buildPattern
+};

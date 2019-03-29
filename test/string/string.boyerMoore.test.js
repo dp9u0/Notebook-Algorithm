@@ -1,9 +1,77 @@
 const expect = require('chai').expect;
-const boyerMoore = require('../../src/string/boyerMoore');
+const {
+  boyerMoore,
+  buildPattern
+} = require('../../src/string/boyerMoore');
 
 describe('boyerMoore', () => {
+
   it('should find substring in a string', () => {
     expect(boyerMoore('HERE IS A SIMPLE EXAMPLE', 'EXAMPLE')).to.equal(17);
+  });
+
+  it('should build pattern for good suffix #1', () => {
+    let pattern = buildPattern('EXAMPLE');
+    expect(pattern.L, 'pattern.L').to.deep.equal([-1, -1, -1, -1, -1, -1, 0]);
+    expect(pattern.H, 'pattern.H').to.deep.equal([0, 0, 0, 0, 0, 0, -1]);
+    expect(pattern.goodSuffixOffset, 'pattern.goodSuffixOffset').to.deep.equal([6, 6, 6, 6, 6, 6, 6]);
+  });
+
+  it('should build pattern for good suffix #2', () => {
+    let pattern = buildPattern('ABAB');
+    expect(pattern.L, 'pattern.L').to.deep.equal([-1, -1, 1, 1]);
+    expect(pattern.H, 'pattern.H').to.deep.equal([1, 1, -1, -1]);
+  });
+
+  it('should build pattern for good suffix #3', () => {
+    let pattern = buildPattern('AAAA');
+    expect(pattern.L, 'pattern.L').to.deep.equal([-1, -1, 1, 2]);
+    expect(pattern.H, 'pattern.H').to.deep.equal([2, 1, 0, -1]);
+  });
+
+  it('should build pattern for good suffix #4', () => {
+    let pattern = buildPattern('ABCD');
+    expect(pattern.L, 'pattern.L').to.deep.equal([-1, -1, -1, -1]);
+    expect(pattern.H, 'pattern.H').to.deep.equal([-1, -1, -1, -1]);
+  });
+
+  it('should build pattern for good suffix #4', () => {
+    let pattern = buildPattern('AAAAAA');
+    expect(pattern.L, 'pattern.L').to.deep.equal([-1, -1, -1, 2, 3, 4]);
+    expect(pattern.H, 'pattern.H').to.deep.equal([4, 3, 2, 1, 0, -1]);
+  });
+
+  it('should build pattern for bad character #1', () => {
+    let badCharacter = [{}, {
+      "E": 0
+    }, {
+      "E": 0,
+      "X": 1
+    }, {
+      "E": 0,
+      "X": 1,
+      "A": 2
+    }, {
+      "E": 0,
+      "X": 1,
+      "A": 2,
+      "M": 3
+    }, {
+      "E": 0,
+      "X": 1,
+      "A": 2,
+      "M": 3,
+      "P": 4
+    }, {
+      "E": 0,
+      "X": 1,
+      "A": 2,
+      "M": 3,
+      "P": 4,
+      "L": 5
+    }];
+    let pattern = buildPattern('EXAMPLE');
+    expect(pattern.badCharacter, 'pattern.badCharacter').to.deep.equal(badCharacter);
   });
 
   it('should find substring in a string', () => {
